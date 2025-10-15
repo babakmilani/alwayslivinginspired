@@ -10,7 +10,7 @@ const BlogArticle = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const articlePath = `/blogs/${filename}.html`;
+    const articlePath = `public/blogs/${filename}.html`;
 
     useEffect(() => {
         setIsLoading(true);
