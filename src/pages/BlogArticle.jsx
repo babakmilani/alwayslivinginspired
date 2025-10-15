@@ -10,24 +10,16 @@ const BlogArticle = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Construct the path to the blog article
-    // Since we're deployed at the root (not /docs/), we use a simple path
-    const articlePath = `/blogs/${filename}.html`;
-
     useEffect(() => {
-        console.log('Attempting to fetch:', articlePath); // Debug log
+        console.log('Loading blog:', filename); // Debug log
         setIsLoading(true);
         setError(null);
 
-        fetch(articlePath)
-            .then(response => {
-                console.log('Response status:', response.status); // Debug log
-                if (!response.ok) {
-                    throw new Error(`Article not found (Error ${response.status})`);
-                }
-                return response.text();
-            })
-            .then(htmlContent => {
+        // Dynamically import the HTML file
+        import(`./blogs/${filename}.html?raw`)
+            .then(module => {
+                const htmlContent = module.default;
+
                 // Create a temporary DOM element to parse the HTML
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
@@ -43,10 +35,10 @@ const BlogArticle = () => {
             })
             .catch(err => {
                 console.error("Failed to load article:", err);
-                setError(`Sorry, the article could not be loaded. Path tried: ${articlePath}`);
+                setError(`Sorry, the article "${filename}" could not be loaded.`);
                 setIsLoading(false);
             });
-    }, [articlePath, filename]);
+    }, [filename]);
 
     if (isLoading) {
         return <div className="article-wrapper">Loading article...</div>;
