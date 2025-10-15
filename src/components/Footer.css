@@ -1,0 +1,133 @@
+/* ==================================== */
+/* 1. Base Footer Styling and Lines */
+/* ==================================== */
+.ali-footer {
+    width: 100%;
+    background-color: #f7f7f7;
+    color: #333;
+    /* ⭐️ REMOVED: margin-top: 150px; as the Sticky Footer/content handles spacing */
+    padding: 20px 0;
+    box-sizing: border-box;
+}
+
+a .footer-line {
+    width: 90%;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0 auto;
+}
+
+.top-line {
+    margin-bottom: 20px;
+}
+
+.bottom-line {
+    margin-top: 20px;
+}
+
+
+/* ==================================== */
+/* 2. Content Layout (Flexbox) */
+/* ==================================== */
+.footer-content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    /* Distributes space between the three main elements */
+    justify-content: space-between;
+    align-items: center;
+    /* Vertically center all items */
+    flex-wrap: wrap;
+}
+
+
+/* ==================================== */
+/* 3. Content Styling */
+/* ==================================== */
+.footer-links a,
+.footer-link,
+.footer-copyright {
+    color: #555;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 0 10px;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #000;
+}
+
+.footer-copyright {
+    /* Ensure the copyright text is clearly centered */
+    text-align: center;
+}
+
+.footer-social {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icon-link {
+    color: #333;
+    text-decoration: none;
+    /* remove any default underline from the <a> tag */
+}
+
+.social-icon {
+    font-size: 1.5rem;
+    /* Set icon size */
+    transition: color 0.3s;
+}
+
+.social-icon-link:first-child:hover .social-icon {
+    /* TikTok hover color */
+    color: #ff0050;
+}
+
+.social-icon-link:last-child:hover .social-icon {
+    /* Instagram hover color */
+    color: #c13584;
+}
+
+
+/* ==================================== */
+/* 4. Responsive Adjustments (for Mobile) */
+/* ==================================== */
+
+@media (max-width: 768px) {
+    .footer-content-container {
+        /* Stack the items vertically */
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .footer-links,
+    .footer-copyright,
+    .footer-social {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+
+    /* Center the social icons when stacked */
+    .footer-social {
+        justify-content: center;
+    }
+
+    /* Adjust the order of elements for mobile view */
+    .footer-links {
+        order: 1;
+    }
+
+    .footer-social {
+        order: 2;
+    }
+
+    .footer-copyright {
+        order: 3;
+    }
+}
+
+/* end footer */

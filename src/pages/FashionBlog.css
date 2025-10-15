@@ -1,0 +1,238 @@
+/* src/pages/FashionBlog.css */
+
+/* ================================================= */
+/* Blog Header Section */
+/* ================================================= */
+.blog-header {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.blog-header h1 {
+    font-size: 3em;
+    font-weight: 800;
+    color: #646cff;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.blog-intro {
+    font-size: 1.3em;
+    color: #555;
+    line-height: 1.6;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* ================================================= */
+/* Blog Card Styling - Extends product-card */
+/* ================================================= */
+.blog-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+/* ================================================= */
+/* Icon Wrapper for Gallery Items */
+/* ================================================= */
+.blog-icon-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 40px 20px;
+}
+
+.blog-icon {
+    font-size: 5em;
+    color: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.blog-card:hover .blog-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* Different gradient colors for each card */
+.blog-card:nth-child(1) {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.blog-card:nth-child(2) {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.blog-card:nth-child(3) {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.blog-card:nth-child(4) {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* ================================================= */
+/* Modal Content for Blog Items */
+/* ================================================= */
+.blog-modal-content {
+    background-color: #ffffff;
+    padding: 50px;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 600px;
+    width: 90%;
+    animation: zoomIn 0.5s;
+}
+
+.blog-icon-wrapper-large {
+    margin-bottom: 30px;
+}
+
+.blog-icon-large {
+    font-size: 6em;
+    color: #646cff;
+}
+
+.blog-modal-content h2 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.blog-modal-content p {
+    font-size: 1.2em;
+    color: #666;
+    line-height: 1.8;
+}
+
+/* ================================================= */
+/* Responsive Adjustments for Blog Cards */
+/* ================================================= */
+@media (max-width: 768px) {
+    .blog-header h1 {
+        font-size: 2.2em;
+    }
+
+    .blog-intro {
+        font-size: 1.1em;
+    }
+
+    .blog-icon {
+        font-size: 3.5em;
+    }
+
+    .blog-modal-content {
+        padding: 30px;
+    }
+
+    .blog-icon-large {
+        font-size: 4em;
+    }
+
+    .blog-modal-content h2 {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-header h1 {
+        font-size: 1.8em;
+    }
+
+    .blog-icon {
+        font-size: 3em;
+    }
+}
+
+/* ================================================= */
+/* ⭐️ FIXED: Blog Article Content & Header Clearance ⭐️ */
+/* ================================================= */
+
+/* ✅ Proper header clearance for fixed header */
+.article-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 260px 20px 80px;
+    /* Top padding prevents content from being hidden under header */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Style the Back button */
+.back-button {
+    background-color: #646cff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 20px auto 40px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #535bf2;
+}
+
+/* ✅ Cleaned up blog content styling */
+.blog-content {
+    color: #000000 !important;
+    text-align: left;
+    line-height: 1.7;
+    font-size: 1.1em;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+/* Ensure all text inside is black for readability */
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content p,
+.blog-content li,
+.blog-content a {
+    color: #000000 !important;
+}
+
+/* Structural styling for imported HTML */
+.blog-content h2 {
+    margin-top: 25px;
+    font-size: 1.8em;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.blog-content p {
+    margin-bottom: 15px;
+}
+
+/* ✅ Responsive padding adjustment for mobile */
+@media (max-width: 768px) {
+    .article-wrapper {
+        padding-top: 180px;
+        padding-bottom: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .article-wrapper {
+        padding-top: 150px;
+        padding-bottom: 40px;
+    }
+}

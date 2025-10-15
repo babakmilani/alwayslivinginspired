@@ -1,0 +1,88 @@
+/* ⭐️ AD PLACEHOLDER STYLING ⭐️ */
+.adsense-placeholder {
+    width: 90%;
+    /* Max-width typical for ads like leaderboards */
+    max-width: 970px;
+    height: 90px;
+    margin: 30px auto;
+    background-color: #f0f0f0;
+    border: 2px dashed #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+/* ⭐️ FIX FOR CLIPPING: Apply large top margin only to the first ad placeholder (.top-ad) ⭐️ */
+/* This overrides the default margin and provides clearance for a large fixed header. */
+.top-ad {
+    margin-top: 250px;
+    /* Use a very large margin to ensure clearance on desktop */
+}
+
+.bottom-ad {
+    /* For a typical large rectangle ad */
+    height: 280px;
+}
+
+/* Responsive adjustment for the top ad on smaller screens */
+@media (max-width: 768px) {
+    .adsense-placeholder {
+        /* Standard mobile banner size */
+        height: 50px;
+        font-size: 0.9em;
+    }
+
+    /* ⭐️ FIX FOR CLIPPING: Adjust margin for mobile to clear smaller header ⭐️ */
+    .top-ad {
+        margin-top: 150px;
+        /* Ensure clearance for mobile view */
+    }
+}
+
+/* ==================================== */
+/* ⭐️ NEW: Product Card/Label Styling ⭐️ */
+/* ==================================== */
+
+/* Override index.css's gallery-item on the wrapper to enable flex column layout */
+.product-card {
+    /* Set the wrapper to flex column to stack image and label */
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    /* Remove internal padding from index.css */
+    border-radius: 10px;
+    /* Nice rounded corners for the card */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+    overflow: hidden;
+    /* Important for containing elements with border-radius */
+    /* The existing 'gallery-item' class handles position, width, margin, cursor, and transition */
+}
+
+/* Ensure the image takes up the space it should within the card */
+.product-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Resetting any margin/border the image might have */
+}
+
+/* Styling for the label text */
+.product-label {
+    width: 100%;
+    padding: 12px 5px;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #ffffff;
+    /* White text for contrast */
+    background-color: #333333;
+    /* Dark background */
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    /* Ensure the label doesn't move/scale during hover effect */
+    transition: none;
+}
