@@ -13,7 +13,7 @@ const BlogArticle = () => {
     const [error, setError] = useState(null);
 
     // The path is relative to the PUBLIC folder since you moved the file there
-    const articlePath = `/pages/blogs/${filename}.html`;
+    const articlePath = `/public/blogs/${filename}.html`;
 
     useEffect(() => {
         setIsLoading(true);
