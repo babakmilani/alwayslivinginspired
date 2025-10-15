@@ -21,20 +21,20 @@ const BlogArticle = () => {
                 }
                 return response.text();
             })
-        then(htmlContent => {
-            // Create a temporary DOM element to parse the HTML
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlContent, 'text/html');
+            .then(htmlContent => {  // ✅ FIXED: Added the dot before "then"
+                // Create a temporary DOM element to parse the HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
 
-            // Remove all link tags to prevent CSS loading attempts
-            const links = doc.querySelectorAll('link[rel="stylesheet"]');
-            links.forEach(link => link.remove());
+                // Remove all link tags to prevent CSS loading attempts
+                const links = doc.querySelectorAll('link[rel="stylesheet"]');
+                links.forEach(link => link.remove());
 
-            // Extract only the body content (ignore the CSS links from the blog files)
-            const bodyContent = doc.body.innerHTML;
-            setContent(bodyContent);
-            setIsLoading(false);
-        })
+                // Extract only the body content
+                const bodyContent = doc.body.innerHTML;
+                setContent(bodyContent);
+                setIsLoading(false);
+            })
             .catch(err => {
                 console.error("Failed to load article:", err);
                 setError("Sorry, the article could not be loaded or found.");
@@ -43,11 +43,11 @@ const BlogArticle = () => {
     }, [articlePath, filename]);
 
     if (isLoading) {
-        return <div className="article-container">Loading article...</div>;
+        return <div className="article-wrapper">Loading article...</div>;
     }
 
     if (error) {
-        return <div className="article-container error-message">Error: {error}</div>;
+        return <div className="article-wrapper error-message">Error: {error}</div>;
     }
 
     return (
@@ -55,21 +55,12 @@ const BlogArticle = () => {
             <button
                 onClick={() => navigate('/fashion-blog')}
                 className="back-button"
-                style={{
-                    padding: '10px 20px',
-                    margin: '20px auto',
-                    display: 'block',
-                    fontSize: '1em',
-                    cursor: 'pointer',
-                    borderRadius: '5px'
-                }}
             >
                 <i className="fas fa-arrow-left"></i> Back to Blog
             </button>
 
             <div
                 className="blog-content"
-                style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'left', padding: '20px' }}
                 dangerouslySetInnerHTML={{ __html: content }}
             />
 
