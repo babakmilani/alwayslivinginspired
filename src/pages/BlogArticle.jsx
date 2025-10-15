@@ -10,10 +10,9 @@ const BlogArticle = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fix: Use import.meta.env.BASE_URL to get the correct base path
-    // This will be '/docs/' in production and '/' in development
-    const basePath = import.meta.env.BASE_URL;
-    const articlePath = `${basePath}blogs/${filename}.html`;
+    // Construct the path to the blog article
+    // Since we're deployed at the root (not /docs/), we use a simple path
+    const articlePath = `/blogs/${filename}.html`;
 
     useEffect(() => {
         console.log('Attempting to fetch:', articlePath); // Debug log
@@ -68,7 +67,7 @@ const BlogArticle = () => {
         <div className="article-wrapper">
             <button
                 onClick={() => navigate('/fashion-blog')}
-                className="back-button" 
+                className="back-button"
             >
                 <i className="fas fa-arrow-left"></i> Back to Blog
             </button>
