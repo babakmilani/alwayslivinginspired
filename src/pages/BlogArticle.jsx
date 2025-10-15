@@ -10,47 +10,48 @@ const BlogArticle = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fix: Use import.meta.env.BASE_URL to get the correct base path
-    // This will be '/docs/' in production and '/' in development
-    const basePath = import.meta.env.BASE_URL;
-    const articlePath = `${basePath}blogs/${filename}.html`;
-
     useEffect(() => {
-        console.log('Attempting to fetch:', articlePath); // Debug log
+        console.log('Loading blog:', filename);
         setIsLoading(true);
         setError(null);
 
-        fetch(articlePath)
+        // Fetch from public folder - Vite serves public folder at root
+        fetch(`/blogs/${filename}.html`)
             .then(response => {
-                console.log('Response status:', response.status); // Debug log
+                console.log('Fetch response:', response.status, response.url);
                 if (!response.ok) {
-                    throw new Error(`Article not found (Error ${response.status})`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 return response.text();
             })
             .then(htmlContent => {
-                // Create a temporary DOM element to parse the HTML
+                console.log('HTML loaded successfully');
+                // Parse and clean the HTML
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
 
-                // Remove all link tags to prevent CSS loading attempts
+                // Remove link tags
                 const links = doc.querySelectorAll('link[rel="stylesheet"]');
                 links.forEach(link => link.remove());
 
-                // Extract only the body content
+                // Get body content
                 const bodyContent = doc.body.innerHTML;
                 setContent(bodyContent);
                 setIsLoading(false);
             })
             .catch(err => {
                 console.error("Failed to load article:", err);
-                setError(`Sorry, the article could not be loaded. Path tried: ${articlePath}`);
+                setError(`Could not load "${filename}". Error: ${err.message}`);
                 setIsLoading(false);
             });
-    }, [articlePath, filename]);
+    }, [filename]);
 
     if (isLoading) {
-        return <div className="article-wrapper">Loading article...</div>;
+        return (
+            <div className="article-wrapper">
+                <p>Loading article...</p>
+            </div>
+        );
     }
 
     if (error) {
@@ -58,7 +59,7 @@ const BlogArticle = () => {
             <div className="article-wrapper error-message">
                 <p>Error: {error}</p>
                 <button onClick={() => navigate('/fashion-blog')} className="back-button">
-                    Back to Blog
+                    ← Back to Blog
                 </button>
             </div>
         );
@@ -68,7 +69,7 @@ const BlogArticle = () => {
         <div className="article-wrapper">
             <button
                 onClick={() => navigate('/fashion-blog')}
-                className="back-button" 
+                className="back-button"
             >
                 <i className="fas fa-arrow-left"></i> Back to Blog
             </button>
