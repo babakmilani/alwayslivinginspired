@@ -4,9 +4,10 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
+// ...
 export default defineConfig([
-  // 💡 Change 'dist' to 'docs'
-  globalIgnores(['docs']),
+  globalIgnores(['docs']), // 💡 Changed from 'dist'
+  // ...
   {
     files: ['**/*.{js,jsx}'],
     extends: [
