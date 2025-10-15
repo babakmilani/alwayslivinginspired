@@ -10,18 +10,25 @@ const BlogArticle = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const articlePath = `/${filename}.html`;
+    // Fix: Use import.meta.env.BASE_URL to get the correct base path
+    // This will be '/docs/' in production and '/' in development
+    const basePath = import.meta.env.BASE_URL;
+    const articlePath = `${basePath}pages/blogs/${filename}.html`;
 
     useEffect(() => {
+        console.log('Attempting to fetch:', articlePath); // Debug log
         setIsLoading(true);
+        setError(null);
+
         fetch(articlePath)
             .then(response => {
+                console.log('Response status:', response.status); // Debug log
                 if (!response.ok) {
                     throw new Error(`Article not found (Error ${response.status})`);
                 }
                 return response.text();
             })
-            .then(htmlContent => {  // ✅ FIXED: Added the dot before "then"
+            .then(htmlContent => {
                 // Create a temporary DOM element to parse the HTML
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
@@ -37,7 +44,7 @@ const BlogArticle = () => {
             })
             .catch(err => {
                 console.error("Failed to load article:", err);
-                setError("Sorry, the article could not be loaded or found.");
+                setError(`Sorry, the article could not be loaded. Path tried: ${articlePath}`);
                 setIsLoading(false);
             });
     }, [articlePath, filename]);
@@ -47,14 +54,21 @@ const BlogArticle = () => {
     }
 
     if (error) {
-        return <div className="article-wrapper error-message">Error: {error}</div>;
+        return (
+            <div className="article-wrapper error-message">
+                <p>Error: {error}</p>
+                <button onClick={() => navigate('/fashion-blog')} className="back-button">
+                    Back to Blog
+                </button>
+            </div>
+        );
     }
 
     return (
         <div className="article-wrapper">
             <button
                 onClick={() => navigate('/fashion-blog')}
-                className="back-button"
+                className="back-button" 
             >
                 <i className="fas fa-arrow-left"></i> Back to Blog
             </button>
