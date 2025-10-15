@@ -1,11 +1,11 @@
 // vite.config.js
 
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react'; // If you are using React
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  // This tells Vite that all public assets (like your /blogs folder) 
-  // and links should be prefixed with '/docs/'.
+  // 1. ADD THIS BASE PROPERTY
   base: '/docs/',
   plugins: [react()],
-});
+})
