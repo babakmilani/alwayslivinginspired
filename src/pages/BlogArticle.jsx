@@ -26,24 +26,7 @@ const BlogArticle = () => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
 
-                // Extract styles from the head and add them to the page
-                const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
-                styles.forEach(style => {
-                    if (style.tagName === 'STYLE') {
-                        // Add inline styles
-                        const styleElement = document.createElement('style');
-                        styleElement.textContent = style.textContent;
-                        document.head.appendChild(styleElement);
-                    } else if (style.tagName === 'LINK') {
-                        // Add external stylesheets
-                        const linkElement = document.createElement('link');
-                        linkElement.rel = 'stylesheet';
-                        linkElement.href = style.href;
-                        document.head.appendChild(linkElement);
-                    }
-                });
-
-                // Extract only the body content
+                // Extract only the body content (ignore the CSS links from the blog files)
                 const bodyContent = doc.body.innerHTML;
                 setContent(bodyContent);
                 setIsLoading(false);
