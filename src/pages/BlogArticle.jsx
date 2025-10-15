@@ -21,16 +21,20 @@ const BlogArticle = () => {
                 }
                 return response.text();
             })
-            .then(htmlContent => {
-                // Create a temporary DOM element to parse the HTML
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlContent, 'text/html');
+        then(htmlContent => {
+            // Create a temporary DOM element to parse the HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
 
-                // Extract only the body content (ignore the CSS links from the blog files)
-                const bodyContent = doc.body.innerHTML;
-                setContent(bodyContent);
-                setIsLoading(false);
-            })
+            // Remove all link tags to prevent CSS loading attempts
+            const links = doc.querySelectorAll('link[rel="stylesheet"]');
+            links.forEach(link => link.remove());
+
+            // Extract only the body content (ignore the CSS links from the blog files)
+            const bodyContent = doc.body.innerHTML;
+            setContent(bodyContent);
+            setIsLoading(false);
+        })
             .catch(err => {
                 console.error("Failed to load article:", err);
                 setError("Sorry, the article could not be loaded or found.");
