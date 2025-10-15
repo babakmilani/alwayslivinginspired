@@ -13,7 +13,7 @@ const BlogArticle = () => {
     // Fix: Use import.meta.env.BASE_URL to get the correct base path
     // This will be '/docs/' in production and '/' in development
     const basePath = import.meta.env.BASE_URL;
-    const articlePath = `${basePath}pages/blogs/${filename}.html`;
+    const articlePath = `${basePath}blogs/${filename}.html`;
 
     useEffect(() => {
         console.log('Attempting to fetch:', articlePath); // Debug log
