@@ -1,34 +1,51 @@
 // src/pages/BlogArticle.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './FashionBlog.css'; // Use existing CSS for styling
+import './FashionBlog.css';
 
-// Component to fetch and display static HTML content
 const BlogArticle = () => {
-    // useParams retrieves the dynamic part of the URL (the filename)
     const { filename } = useParams();
     const navigate = useNavigate();
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // The path is relative to the PUBLIC folder since you moved the file there
     const articlePath = `/blogs/${filename}.html`;
 
     useEffect(() => {
         setIsLoading(true);
-        // 1. Fetch the raw HTML content from the public folder
         fetch(articlePath)
             .then(response => {
                 if (!response.ok) {
-                    // Handle 404 Not Found error
                     throw new Error(`Article not found (Error ${response.status})`);
                 }
                 return response.text();
             })
             .then(htmlContent => {
-                // 2. Set the content state
-                setContent(htmlContent);
+                // Create a temporary DOM element to parse the HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+
+                // Extract styles from the head and add them to the page
+                const styles = doc.querySelectorAll('style, link[rel="stylesheet"]');
+                styles.forEach(style => {
+                    if (style.tagName === 'STYLE') {
+                        // Add inline styles
+                        const styleElement = document.createElement('style');
+                        styleElement.textContent = style.textContent;
+                        document.head.appendChild(styleElement);
+                    } else if (style.tagName === 'LINK') {
+                        // Add external stylesheets
+                        const linkElement = document.createElement('link');
+                        linkElement.rel = 'stylesheet';
+                        linkElement.href = style.href;
+                        document.head.appendChild(linkElement);
+                    }
+                });
+
+                // Extract only the body content
+                const bodyContent = doc.body.innerHTML;
+                setContent(bodyContent);
                 setIsLoading(false);
             })
             .catch(err => {
@@ -46,11 +63,6 @@ const BlogArticle = () => {
         return <div className="article-container error-message">Error: {error}</div>;
     }
 
-    /*
-     * DANGER: We use dangerouslySetInnerHTML to render the raw HTML.
-     * This is necessary for static HTML blog content but ensures
-     * you trust the content of The-New-Luxury-Structure-and-Texture-Fall-2025.html.
-     */
     return (
         <div className="article-wrapper">
             <button
