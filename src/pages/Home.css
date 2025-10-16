@@ -38,7 +38,7 @@
 
     /* ⭐️ FIX FOR CLIPPING: Adjust margin for mobile to clear smaller header ⭐️ */
     .top-ad {
-        margin-top: 150px;
+        margin-top: 550px;
         /* Ensure clearance for mobile view */
     }
 }
