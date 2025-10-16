@@ -1,7 +1,7 @@
 // src/pages/BlogArticle.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './FashionBlog.css';
+import './FashionBlog.css'; // This imports the fixed CSS file
 
 const BlogArticle = () => {
     const { filename } = useParams();
@@ -30,11 +30,11 @@ const BlogArticle = () => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
 
-                // Remove link tags
+                // Remove link tags (prevents external blog styles from conflicting)
                 const links = doc.querySelectorAll('link[rel="stylesheet"]');
                 links.forEach(link => link.remove());
 
-                // Get body content
+                // Get body content (The content that needs fixing)
                 const bodyContent = doc.body.innerHTML;
                 setContent(bodyContent);
                 setIsLoading(false);
@@ -74,6 +74,7 @@ const BlogArticle = () => {
                 <i className="fas fa-arrow-left"></i> Back to Blog
             </button>
 
+            {/* The blog content is inserted here with the class 'blog-content' */}
             <div
                 className="blog-content"
                 dangerouslySetInnerHTML={{ __html: content }}
