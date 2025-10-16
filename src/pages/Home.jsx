@@ -1,5 +1,6 @@
 // Home.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import './FashionBlog.css'; // Import blog card styling
@@ -65,8 +66,8 @@ const Home = () => {
 
                 <div className="gallery">
                     {/* Blog 1: Color Trends */}
-                    <a
-                        href="/blogs/5-autumn-color-trends-2025"
+                    <Link
+                        to="/blogs/5-autumn-color-trends-2025"
                         className="gallery-item blog-card"
                         style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #74ebd5 0%, #9face6 100%)' }}
                     >
@@ -77,11 +78,11 @@ const Home = () => {
                             <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>Color Conviction</h3>
                             <p style={{ color: '#fff', fontSize: '0.95em' }}>The 5 Essential Colors for Bold & Textured Fall 2025.</p>
                         </div>
-                    </a>
+                    </Link>
 
                     {/* Blog 2: Fall Skirt Outfits */}
-                    <a
-                        href="/blogs/30-Fall-Skirt-Outfits"
+                    <Link
+                        to="/blogs/30-Fall-Skirt-Outfits"
                         className="gallery-item blog-card"
                         style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #f0f0f0 0%, #dddddd 100%)' }}
                     >
@@ -92,11 +93,11 @@ const Home = () => {
                             <h3 style={{ color: '#333', fontSize: '1.4em', marginBottom: '10px' }}>Fall Skirt Formulas</h3>
                             <p style={{ color: '#555', fontSize: '0.95em' }}>My 3 Go-To Skirt Formulas for Effortless Fall Dressing.</p>
                         </div>
-                    </a>
+                    </Link>
 
                     {/* Blog 3: Structure & Texture */}
-                    <a
-                        href="/blogs/The-New-Luxury-Structure-and-Texture-Fall-2025"
+                    <Link
+                        to="/blogs/The-New-Luxury-Structure-and-Texture-Fall-2025"
                         className="gallery-item blog-card"
                         style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)' }}
                     >
@@ -107,11 +108,11 @@ const Home = () => {
                             <h3 style={{ color: '#333', fontSize: '1.4em', marginBottom: '10px' }}>Structure & Texture</h3>
                             <p style={{ color: '#555', fontSize: '0.95em' }}>The New Luxury: Five Trends Defining Fall 2025.</p>
                         </div>
-                    </a>
+                    </Link>
 
                     {/* Blog 4: Unexpected Neutrals */}
-                    <a
-                        href="/blogs/The-Unexpected-Neutrals-of-2026"
+                    <Link
+                        to="/blogs/The-Unexpected-Neutrals-of-2026"
                         className="gallery-item blog-card"
                         style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #e6e6fa 0%, #ffefd5 100%)' }}
                     >
@@ -122,7 +123,7 @@ const Home = () => {
                             <h3 style={{ color: '#333', fontSize: '1.4em', marginBottom: '10px' }}>Unexpected Neutrals</h3>
                             <p style={{ color: '#555', fontSize: '0.95em' }}>Creamy Yellow and Lilac as Base Layer Essentials.</p>
                         </div>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </>
