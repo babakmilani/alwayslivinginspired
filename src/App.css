@@ -15,9 +15,9 @@ body {
 }
 
 /* ⭐️ FIXED: Increased padding to match actual header height */
-/* Header calculation: 20px top padding + 150px logo + ~40px nav + 20px bottom padding = ~230px */
+/* Header calculation: 20px top padding + 150px logo + 10px + 20px nav + 10px + 20px bottom = ~230px */
 main {
-  padding-top: 260px;
+  padding-top: 230px;
   padding-bottom: 60px;
   flex: 1;
 }

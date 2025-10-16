@@ -16,7 +16,7 @@
 
 /* ⭐️ NO EXTRA MARGIN NEEDED - App.css main padding handles header clearance ⭐️ */
 .top-ad {
-    /* Remove the 250px margin - not needed since main already has padding-top */
+    /* Normal margin - App.css main already provides header clearance */
     margin-top: 30px;
 }
 
