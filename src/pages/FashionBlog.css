@@ -72,19 +72,18 @@
 }
 
 /* ================================================= */
-/* Blog Article Styling (The Fixes are here) */
+/* Blog Article Styling */
 /* ================================================= */
 
-/* ⭐️ CRITICAL FIX: Remove padding-top here since main already handles it */
+/* ⭐️ CRITICAL FIX: NO padding-top here - App.css main already handles it */
 .article-wrapper {
     max-width: 900px !important;
     margin: 0 auto;
     text-align: left;
-    /* REMOVED: padding-top - let App.css main handle this */
-    padding: 20px 20px 60px;
+    /* REMOVED padding-top - let App.css handle header clearance */
+    padding: 200px 20px 60px;
     box-sizing: border-box;
     min-height: calc(100vh - 400px);
-    /* Ensure content fills screen */
 }
 
 .back-button {
@@ -105,14 +104,24 @@
     color: #535bf2;
 }
 
+/* ⭐️ Blog content container - content flows naturally with inherited styles */
+
 /* ---------------------------------------------------------------- */
-/* ⭐️ CRITICAL FIX: Styles to override inline HTML styles */
+/* Styles to override inline HTML styles */
 /* ---------------------------------------------------------------- */
+
+/* CRITICAL FIX: Add top margin to the article element itself (first child of blog-content) */
+.blog-content>article,
+.blog-content>.blog-post-content {
+    margin-top: 40px !important;
+}
 
 /* Main Article Title (H1) and Post Header Wrapper */
 .blog-content .post-header {
     text-align: center !important;
     margin-bottom: 40px !important;
+    /* Keep header natural, article has the spacing */
+    margin-top: 0 !important;
 }
 
 /* Override the HTML's inline style for H1 */
@@ -205,7 +214,7 @@
 /* ✅ Responsive adjustments for mobile */
 @media (max-width: 768px) {
     .article-wrapper {
-        padding: 20px 15px 60px;
+        padding: 0 15px 60px;
     }
 
     .blog-content h1 {
@@ -218,5 +227,10 @@
 
     .blog-content p {
         font-size: 1em !important;
+    }
+
+    /* Reduce top margin on mobile for better spacing */
+    .blog-content .post-header {
+        margin-top: 20px !important;
     }
 }

@@ -14,8 +14,10 @@ body {
   flex-direction: column;
 }
 
+/* ⭐️ FIXED: Increased padding to match actual header height */
+/* Header calculation: 20px top padding + 150px logo + ~40px nav + 20px bottom padding = ~230px */
 main {
-  padding-top: 220px;
+  padding-top: 260px;
   padding-bottom: 60px;
   flex: 1;
 }
@@ -59,9 +61,10 @@ main {
   color: #888;
 }
 
-/* ====================================
-  LEGAL PAGE STYLING REMOVED
-  The styling for .legal-page-container and .legal-content has been moved
-  to a shared file: LegalPages.css, which is imported by each legal page component.
-  ==================================== 
-*/
+/* ⭐️ RESPONSIVE: Adjust for mobile - header stacks vertically so it's taller */
+@media (max-width: 768px) {
+  main {
+    padding-top: 240px;
+    /* Mobile header is taller due to vertical stacking */
+  }
+}
