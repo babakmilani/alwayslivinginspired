@@ -66,7 +66,7 @@ const FashionBlog = () => {
                 </Link>
 
                 {/* 3. EXISTING ARTICLE: Menswear Guide (4-Mens-Wear-for-Fall.html) */}
-                <a href="#/blogs/4-Mens-Wear-for-Fall" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', color: '#fff' }}>
+                <Link to="#/blogs/4-Mens-Wear-for-Fall" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
                         <i className="fas fa-male blog-icon" style={{ color: '#fff' }}></i>
                     </div>
@@ -74,7 +74,7 @@ const FashionBlog = () => {
                         <h2 style={{ color: '#fff' }}>Menswear Pillars</h2>
                         <p style={{ color: '#eee' }}>The Four Essential Investment Pieces to Anchor Your Fall Style.</p>
                     </div>
-                </a>
+                </Link>
 
                 {/* 4. EXISTING ARTICLE: Structure and Texture (The-New-Luxury-Structure-and-Texture-Fall-2025.html) */}
                 <Link to="/blogs/The-New-Luxury-Structure-and-Texture-Fall-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)' }}>
@@ -88,7 +88,7 @@ const FashionBlog = () => {
                 </Link>
 
                 {/* 5. EXISTING ARTICLE: Skirt Outfits (30-Fall-Skirt-Outfits.html) */}
-                <Link a="/blogs/30-Fall-Skirt-Outfits" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #f0f0f0 0%, #dddddd 100%)', color: '#333' }}>
+                <Link to="/blogs/30-Fall-Skirt-Outfits" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #f0f0f0 0%, #dddddd 100%)', color: '#333' }}>
                     <div className="blog-icon-wrapper">
                         <i className="fas fa-venus blog-icon" style={{ color: '#764ba2' }}></i>
                     </div>
@@ -165,7 +165,7 @@ const FashionBlog = () => {
                 </Link>
 
                 {/* 12. NEW ARTICLE: The Power Couple: Pink and Red (The-Power-Couple.html) */}
-                <a href="/blogs/The-Power-Couple" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #e91e63 0%, #d32f2f 100%)' }}>
+                <Link to="/blogs/The-Power-Couple" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #e91e63 0%, #d32f2f 100%)' }}>
                     <div className="blog-icon-wrapper">
                         <i className="fas fa-heart blog-icon" style={{ color: '#ffffff' }}></i>
                     </div>
@@ -173,7 +173,7 @@ const FashionBlog = () => {
                         <h2 style={{ color: '#ffffffff' }}>The Power Couple</h2>
                         <p style={{ color: '#ffffffff' }}>Mastering High-Impact Pink and Red Color Combinations.</p>
                     </div>
-                </a>
+                </Link>
 
                 {/* 13. NEW ARTICLE: Moccasins and Loafers: The Elegant Footwear That Replaces the Sneaker (Moccasins-and-Loafers.html) */}
                 <Link to="/blogs/Moccasins-and-Loafers" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #4b4b4b 0%, #2c3e50 100%)' }}>
