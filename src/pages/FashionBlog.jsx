@@ -1,6 +1,7 @@
 // src/pages/FashionBlog.jsx
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './FashionBlog.css';
 import '../pages/Home.css'; // For the adsense placeholder style
 
@@ -43,7 +44,7 @@ const FashionBlog = () => {
             <div className="gallery">
 
                 {/* 1. NEW ARTICLE: 8 Defining Trends (8-Trends-set-for-Fall-2025.html) */}
-                <a href="/blogs/8-Trends-set-for-Fall-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #434343 0%, #000000 100%)', color: '#fff' }}>
+                <Link to="/blogs/8-Trends-set-for-Fall-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #434343 0%, #000000 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
                         <i className="fas fa-magic blog-icon" style={{ color: '#fff' }}></i>
                     </div>
@@ -51,7 +52,7 @@ const FashionBlog = () => {
                         <h2 style={{ color: '#fff' }}>The Eight Themes</h2>
                         <p style={{ color: '#eee' }}>Dark Age, Curvature, and Technicolor: The 8 Concepts Defining Fall 2025.</p>
                     </div>
-                </a>
+                </Link>
 
                 {/* 2. EXISTING ARTICLE: Fall Shoe Guide (7-Shoes-to-Achieve-the-Fall-Look.html) */}
                 <a href="/blogs/7-Shoes-to-Achieve-the-Fall-Look" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #a87f58 0%, #b8976b 100%)', color: '#fff' }}>
@@ -65,7 +66,7 @@ const FashionBlog = () => {
                 </a>
 
                 {/* 3. EXISTING ARTICLE: Menswear Guide (4-Mens-Wear-for-Fall.html) */}
-                <a href="/blogs/4-Mens-Wear-for-Fall" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', color: '#fff' }}>
+                <a href="#/blogs/4-Mens-Wear-for-Fall" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
                         <i className="fas fa-male blog-icon" style={{ color: '#fff' }}></i>
                     </div>
