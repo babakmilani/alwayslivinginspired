@@ -64,9 +64,9 @@ main {
 /* ⭐️ RESPONSIVE: Adjust for mobile - header stacks vertically so it's taller */
 @media (max-width: 768px) {
   main {
-    padding-top: 520px;
+    padding-top: 250px;
     /* Mobile header is taller due to vertical stacking:
        20px top padding + 150px logo + 15px margin + ~40px nav lines/text + 
-       padding around nav + 20px bottom padding = ~220px */
+       padding around nav + 20px bottom padding = ~250px */
   }
 }
