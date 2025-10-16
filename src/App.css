@@ -63,8 +63,10 @@ main {
 
 /* ⭐️ RESPONSIVE: Adjust for mobile - header stacks vertically so it's taller */
 @media (max-width: 768px) {
-  .article-wrapper {
-    padding: 500px 15px 60px;
-    /* No top padding - App.css main already handles it */
+  main {
+    padding-top: 220px;
+    /* Mobile header is taller due to vertical stacking:
+       20px top padding + 150px logo + 15px margin + ~40px nav lines/text + 
+       padding around nav + 20px bottom padding = ~220px */
   }
 }
