@@ -64,7 +64,7 @@ main {
 /* ⭐️ RESPONSIVE: Adjust for mobile - header stacks vertically so it's taller */
 @media (max-width: 768px) {
   .article-wrapper {
-    padding: 0 15px 60px;
+    padding: 500px 15px 60px;
     /* No top padding - App.css main already handles it */
   }
 }
