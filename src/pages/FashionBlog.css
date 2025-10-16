@@ -214,7 +214,7 @@
 /* ✅ Responsive adjustments for mobile */
 @media (max-width: 768px) {
     .article-wrapper {
-        padding: 0 15px 60px;
+        padding: 320px 15px 60px;  /* Increased top padding for mobile header */
     }
 
     .blog-content h1 {
