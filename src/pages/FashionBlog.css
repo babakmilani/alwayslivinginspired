@@ -75,14 +75,16 @@
 /* Blog Article Styling (The Fixes are here) */
 /* ================================================= */
 
-/* ⭐️ CRITICAL FIX 1: Increase padding-top to clear the fixed Header ⭐️ */
+/* ⭐️ CRITICAL FIX: Remove padding-top here since main already handles it */
 .article-wrapper {
     max-width: 900px !important;
     margin: 0 auto;
     text-align: left;
-    /* Changed from 120px to 220px to clear App.css's main padding-top */
-    padding: 220px 20px 60px;
+    /* REMOVED: padding-top - let App.css main handle this */
+    padding: 20px 20px 60px;
     box-sizing: border-box;
+    min-height: calc(100vh - 400px);
+    /* Ensure content fills screen */
 }
 
 .back-button {
@@ -103,9 +105,8 @@
     color: #535bf2;
 }
 
-
 /* ---------------------------------------------------------------- */
-/* ⭐️ CRITICAL FIX 2: Styles to override inline HTML styles (!important) ⭐️ */
+/* ⭐️ CRITICAL FIX: Styles to override inline HTML styles */
 /* ---------------------------------------------------------------- */
 
 /* Main Article Title (H1) and Post Header Wrapper */
@@ -134,7 +135,6 @@
 .blog-content h2 {
     font-size: 2em !important;
     color: #646cff !important;
-    /* Your component's brand color */
     margin-top: 30px !important;
     margin-bottom: 15px !important;
 }
@@ -197,16 +197,26 @@
     margin-bottom: 20px;
 }
 
+/* ⭐️ Ad placeholder within article */
+.article-ad {
+    margin: 40px auto !important;
+}
+
 /* ✅ Responsive adjustments for mobile */
 @media (max-width: 768px) {
-
-    /* ⭐️ CRITICAL FIX 3: Ensure clearance for mobile header (based on App.css's mobile pad) ⭐️ */
     .article-wrapper {
-        /* Adjusted from 100px to 150px to ensure clearance */
-        padding: 150px 20px 60px;
+        padding: 20px 15px 60px;
     }
 
     .blog-content h1 {
         font-size: 2em !important;
+    }
+
+    .blog-content h2 {
+        font-size: 1.6em !important;
+    }
+
+    .blog-content p {
+        font-size: 1em !important;
     }
 }
