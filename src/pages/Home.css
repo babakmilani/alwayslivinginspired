@@ -30,9 +30,9 @@
         font-size: 0.9em;
     }
 
-    /* Use a small aesthetic margin, as the <main> padding-top now provides the 196px clearance */
+    /* ⭐️ FIXED: Clear all conflicting margins on the first element on mobile ⭐️ */
     .top-ad {
-        margin-top: 20px;
+        margin-top: 0;
     }
 }
 

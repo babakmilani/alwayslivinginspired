@@ -86,10 +86,7 @@
     text-align: center;
 }
 
-/* CLIP FIX FOR HEADER (Applied to the top ad placeholder) */
-.top-ad {
-    margin-top: 250px;
-}
+
 
 .bottom-ad {
     /* For a typical large rectangle ad */
@@ -125,15 +122,11 @@
         display: none;
     }
 
-    /* Give the content wrapper some breathing room when side ads are gone */
-    .legal-content-wrapper {
-        padding: 0 40px;
-    }
+    /* ... other styles ... */
 
-    /* Override the overall container width to look cleaner on tablets */
-    .legal-page-container {
-        width: 100%;
-        max-width: 900px;
+    /* ⭐️ FIXED: Ensure the ad placeholder itself has no top margin on mobile ⭐️ */
+    .top-ad {
+        margin-top: 0;
     }
 }
 
