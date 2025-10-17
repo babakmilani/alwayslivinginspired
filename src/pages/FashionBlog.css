@@ -75,13 +75,12 @@
 /* Blog Article Styling */
 /* ================================================= */
 
-/* ⭐️ CRITICAL FIX: NO padding-top here - App.css main already handles it */
+/* ⭐️ REMOVED all padding-top - App.css main element handles ALL header clearance */
 .article-wrapper {
     max-width: 900px !important;
     margin: 0 auto;
     text-align: left;
-    /* REMOVED padding-top - let App.css handle header clearance */
-    padding: 200px 20px 60px;
+    padding: 0 20px 60px;
     box-sizing: border-box;
     min-height: calc(100vh - 400px);
 }
@@ -104,8 +103,6 @@
     color: #535bf2;
 }
 
-/* ⭐️ Blog content container - content flows naturally with inherited styles */
-
 /* ---------------------------------------------------------------- */
 /* Styles to override inline HTML styles */
 /* ---------------------------------------------------------------- */
@@ -120,7 +117,6 @@
 .blog-content .post-header {
     text-align: center !important;
     margin-bottom: 40px !important;
-    /* Keep header natural, article has the spacing */
     margin-top: 0 !important;
 }
 
@@ -213,8 +209,10 @@
 
 /* ✅ Responsive adjustments for mobile */
 @media (max-width: 768px) {
+
+    /* ⭐️ REMOVED padding override - let App.css main handle it */
     .article-wrapper {
-        padding: 500px 15px 60px;  /* Increased top padding for mobile header */
+        padding: 0 15px 60px;
     }
 
     .blog-content h1 {
@@ -229,7 +227,6 @@
         font-size: 1em !important;
     }
 
-    /* Reduce top margin on mobile for better spacing */
     .blog-content .post-header {
         margin-top: 20px !important;
     }
