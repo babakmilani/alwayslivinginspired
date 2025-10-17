@@ -72,7 +72,6 @@ main {
 /* Responsive adjustment for the top ad on smaller screens */
 @media (max-width: 768px) {
   .adsense-placeholder {
-    padding-top: 500px;
     height: 50px;
     font-size: 0.9em;
   }
@@ -80,6 +79,6 @@ main {
   /* ⭐️ FIX: OVERRIDE THE CONFLICTING margin-top: 00px ⭐️ */
   /* Sets the top margin to the reported header height (196px) to clear the fixed header. */
   .top-ad {
-    margin-top: 196px !important;
+    margin-top: 500px !important;
   }
 }
