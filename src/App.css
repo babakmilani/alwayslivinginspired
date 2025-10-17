@@ -18,8 +18,9 @@ body {
 
 /* Default rule for <main>: Apply the mobile clearance (196px) to all small screens (default) */
 main {
-  /*padding-top: 196px;*/
-  /* MOBILE HEADER HEIGHT */
+  /* Increase this value, as 196px is not enough to clear your mobile header */
+  padding-top: 450px;
+  /* <--- NEW, HIGHER MOBILE CLEARANCE VALUE */
   padding-bottom: 60px;
   flex: 1;
 }
@@ -28,6 +29,7 @@ main {
 @media (min-width: 769px) {
   main {
     padding-top: 430px;
+    /* Keep desktop as-is (it was already fine) */
   }
 }
 
