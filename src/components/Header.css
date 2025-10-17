@@ -3,6 +3,7 @@
 /* Base header element properties */
 .ali-header {
     position: fixed;
+    margin-bottom: 320px;
     top: 0;
     left: 0;
     right: 0;
