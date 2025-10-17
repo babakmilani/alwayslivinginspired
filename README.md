@@ -27,7 +27,7 @@
 - [Contact](#contact)
 
 ---
-
+<a id="overview"></a>
 ## 🎯 Overview
 
 **Always Living Inspired** is a full-featured e-commerce platform built with React that showcases a complete online shopping experience. The project demonstrates modern web development practices, responsive design principles, and scalable frontend architecture.
@@ -44,7 +44,7 @@ The platform features:
 **Origin Story**: Created by a former software engineer who transitioned from corporate cubicle life to pursue creative entrepreneurship in the fashion industry. The platform embodies the journey from code to canvas, merging technical expertise with artistic vision.
 
 ---
-
+<a id="features"></a>
 ## ✨ Features
 
 ### 🛍️ E-Commerce Functionality
@@ -84,7 +84,7 @@ The platform features:
 - **Error Handling**: Graceful error messages and fallbacks
 
 ---
-
+<a id="tech-stack"></a>
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -107,7 +107,7 @@ The platform features:
 - **GitHub Pages** - Static site hosting (HashRouter for compatibility)
 
 ---
-
+<a id="project-structure"></a>
 ## 📁 Project Structure
 
 ```
@@ -152,7 +152,7 @@ always-living-inspired/
 ```
 
 ---
-
+<a id="architecture--design-decisions"></a>
 ## 🏗️ Architecture & Design Decisions
 
 ### Component Architecture
@@ -213,7 +213,7 @@ After initial experimentation with centralized layout control in `App.css`, the 
 - **Flexible Grid**: CSS Grid for product layouts with auto-fill/auto-fit
 
 ---
-
+<a id="getting-started"></a>
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -266,7 +266,7 @@ npm run preview
 ```
 
 ---
-
+<a id="css-architecture"></a>
 ## 🎨 CSS Architecture
 
 ### Fixed Header Implementation
@@ -461,7 +461,7 @@ const response = await fetch(scriptURL, {
 ```
 
 ---
-
+<a id="deployment"></a>
 ## 🌐 Deployment
 
 ### GitHub Pages Deployment
@@ -496,7 +496,7 @@ const response = await fetch(scriptURL, {
 - **Cloudflare Pages**: Connect GitHub and auto-deploy
 
 ---
-
+<a id="future-enhancements"></a>
 ## 🔮 Future Enhancements
 
 ### Short Term
@@ -565,7 +565,7 @@ This project demonstrates proficiency in:
    - Environment-specific builds
 
 ---
-
+<a id="contact"></a>
 ## 📞 Contact
 
 **Project Creator**: John  
