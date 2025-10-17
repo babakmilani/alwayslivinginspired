@@ -1,42 +1,36 @@
+/* Header.css - FIXED VERSION */
+
 /* Base header element properties */
 .ali-header {
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
     z-index: 10;
     background-color: white;
-    /* Important: prevents content bleed-through */
     color: #333;
     padding: 20px 0;
     box-sizing: border-box;
-    /* Includes padding and border in the element's total width and height */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Optional: subtle shadow for lift */
 }
 
 /* ==================================== */
 /* 1. Divider Lines */
 /* ==================================== */
 .header-line {
-    /* ❌ MODIFIED: Removed width: 90% and margin: 0 auto; 
-       The width is now determined by the parent .nav-wrapper and its padding. */
     height: 1px;
     background-color: #ccc;
-    /* Ensure line takes full width of parent */
     width: 100%;
 }
 
-
 .top-line {
-    /* Adjust margin to match footer's spacing logic */
     margin-bottom: 10px;
 }
 
 .bottom-line {
-    /* Adjust margin to match footer's spacing logic */
     margin-top: 10px;
 }
-
 
 /* ==================================== */
 /* 2. Content Layout (Flexbox: Logo Left, Nav Right) */
@@ -59,32 +53,15 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    /* Ensure the nav element itself is inline/compact */
-    display: inline-block;
-}
-
-/* nav bar container */
-.double-line-nav {
-    /* Use the lines inside the nav, but ensure the overall nav is aligned properly */
-    padding: 0;
-    margin: 0;
     display: inline-block;
 }
 
 .double-line-nav ul {
-    /* Use flexbox to lay out the links horizontally */
     display: flex;
     gap: 20px;
     list-style: none;
     margin: 0;
     padding: 10px 0;
-    /* Vertical padding to space the links between the lines */
-
-    /* Create the top and bottom lines here, applying directly to the ul/nav if needed,
-       but since we added .header-line above, we can simplify this now: */
-    /* border-top: 1px solid #333; */
-    /* border-bottom: 1px solid #333; */
-
 }
 
 .double-line-nav li {
@@ -95,7 +72,6 @@
     text-decoration: none;
     color: #000;
     font-family: system-ui, sans-serif;
-    /* Adjusted to a common font */
     white-space: nowrap;
     font-size: 1rem;
     transition: color 0.3s;
@@ -103,7 +79,6 @@
 
 .double-line-nav li a:hover {
     color: #555;
-    /* Subtle hover effect */
 }
 
 /* Vertical line separator between links */
@@ -123,19 +98,17 @@
 /* ==================================== */
 @media (max-width: 768px) {
     .header-content-container {
-        /* Stack the logo and navigation vertically on small screens */
         flex-direction: column;
         justify-content: center;
         text-align: center;
+        gap: 15px;
     }
 
-    /* Add space between the stacked logo and navigation */
     .ali-header img {
-        margin-bottom: 15px;
+        margin-bottom: 0;
     }
 
     .double-line-nav ul {
-        /* Allow navigation to wrap if screen is very narrow */
         flex-wrap: wrap;
         justify-content: center;
     }
@@ -146,76 +119,47 @@
 /* ==================================== */
 
 .sale-billboard-container {
-    /* 1. Define the Fixed Billboard Window */
     width: 300px;
-    /* Adjust this width to control the 'billboard' size */
     height: 35px;
-    /* Height of the container */
     background-color: #ff4d4d;
-    /* Bright background color for sale */
     border-radius: 5px;
     margin-left: 20px;
-
-    /* Important: Clips the content to create the 'window' effect */
     overflow: hidden;
-
-    /* Ensure it aligns well with the rest of the header content */
     display: flex;
     align-items: center;
-
-    /* Override for mobile if needed, though hidden later */
     flex-shrink: 0;
 }
 
 .marquee-content {
-    /* 2. Position the Content for Scrolling */
     display: inline-block;
     white-space: nowrap;
-    /* Forces text to stay on one line */
     padding-left: 100%;
-    /* Starts the text off the right edge of the container */
-
-    /* Apply the animation */
     animation: marquee 15s linear infinite;
-
-    /* Styling the text */
     font-size: 1.1em;
     font-weight: 700;
     color: #ffffff;
     letter-spacing: 1px;
 }
 
-/* 3. The Scrolling Animation */
+/* The Scrolling Animation */
 @keyframes marquee {
     0% {
         transform: translate(0, 0);
     }
 
     100% {
-        /* Scrolls the content to the left by its full width (minus the initial 100% offset) */
         transform: translate(-100%, 0);
     }
 }
 
-/* 4. Responsive Adjustment: Hide the billboard on smaller screens */
+/* Hide the billboard on smaller screens */
 @media (max-width: 1024px) {
-
-    /* Adjust breakpoint as needed, but this is often too wide for smaller devices */
     .sale-billboard-container {
         display: none;
     }
-
-    /* You may need to adjust the padding/margin of the header-content-container
-       if removing the billboard messes up the centering/spacing of other elements. */
 }
 
-/* ==================================== */
-/* 4. Responsive Adjustments (Original) */
-/* ==================================== */
-/* Ensure the sale billboard is removed from the mobile stacking to prevent layout issues */
 @media (max-width: 768px) {
-
-    /* Existing content for 768px */
     .sale-billboard-container {
         display: none;
     }
