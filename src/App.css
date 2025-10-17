@@ -16,25 +16,18 @@ body {
 
 /* ⭐️ GLOBAL MAIN CLEARANCE FIX ⭐️ */
 
-/* Default rule for <main>: Apply the mobile clearance to all small screens (default) */
+/* Default rule for <main>: Apply the mobile clearance (196px) to all small screens (default) */
 main {
-  padding-top: 1000px;
-  /* MOBILE HEADER HEIGHT - Increased to clear header fully */
+  padding-top: 280px;
+  /* MOBILE HEADER HEIGHT */
   padding-bottom: 60px;
   flex: 1;
 }
 
-/* Tablet adjustment */
-@media (min-width: 600px) and (max-width: 768px) {
-  main {
-    padding-top: 1000px;
-  }
-}
-
-/* Desktop Override: Apply the large desktop clearance only on larger screens */
+/* Desktop Override: Apply the large desktop clearance (430px) only on larger screens */
 @media (min-width: 769px) {
   main {
-    padding-top: 1000px;
+    padding-top: 430px;
   }
 }
 
