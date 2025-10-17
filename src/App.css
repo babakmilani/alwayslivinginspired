@@ -61,10 +61,16 @@ main {
   color: #888;
 }
 
-/* ⭐️ RESPONSIVE: Adjust for mobile - header stacks vertically so it's taller */
+/* Responsive adjustment for the top ad on smaller screens */
 @media (max-width: 768px) {
-  main {
-    /* Set padding-top equal to the reported mobile header height to prevent cutoff */
-    padding-top: 196px;
+  .adsense-placeholder {
+    height: 50px;
+    font-size: 0.9em;
+  }
+
+  /* ⭐️ FIX: OVERRIDE THE CONFLICTING margin-top: 00px ⭐️ */
+  /* Sets the top margin to the reported header height (196px) to clear the fixed header. */
+  .top-ad {
+    margin-top: 196px !important;
   }
 }
