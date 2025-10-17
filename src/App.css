@@ -16,20 +16,19 @@ body {
 
 /* ⭐️ GLOBAL MAIN CLEARANCE FIX ⭐️ */
 
-/* Default rule for <main>: Apply the mobile clearance (196px) to all small screens (default) */
+/* Default rule for <main>: REMOVE ALL PADDING TOP. Components will handle their own. */
 main {
-  /* Increase this value, as 196px is not enough to clear your mobile header */
-  padding-top: 450px;
-  /* <--- NEW, HIGHER MOBILE CLEARANCE VALUE */
+  padding-top: 0;
+  /* <--- CRITICAL CHANGE: Set to 0 */
   padding-bottom: 60px;
   flex: 1;
 }
 
-/* Desktop Override: Apply the large desktop clearance (430px) only on larger screens */
+/* Desktop Override: REMOVE PADDING TOP from desktop override as well. */
 @media (min-width: 769px) {
   main {
-    padding-top: 430px;
-    /* Keep desktop as-is (it was already fine) */
+    padding-top: 0;
+    /* <--- CRITICAL CHANGE: Set to 0 */
   }
 }
 

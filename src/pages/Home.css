@@ -1,4 +1,5 @@
 /* ⭐️ AD PLACEHOLDER STYLING ⭐️ */
+/*
 .adsense-placeholder {
     width: 90%;
     max-width: 970px;
@@ -13,24 +14,24 @@
     font-size: 1.2em;
     text-align: center;
 }
-
+*/
 /* ⭐️ App.css main padding handles all header clearance - no extra margin needed ⭐️ */
 .top-ad {
-    margin-top: 30px;
+    margin-top: 430px;
 }
-
+/*
 .bottom-ad {
     height: 280px;
 }
-
+*/
 @media (max-width: 768px) {
     .adsense-placeholder {
-        height: 50px;
+        height: 0px;
         font-size: 0.9em;
     }
 
     .top-ad {
-        margin-top: 20px;
+        margin-top: 450px;
     }
 }
 

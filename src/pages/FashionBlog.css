@@ -81,7 +81,7 @@
     margin: 0 auto;
     text-align: left;
     /* REMOVED padding-top - let App.css handle header clearance */
-    padding: 200px 20px 60px;
+    padding: 430px 20px 60px;
     box-sizing: border-box;
     min-height: calc(100vh - 400px);
 }
@@ -214,7 +214,7 @@
 /* ✅ Responsive adjustments for mobile */
 @media (max-width: 768px) {
     .article-wrapper {
-        padding: 500px 15px 60px;  /* Increased top padding for mobile header */
+        padding: 450px 15px 60px;  /* Increased top padding for mobile header */
     }
 
     .blog-content h1 {
