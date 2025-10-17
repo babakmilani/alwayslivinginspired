@@ -15,13 +15,12 @@ const Home = () => {
 
     return (
         <>
-            
-            {/* AD PLACEHOLDER 1: BETWEEN GRID AND HEADER 
+
+            {/* AD PLACEHOLDER 1: BETWEEN GRID AND HEADER */}
             <div className="adsense-placeholder top-ad">
                 Google AdSense Ad - Top Placeholder (e.g., Leaderboard or Banner)
             </div>
-            */}
-            
+
             <div className="gallery">
                 {/* ITEM 1: ACCESSORIES */}
                 <div

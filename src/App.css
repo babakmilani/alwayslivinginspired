@@ -22,7 +22,7 @@ body {
    Mobile header: Logo (150px) + nav stacked = ~270px total */
 
 main {
-  padding-top: 0;
+  padding-top: 100px;
   /* No padding - use margin on first child instead */
   padding-bottom: 60px;
   flex: 1;
