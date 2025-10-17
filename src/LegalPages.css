@@ -6,8 +6,8 @@
 */
 
 .legal-page-container {
-    /* ⭐️ EDITED: Removed max-width/padding to let the new grid control sizing ⭐️ */
-    margin: 40px auto;
+    /* ⭐️ FIXED: Removed top margin - let App.css main padding handle header clearance */
+    margin: 0 auto 40px auto;
     width: 95%;
     /* Use almost full width to accommodate side ads */
     text-align: left;
@@ -86,9 +86,10 @@
     text-align: center;
 }
 
-/* CLIP FIX FOR HEADER (Applied to the top ad placeholder) */
+/* ⭐️ REMOVED top-ad margin override - let App.css main padding handle it */
 .top-ad {
-    margin-top: 250px;
+    /* Normal margin */
+    margin-top: 30px;
 }
 
 .bottom-ad {
@@ -146,9 +147,9 @@
         font-size: 0.9em;
     }
 
-    /* Mobile header clearance */
+    /* ⭐️ REMOVED mobile top-ad override - App.css handles it */
     .top-ad {
-        margin-top: 150px;
+        margin-top: 30px;
     }
 
     /* Reduce margins/padding on the main legal container for mobile */
