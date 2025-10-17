@@ -66,7 +66,7 @@ const FashionBlog = () => {
                 </Link>
 
                 {/* 3. EXISTING ARTICLE: Menswear Guide (4-Mens-Wear-for-Fall.html) */}
-                <Link to="#/blogs/4-Mens-Wear-for-Fall" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', color: '#fff' }}>
+                <Link to="/blogs/4-Mens-Wear-for-Fall" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
                         <i className="fas fa-male blog-icon" style={{ color: '#fff' }}></i>
                     </div>

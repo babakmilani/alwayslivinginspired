@@ -3,11 +3,8 @@
 /* --- Layout Container --- */
 .contact-container {
     max-width: 1000px;
-    margin: 0 auto 40px auto;
-    /* FIXED: Removed top margin, kept bottom margin */
+    margin: 40px auto;
     padding: 30px;
-    padding-top: 480px;
-    /* NEW: Extremely generous padding for max desktop clearance */
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -43,11 +40,6 @@
 @media (max-width: 768px) {
     .contact-grid {
         grid-template-columns: 1fr;
-    }
-
-    .contact-container {
-        padding-top: 250px;
-        /* NEW: Generous padding for max mobile clearance */
     }
 }
 

@@ -7,10 +7,7 @@
 
 .legal-page-container {
     /* ⭐️ EDITED: Removed max-width/padding to let the new grid control sizing ⭐️ */
-    margin: 0 auto 40px auto;
-    /* FIXED: Removed top margin, kept bottom margin */
-    padding-top: 480px;
-    /* NEW: Extremely generous padding for max desktop clearance */
+    margin: 40px auto;
     width: 95%;
     /* Use almost full width to accommodate side ads */
     text-align: left;
@@ -91,8 +88,7 @@
 
 /* CLIP FIX FOR HEADER (Applied to the top ad placeholder) */
 .top-ad {
-    margin-top: 30px;
-    /* FIXED: Removed custom margin-top, rely on App.css <main> padding */
+    margin-top: 250px;
 }
 
 .bottom-ad {
@@ -143,10 +139,6 @@
 
 
 @media (max-width: 768px) {
-    .legal-page-container {
-        padding-top: 250px;
-        /* NEW: Generous padding for max mobile clearance */
-    }
 
     /* Mobile-specific banner size */
     .adsense-placeholder {
@@ -155,8 +147,7 @@
     }
 
     /* Mobile header clearance */
-    .top-ad {
-        /* FIXED: Adjusted the selector to include the dot */
+    top-ad {
         margin-top: 30px;
     }
 
