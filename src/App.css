@@ -18,7 +18,7 @@ body {
 
 /* Default rule for <main>: Apply the mobile clearance (196px) to all small screens (default) */
 main {
-  padding-top: 280px;
+  /*padding-top: 196px;*/
   /* MOBILE HEADER HEIGHT */
   padding-bottom: 60px;
   flex: 1;
