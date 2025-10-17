@@ -1,5 +1,17 @@
 /* src/pages/Contact.css */
 
+/* Ensure Contact page clears the fixed header */
+.contact-container {
+    padding-top: 210px;
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        padding-top: 280px;
+    }
+}
+
+
 /* --- Layout Container --- */
 .contact-container {
     max-width: 1000px;

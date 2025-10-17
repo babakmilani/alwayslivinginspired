@@ -14,8 +14,7 @@ const Home = () => {
     };
 
     return (
-        <>
-
+        <div className="home-page">
             {/* AD PLACEHOLDER 1: BETWEEN GRID AND HEADER */}
             <div className="adsense-placeholder top-ad">
                 Google AdSense Ad - Top Placeholder (e.g., Leaderboard or Banner)
@@ -127,7 +126,7 @@ const Home = () => {
                     </Link>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

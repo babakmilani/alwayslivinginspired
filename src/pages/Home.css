@@ -1,3 +1,21 @@
+/* Ensure Home page clears the fixed header */
+.home-page {
+    padding-top: 210px;
+}
+
+@media (max-width: 768px) {
+    .home-page {
+        padding-top: 280px;
+    }
+}
+
+/* Remove redundant margins from ad placeholders */
+.adsense-placeholder.top-ad {
+    margin-top: 0 !important;
+}
+
+
+
 /* ⭐️ AD PLACEHOLDER STYLING ⭐️ */
 
 .adsense-placeholder {
@@ -30,7 +48,7 @@
         font-size: 0.9em;
     }
 
-    
+
 }
 
 /* ==================================== */

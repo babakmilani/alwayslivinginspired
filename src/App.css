@@ -2,29 +2,41 @@
 /* 🌐 APP GLOBAL STYLES                 */
 /* ===================================== */
 
+/* Ensure consistent global layout */
 main {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   align-items: center;
   justify-content: flex-start;
+  min-height: 100vh;
+  width: 100%;
   background-color: #ffffff;
   color: #000000;
   overflow-x: hidden;
 }
 
-/* Make sure every page scrolls smoothly */
+/* Smooth scrolling between page sections */
 html {
   scroll-behavior: smooth;
 }
 
-/* ===================================== */
-/* HEADER OFFSET CONTROL                 */
-/* ===================================== */
+/* Reset margins and paddings */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  padding: 0;
+}
 
-/* The first element in each page should clear the header */
-main>*:first-child {
-  margin-top: 210px;
+/* Anchor link default styling */
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 /* ===================================== */
@@ -33,36 +45,62 @@ main>*:first-child {
 footer {
   width: 100%;
   text-align: center;
-  background-color: #000;
+  background-color: #000000;
   color: white;
   padding: 30px 0;
   margin-top: auto;
+  font-size: 0.95em;
+}
+
+/* Footer line separators */
+.footer-line {
+  width: 100%;
+  height: 1px;
+  background-color: #333;
 }
 
 /* ===================================== */
 /* RESPONSIVE BEHAVIOR                   */
 /* ===================================== */
 
-@media (max-width: 768px) {
-  main>*:first-child {
-    margin-top: 280px;
-  }
-}
-
-/* ======================================= */
-/* 🔧 FINAL FIX: Ensure all content clears the fixed header */
-/* ======================================= */
-
-main {
-  padding-top: 210px;
-}
-
+/* Keep global layout stable across screen sizes */
 @media (max-width: 768px) {
   main {
-    padding-top: 280px;
+    align-items: stretch;
+  }
+
+  footer {
+    padding: 40px 0;
+    font-size: 0.9em;
   }
 }
 
+/* ===================================== */
+/* GENERAL UTILITY CLASSES (optional)    */
+/* ===================================== */
+
+/* Center any flex container content */
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dotted ad placeholders (fallback visuals if ads fail to load) */
+.adsense-placeholder {
+  background-color: #f0f0f0;
+  border: 2px dashed #999;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+.adsense-placeholder {
+  min-height: 90px;
+}
 
 /* ===================================== */
 /* END OF APP.CSS                        */

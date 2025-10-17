@@ -1,5 +1,21 @@
 /* src/pages/Products.css */
 
+
+/* Ensure Products page clears the fixed header */
+.products-page {
+    padding-top: 210px;
+}
+
+@media (max-width: 768px) {
+    .products-page {
+        padding-top: 280px;
+    }
+}
+
+.adsense-placeholder.top-ad {
+    margin-top: 0 !important;
+}
+
 .products-page {
     max-width: 1400px;
     margin: 0 auto;

@@ -5,6 +5,22 @@
   (Privacy Policy, Terms, Cookies, Disclaimer).
 */
 
+/* Ensure all Legal pages clear the fixed header */
+.legal-page-container {
+    padding-top: 210px;
+}
+
+@media (max-width: 768px) {
+    .legal-page-container {
+        padding-top: 280px;
+    }
+}
+
+.adsense-placeholder.top-ad {
+    margin-top: 0 !important;
+}
+
+
 .legal-page-container {
     /* ⭐️ REMOVED margin-top - App.css main padding handles header clearance */
     margin: 0 auto 40px;

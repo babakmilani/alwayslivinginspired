@@ -80,11 +80,20 @@
     max-width: 900px !important;
     margin: 0 auto;
     text-align: left;
-    /* REMOVED padding-top - let App.css handle header clearance */
-    padding: 200px 20px 60px;
-    box-sizing: border-box;
-    min-height: calc(100vh - 400px);
+    /* REMOVE these lines ↓↓↓ */
+    /* padding: 200px 20px 60px; */
+    /* REMOVE comment saying “App.css main handles header clearance” */
+
+    /* ADD this instead */
+    padding: 210px 20px 60px;
 }
+
+@media (max-width: 768px) {
+    .article-wrapper {
+        padding: 280px 15px 60px;
+    }
+}
+
 
 .back-button {
     background: none;
@@ -212,9 +221,11 @@
 }
 
 /* ✅ Responsive adjustments for mobile */
+/* ✅ Responsive adjustments for mobile */
 @media (max-width: 768px) {
     .article-wrapper {
-        padding: 500px 15px 60px;  /* Increased top padding for mobile header */
+        padding: 280px 15px 60px;
+        /* Match all other pages */
     }
 
     .blog-content h1 {

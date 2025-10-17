@@ -1,5 +1,17 @@
 /* src/pages/AboutUs.css */
 
+
+/* Ensure About Us page clears the fixed header */
+.about-me-image-container {
+    padding-top: 210px;
+}
+
+@media (max-width: 768px) {
+    .about-me-image-container {
+        padding-top: 280px;
+    }
+}
+
 /* Styles for the Founder's Image */
 .about-me-image-container {
     display: flex;
