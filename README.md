@@ -6,7 +6,7 @@
 
 **A modern, responsive e-commerce platform for fashion-forward apparel and lifestyle products**
 
-[Live Demo](#) | [Features](#features) | [Tech Stack](#tech-stack) | [Getting Started](#getting-started)
+[Live Demo](https://alwayslivinginspired.com) | [Features](#features) | [Tech Stack](#tech-stack) | [Getting Started](#getting-started)
 
 </div>
 
