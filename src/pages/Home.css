@@ -3,7 +3,7 @@
 .adsense-placeholder {
     width: 90%;
     max-width: 970px;
-    height: 30px;
+    height: 90px;
     margin: 30px auto;
     background-color: #f0f0f0;
     border: 2px dashed #999;
@@ -17,8 +17,7 @@
 
 /* ⭐️ App.css main padding handles all header clearance - no extra margin needed ⭐️ */
 .top-ad {
-    margin-top: 230px;
-    padding-top: 50px;
+    margin-top: 30px;
 }
 
 .bottom-ad {

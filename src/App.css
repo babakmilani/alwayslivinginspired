@@ -22,8 +22,7 @@ body {
    Mobile header: Logo (150px) + nav stacked = ~270px total */
 
 main {
-  padding-top: 100px;
-  /* No padding - use margin on first child instead */
+  padding-top: 0;  /* No padding - use margin on first child instead */
   padding-bottom: 60px;
   flex: 1;
   width: 100%;
@@ -31,16 +30,14 @@ main {
 }
 
 /* Push down the first element of EVERY page to clear the header */
-main>*:first-child {
-  margin-top: 210px;
-  /* Desktop: Enough space for 200px header + 10px gap */
+main > *:first-child {
+  margin-top: 210px;  /* Desktop: Enough space for 200px header + 10px gap */
 }
 
 /* Mobile: More space needed for stacked header */
 @media (max-width: 768px) {
-  main>*:first-child {
-    margin-top: 280px;
-    /* Mobile: Enough space for 270px header + 10px gap */
+  main > *:first-child {
+    margin-top: 280px;  /* Mobile: Enough space for 270px header + 10px gap */
   }
 }
 
@@ -64,7 +61,6 @@ main>*:first-child {
   from {
     transform: rotate(0deg);
   }
-
   to {
     transform: rotate(360deg);
   }
