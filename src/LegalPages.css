@@ -6,36 +6,28 @@
 */
 
 .legal-page-container {
-    /* ⭐️ EDITED: Removed max-width/padding to let the new grid control sizing ⭐️ */
-    margin: 40px auto;
+    /* ⭐️ REMOVED margin-top - App.css main padding handles header clearance */
+    margin: 0 auto 40px;
     width: 95%;
-    /* Use almost full width to accommodate side ads */
     text-align: left;
     line-height: 1.8;
-    /* Force black text for readability on a white background */
     color: #000000 !important;
     background-color: #ffffff;
-    /* Ensure content fills the screen minus header/footer heights */
     min-height: calc(100vh - 400px);
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* ⭐️ FIXED: NEW FLEX/GRID LAYOUT FOR SIDE ADS ⭐️ */
 .legal-layout-grid {
     display: flex;
     justify-content: center;
-    /* Center the entire layout */
     align-items: flex-start;
-    /* Align content to the top */
     padding: 20px 0;
 }
 
 .legal-content-wrapper {
-    /* This column is the main content. It is sized to be the maximum width (900px) */
     max-width: 900px;
     padding: 0 20px;
-    /* Allow it to shrink/grow slightly but prioritize fixed size */
     flex-grow: 1;
     flex-shrink: 1;
 }
@@ -69,10 +61,9 @@
     list-style-type: disc;
 }
 
-/* ⭐️ AD PLACEHOLDER STYLING (Shared for all ad units) ⭐️ */
+/* ⭐️ AD PLACEHOLDER STYLING */
 .adsense-placeholder {
     width: 90%;
-    /* Max-width typical for banner ads */
     max-width: 970px;
     height: 90px;
     margin: 30px auto;
@@ -86,72 +77,60 @@
     text-align: center;
 }
 
-/* CLIP FIX FOR HEADER (Applied to the top ad placeholder) */
+/* ⭐️ REMOVED CONFLICTING top-ad margin - App.css handles header clearance */
 .top-ad {
-    margin-top: 250px;
+    /* Normal spacing only */
+    margin-top: 30px;
 }
 
 .bottom-ad {
-    /* For a typical large rectangle ad */
     height: 280px;
 }
 
-/* ⭐️ NEW: Vertical Side Ad Columns Styles ⭐️ */
+/* ⭐️ Vertical Side Ad Columns */
 .side-ad-column {
     display: flex;
     flex-direction: column;
-    /* Set the fixed width for the vertical ad column (e.g., 160px + padding) */
     width: 180px;
     margin: 0 10px;
     flex-shrink: 0;
-    /* Prevents it from shrinking */
 }
 
 .vertical-ad {
     width: 100%;
     height: 300px;
-    /* Standard skyscraper height */
     margin: 10px 0;
-    /* Add vertical spacing between the 3 boxes */
     font-size: 0.9em;
 }
 
-
 /* --- Responsive Design --- */
 
-/* Hide side ads on medium/small screens (less than 1200px) */
 @media (max-width: 1200px) {
     .side-ad-column {
         display: none;
     }
 
-    /* Give the content wrapper some breathing room when side ads are gone */
     .legal-content-wrapper {
         padding: 0 40px;
     }
 
-    /* Override the overall container width to look cleaner on tablets */
     .legal-page-container {
         width: 100%;
         max-width: 900px;
     }
 }
 
-
 @media (max-width: 768px) {
-
-    /* Mobile-specific banner size */
     .adsense-placeholder {
         height: 50px;
         font-size: 0.9em;
     }
 
-    /* Mobile header clearance */
-    top-ad {
-        margin-top: 30px;
+    /* ⭐️ REMOVED conflicting margin-top */
+    .top-ad {
+        margin-top: 20px;
     }
 
-    /* Reduce margins/padding on the main legal container for mobile */
     .legal-content-wrapper {
         padding: 0 10px;
     }

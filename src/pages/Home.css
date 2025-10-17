@@ -14,9 +14,8 @@
     text-align: center;
 }
 
-/* ⭐️ NO EXTRA MARGIN NEEDED - App.css main padding handles header clearance ⭐️ */
+/* ⭐️ App.css main padding handles all header clearance - no extra margin needed ⭐️ */
 .top-ad {
-    /* Normal margin - App.css main already provides header clearance */
     margin-top: 30px;
 }
 
@@ -30,17 +29,15 @@
         font-size: 0.9em;
     }
 
-    /* Use a small aesthetic margin, as the <main> padding-top now provides the 196px clearance */
     .top-ad {
-        margin-top: 20px; 
+        margin-top: 20px;
     }
 }
 
 /* ==================================== */
-/* ⭐️ NEW: Product Card/Label Styling ⭐️ */
+/* ⭐️ Product Card/Label Styling ⭐️ */
 /* ==================================== */
 
-/* Override index.css's gallery-item on the wrapper to enable flex column layout */
 .product-card {
     display: flex;
     flex-direction: column;
@@ -50,14 +47,12 @@
     overflow: hidden;
 }
 
-/* Ensure the image takes up the space it should within the card */
 .product-card img {
     width: 100%;
     height: auto;
     display: block;
 }
 
-/* Styling for the label text */
 .product-label {
     width: 100%;
     padding: 12px 5px;

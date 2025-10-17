@@ -18,15 +18,16 @@ body {
 
 /* Default rule for <main>: Apply the mobile clearance (196px) to all small screens (default) */
 main {
-  padding-top: 196px; /* MOBILE HEADER HEIGHT */
+  padding-top: 196px;
+  /* MOBILE HEADER HEIGHT */
   padding-bottom: 60px;
   flex: 1;
 }
 
 /* Desktop Override: Apply the large desktop clearance (430px) only on larger screens */
-@media (min-width: 769px) { 
+@media (min-width: 769px) {
   main {
-    padding-top: 430px; 
+    padding-top: 430px;
   }
 }
 
@@ -69,16 +70,10 @@ main {
   color: #888;
 }
 
-/* Responsive adjustment for the top ad on smaller screens */
+/* ⭐️ AD PLACEHOLDER - Removed conflicting margins, App.css main handles spacing */
 @media (max-width: 768px) {
   .adsense-placeholder {
     height: 50px;
     font-size: 0.9em;
-  }
-
-  /* ⭐️ FIX: OVERRIDE THE CONFLICTING margin-top: 00px ⭐️ */
-  /* Sets the top margin to the reported header height (196px) to clear the fixed header. */
-  .top-ad {
-    margin-top: 500px !important;
   }
 }
