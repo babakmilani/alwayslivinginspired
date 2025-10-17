@@ -16,22 +16,17 @@ body {
 
 /* ⭐️ GLOBAL MAIN CLEARANCE FIX ⭐️ */
 
-/* ⭐️ CRITICAL FIX: Global <main> Clearance for Fixed Header ⭐️ */
-
-/* Default rule: Applies to mobile and smaller screens (since there is no media query) */
+/* Default rule for <main>: Apply the mobile clearance (196px) to all small screens (default) */
 main {
-  /* Use !important to guarantee this is the winning rule on mobile/default screens */
-  padding-top: 196px !important;
-  /* EXACT MOBILE HEADER HEIGHT */
+  padding-top: 196px; /* MOBILE HEADER HEIGHT */
   padding-bottom: 60px;
   flex: 1;
 }
 
 /* Desktop Override: Apply the large desktop clearance (430px) only on larger screens */
-@media (min-width: 769px) {
+@media (min-width: 769px) { 
   main {
-    /* No !important needed here, as the media query makes it more specific */
-    padding-top: 430px;
+    padding-top: 430px; 
   }
 }
 
