@@ -1,37 +1,51 @@
-/* App.css */
+/* App.css - FIXED VERSION */
+
 html,
 body {
   height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* ⭐️ GLOBAL MAIN CLEARANCE FIX ⭐️ */
-
-/* Default rule for <main>: REMOVE ALL PADDING TOP. Components will handle their own. */
+/* ⭐️ CRITICAL: Global header clearance for ALL pages ⭐️ */
+/* The header is ~200px tall on desktop, ~220px on mobile */
 main {
-  padding-top: 0;
-  /* <--- CRITICAL CHANGE: Set to 0 */
+  /* Add padding-top to push ALL content below the fixed header */
+  padding-top: 220px;
+  /* Adjust this if your header height changes */
   padding-bottom: 60px;
   flex: 1;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Desktop Override: REMOVE PADDING TOP from desktop override as well. */
+/* Desktop: Slightly less padding since header is smaller */
 @media (min-width: 769px) {
   main {
-    padding-top: 0;
-    /* <--- CRITICAL CHANGE: Set to 0 */
+    padding-top: 200px;
+    /* Desktop header height */
   }
 }
 
+/* Mobile: More padding for taller mobile header */
+@media (max-width: 768px) {
+  main {
+    padding-top: 240px;
+    /* Mobile header is taller due to stacking */
+  }
+}
+
+/* Logo styling */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -71,7 +85,27 @@ main {
   color: #888;
 }
 
-/* ⭐️ AD PLACEHOLDER - Removed conflicting margins, App.css main handles spacing */
+/* ⭐️ GLOBAL AD PLACEHOLDER STYLING ⭐️ */
+.adsense-placeholder {
+  width: 90%;
+  max-width: 970px;
+  height: 90px;
+  margin: 30px auto;
+  background-color: #f0f0f0;
+  border: 2px dashed #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 1.2em;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.bottom-ad {
+  height: 280px;
+}
+
 @media (max-width: 768px) {
   .adsense-placeholder {
     height: 50px;
