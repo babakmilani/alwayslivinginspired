@@ -50,33 +50,19 @@ footer {
 }
 
 /* ======================================= */
-/* 🔧 GLOBAL FIX: Ensure all pages clear the fixed header */
+/* 🔧 FINAL FIX: Ensure all content clears the fixed header */
 /* ======================================= */
 
-.top-ad,
-.legal-page-container,
-.products-page,
-.contact-container,
-.about-me-image-container,
-.home-page,
-main>*:first-child {
-  margin-top: 210px !important;
-  /* Desktop header clearance */
+main {
+  padding-top: 210px;
 }
 
 @media (max-width: 768px) {
-
-  .top-ad,
-  .legal-page-container,
-  .products-page,
-  .contact-container,
-  .about-me-image-container,
-  .home-page,
-  main>*:first-child {
-    margin-top: 280px !important;
-    /* Mobile header clearance */
+  main {
+    padding-top: 280px;
   }
 }
+
 
 /* ===================================== */
 /* END OF APP.CSS                        */
