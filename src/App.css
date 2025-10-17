@@ -14,12 +14,21 @@ body {
   flex-direction: column;
 }
 
-/* ⭐️ FIXED: Increased padding to match actual header height */
-/* Header calculation: 20px top padding + 150px logo + 10px + 20px nav + 10px + 20px bottom = ~230px */
+/* ⭐️ GLOBAL MAIN CLEARANCE FIX ⭐️ */
+
+/* Default rule for <main>: Apply the mobile clearance (196px) to all small screens (default) */
 main {
-  padding-top: 430px;
+  padding-top: 196px;
+  /* MOBILE HEADER HEIGHT */
   padding-bottom: 60px;
   flex: 1;
+}
+
+/* Desktop Override: Apply the large desktop clearance (430px) only on larger screens */
+@media (min-width: 769px) {
+  main {
+    padding-top: 430px;
+  }
 }
 
 .logo {

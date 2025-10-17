@@ -24,16 +24,15 @@
     height: 280px;
 }
 
-/* Responsive adjustment for the top ad on smaller screens */
 @media (max-width: 768px) {
     .adsense-placeholder {
         height: 50px;
         font-size: 0.9em;
     }
 
-    /* ⭐️ NO EXTRA MARGIN NEEDED on mobile either ⭐️ */
+    /* Use a small aesthetic margin, as the <main> padding-top now provides the 196px clearance */
     .top-ad {
-        margin-top: 196px;
+        margin-top: 20px;
     }
 }
 
