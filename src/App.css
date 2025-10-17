@@ -1,131 +1,83 @@
-/* App.css - FIXED VERSION */
-
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0;
-  text-align: center;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ⭐️ CRITICAL: Global header clearance for ALL pages ⭐️ */
-/* Desktop header: Logo (150px) side-by-side with nav = ~200px total
-   Mobile header: Logo (150px) + nav stacked = ~270px total */
+/* ===================================== */
+/* 🌐 APP GLOBAL STYLES                 */
+/* ===================================== */
 
 main {
-  padding-top: 0;
-  /* No padding - use margin on first child instead */
-  padding-bottom: 60px;
-  flex: 1;
-  width: 100%;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ffffff;
+  color: #000000;
+  overflow-x: hidden;
 }
 
-/* Push down the first element of EVERY page to clear the header */
+/* Make sure every page scrolls smoothly */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===================================== */
+/* HEADER OFFSET CONTROL                 */
+/* ===================================== */
+
+/* The first element in each page should clear the header */
 main>*:first-child {
   margin-top: 210px;
-  /* Desktop: Enough space for 200px header + 10px gap */
 }
 
-/* Mobile: More space needed for stacked header */
+/* ===================================== */
+/* FOOTER STYLES                         */
+/* ===================================== */
+footer {
+  width: 100%;
+  text-align: center;
+  background-color: #000;
+  color: white;
+  padding: 30px 0;
+  margin-top: auto;
+}
+
+/* ===================================== */
+/* RESPONSIVE BEHAVIOR                   */
+/* ===================================== */
+
 @media (max-width: 768px) {
   main>*:first-child {
     margin-top: 280px;
-    /* Mobile: Enough space for 270px header + 10px gap */
   }
 }
 
-/* Logo styling */
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
+/* ======================================= */
+/* 🔧 GLOBAL FIX: Ensure all pages clear the fixed header */
+/* ======================================= */
 
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-/* ⭐️ GLOBAL AD PLACEHOLDER STYLING ⭐️ */
-.adsense-placeholder {
-  width: 90%;
-  max-width: 970px;
-  height: 90px;
-  margin: 30px auto;
-  background-color: #f0f0f0;
-  border: 2px dashed #999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #555;
-  font-size: 1.2em;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.bottom-ad {
-  height: 280px;
-}
-
-@media (max-width: 768px) {
-  .adsense-placeholder {
-    height: 50px;
-    font-size: 0.9em;
-  }
-}
-
-/* 🔧 Ensure all pages clear the fixed header properly */
 .top-ad,
 .legal-page-container,
+.products-page,
+.contact-container,
+.about-me-image-container,
 .home-page,
-.products-page {
-  margin-top: 210px;
+main>*:first-child {
+  margin-top: 210px !important;
+  /* Desktop header clearance */
 }
 
 @media (max-width: 768px) {
 
   .top-ad,
   .legal-page-container,
+  .products-page,
+  .contact-container,
+  .about-me-image-container,
   .home-page,
-  .products-page {
-    margin-top: 280px;
+  main>*:first-child {
+    margin-top: 280px !important;
+    /* Mobile header clearance */
   }
 }
+
+/* ===================================== */
+/* END OF APP.CSS                        */
+/* ===================================== */

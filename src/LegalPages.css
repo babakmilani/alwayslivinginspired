@@ -78,10 +78,7 @@
 }
 
 /* ⭐️ REMOVED CONFLICTING top-ad margin - App.css handles header clearance */
-.top-ad {
-    /* Normal spacing only */
-    margin-top: 30px;
-}
+
 
 .bottom-ad {
     height: 280px;
