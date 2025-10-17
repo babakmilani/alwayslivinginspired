@@ -54,3 +54,17 @@ pids
 *.ntvs*
 *.njsproj
 *.sln
+
+# Vite cache
+.vite
+
+# ESLint / Prettier cache (optional)
+.eslintcache
+.prettierignore
+
+# Local preview data
+*.local.json
+
+# Netlify / Vercel deploy folders (if you ever add them)
+.netlify
+.vercel
