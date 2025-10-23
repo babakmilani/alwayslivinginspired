@@ -9,47 +9,7 @@
     }
 }
 
-/* Remove redundant margins from ad placeholders */
-.adsense-placeholder.top-ad {
-    margin-top: 0 !important;
-}
 
-
-
-/* ⭐️ AD PLACEHOLDER STYLING ⭐️ */
-
-.adsense-placeholder {
-    width: 90%;
-    max-width: 970px;
-    height: 90px;
-    margin: 30px auto;
-    background-color: #f0f0f0;
-    border: 2px dashed #999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #555;
-    font-size: 1.2em;
-    text-align: center;
-}
-
-/* ⭐️ App.css main padding handles all header clearance - no extra margin needed ⭐️ */
-.top-ad {
-    margin-top: 30px;
-}
-
-.bottom-ad {
-    height: 280px;
-}
-
-@media (max-width: 768px) {
-    .adsense-placeholder {
-        height: 0px;
-        font-size: 0.9em;
-    }
-
-
-}
 
 /* ==================================== */
 /* ⭐️ Product Card/Label Styling ⭐️ */

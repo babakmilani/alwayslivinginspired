@@ -16,9 +16,6 @@
     }
 }
 
-.adsense-placeholder.top-ad {
-    margin-top: 0 !important;
-}
 
 
 .legal-page-container {
@@ -77,74 +74,9 @@
     list-style-type: disc;
 }
 
-/* ⭐️ AD PLACEHOLDER STYLING */
-.adsense-placeholder {
-    width: 90%;
-    max-width: 970px;
-    height: 90px;
-    margin: 30px auto;
-    background-color: #f0f0f0;
-    border: 2px dashed #999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #555;
-    font-size: 1.2em;
-    text-align: center;
-}
-
-/* ⭐️ REMOVED CONFLICTING top-ad margin - App.css handles header clearance */
+/* ⭐️ REMOVED conflicting margin-top */
 
 
-.bottom-ad {
-    height: 280px;
-}
-
-/* ⭐️ Vertical Side Ad Columns */
-.side-ad-column {
-    display: flex;
-    flex-direction: column;
-    width: 180px;
-    margin: 0 10px;
-    flex-shrink: 0;
-}
-
-.vertical-ad {
-    width: 100%;
-    height: 300px;
-    margin: 10px 0;
-    font-size: 0.9em;
-}
-
-/* --- Responsive Design --- */
-
-@media (max-width: 1200px) {
-    .side-ad-column {
-        display: none;
-    }
-
-    .legal-content-wrapper {
-        padding: 0 40px;
-    }
-
-    .legal-page-container {
-        width: 100%;
-        max-width: 900px;
-    }
-}
-
-@media (max-width: 768px) {
-    .adsense-placeholder {
-        height: 50px;
-        font-size: 0.9em;
-    }
-
-    /* ⭐️ REMOVED conflicting margin-top */
-    .top-ad {
-        margin-top: 20px;
-    }
-
-    .legal-content-wrapper {
-        padding: 0 10px;
-    }
+.legal-content-wrapper {
+    padding: 0 10px;
 }
