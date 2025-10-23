@@ -1,7 +1,7 @@
 import React from 'react';
 import LegalPage from '../components/LegalPage'; // Using LegalPage for shared layout
 import '../LegalPages.css'; // For the page layout
-//import '../pages/Home.css'; // For adsense placeholders
+import '../pages/Home.css'; // For adsense placeholders
 import '../pages/AboutUs.css';
 
 const AboutUs = () => {
