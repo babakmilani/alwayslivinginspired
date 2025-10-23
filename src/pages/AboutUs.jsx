@@ -9,11 +9,6 @@ const AboutUs = () => {
         <div className="legal-content">
             <h2>The Always Living Inspired Story</h2>
 
-            {/* ⭐️ AD PLACEHOLDER 1: Top of the content ⭐️ */}
-            <div className="adsense-placeholder top-ad">
-                {/* When approved, replace this comment with your AdSense code */}
-                Google AdSense Ad - Top Placeholder (e.g., Leaderboard or Banner)
-            </div>
 
             {/* ⭐️ ADDED: Image of the Founder ⭐️ */}
             <div className="about-me-image-container">
@@ -44,11 +39,7 @@ const AboutUs = () => {
                 Thank you for being part of our story. We hope our creations inspire you to live your life with a little more color, a little more courage, and a whole lot of inspiration.
             </p>
 
-            {/* ⭐️ AD PLACEHOLDER 2: Bottom of the content ⭐️ */}
-            <div className="adsense-placeholder bottom-ad">
-                {/* When approved, replace this comment with your AdSense code */}
-                Google AdSense Ad - Bottom Placeholder (e.g., Large Rectangle)
-            </div>
+            
         </div>
     );
 
