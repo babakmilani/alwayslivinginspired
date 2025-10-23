@@ -1,7 +1,7 @@
 import React from 'react';
 import LegalPage from '../components/LegalPage'; // Using LegalPage for shared layout
 import '../LegalPages.css'; // For the page layout
-import '../pages/Home.css'; // For adsense placeholders
+//import '../pages/Home.css'; // For adsense placeholders
 import '../pages/AboutUs.css';
 
 const AboutUs = () => {
@@ -22,7 +22,7 @@ const AboutUs = () => {
             <p className="text-xl font-semibold mt-8 mb-4">From Code to Canvas: A Creative Awakening</p>
 
             <p>
-                Our founder, John, used to be a Software Engineer—the kind who spent his days in the quiet hum of a server room, his world measured in lines of code and the cramped dimensions of a corporate cubicle. For years, the desk life paid the bills, but it slowly eroded his soul, leaving him with an unshakeable feeling of creative restlessness. He needed to build something tangible, something that spoke to the vibrancy missing from his routine.
+                Our founder, Bobby, used to be a Software Engineer—the kind who spent his days in the quiet hum of a server room, his world measured in lines of code and the cramped dimensions of a corporate cubicle. For years, the desk life paid the bills, but it slowly eroded his soul, leaving him with an unshakeable feeling of creative restlessness. He needed to build something tangible, something that spoke to the vibrancy missing from his routine.
             </p>
 
             <p className="mt-6">
