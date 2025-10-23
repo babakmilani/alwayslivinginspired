@@ -20,10 +20,7 @@ const Products = () => {
 
     return (
         <div className="products-page">
-            {/* Top Ad Placeholder */}
-            <div className="adsense-placeholder top-ad">
-                Google AdSense Ad - Products Top Placeholder
-            </div>
+
 
             {/* Page Header */}
             <div className="products-header">
@@ -83,10 +80,7 @@ const Products = () => {
                 </div>
             </section>
 
-            {/* Mid-Section Ad */}
-            <div className="adsense-placeholder">
-                Google AdSense Ad - Mid-Section Placeholder
-            </div>
+
 
             {/* T-SHIRTS SECTION */}
             <section id="tshirts" className="product-section">
@@ -172,10 +166,7 @@ const Products = () => {
                 </div>
             </section>
 
-            {/* Mid-Section Ad */}
-            <div className="adsense-placeholder">
-                Google AdSense Ad - Mid-Section Placeholder
-            </div>
+
 
             {/* BAGS SECTION */}
             <section id="bags" className="product-section">
@@ -219,10 +210,7 @@ const Products = () => {
                 </div>
             </section>
 
-            {/* Bottom Ad Placeholder */}
-            <div className="adsense-placeholder bottom-ad">
-                Google AdSense Ad - Products Bottom Placeholder
-            </div>
+
         </div>
     );
 };

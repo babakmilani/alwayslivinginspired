@@ -80,9 +80,7 @@ const BlogArticle = () => {
                 dangerouslySetInnerHTML={{ __html: content }}
             />
 
-            <div className="adsense-placeholder article-ad" style={{ maxWidth: '800px', margin: '40px auto' }}>
-                Google AdSense Ad - Article Footer Placeholder
-            </div>
+            
         </div>
     );
 };

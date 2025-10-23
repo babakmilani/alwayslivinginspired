@@ -66,10 +66,7 @@ const Contact = () => {
                 We'd love to hear from you! Whether you have questions about our apparel, an order inquiry, or just want to share your inspired story, reach out using the form or the details below.
             </p>
 
-            {/* AD PLACEHOLDER 1: Top of the content */}
-            <div className="adsense-placeholder top-ad">
-                Google AdSense Ad - Top Placeholder (e.g., Leaderboard or Banner)
-            </div>
+            
 
             <div className="contact-grid">
                 {/* Contact Information Column */}
@@ -191,10 +188,7 @@ const Contact = () => {
                 </div>
             </div>
 
-            {/* AD PLACEHOLDER 2: Bottom of the content */}
-            <div className="adsense-placeholder bottom-ad">
-                Google AdSense Ad - Bottom Placeholder (e.g., Large Rectangle)
-            </div>
+            
         </div>
     );
 
