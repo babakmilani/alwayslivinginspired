@@ -1,5 +1,6 @@
 import React from 'react';
-//import LegalPage from '../components/LegalPage'; // Using LegalPage for shared layout
+// FIX: Uncomment the import for the LegalPage component
+import LegalPage from '../components/LegalPage'; // Using LegalPage for shared layout
 import '../LegalPages.css'; // For the page layout
 import '../pages/Home.css'; // For adsense placeholders
 import '../pages/AboutUs.css';
@@ -39,11 +40,11 @@ const AboutUs = () => {
                 Thank you for being part of our story. We hope our creations inspire you to live your life with a little more color, a little more courage, and a whole lot of inspiration.
             </p>
 
-            
+
         </div>
     );
 
-    // Using the LegalPage component structure for layout consistency
+    // This component now has the LegalPage component available to render the content
     return <LegalPage title="About Always Living Inspired" content={content} />;
 };
 
