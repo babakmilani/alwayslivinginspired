@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom';
 import './Footer.css';
 
 const Footer = () => {
+  // Define styles for the Holysmokas link to be consistent and subtle
+  const holysmokasStyle = {
+    fontSize: '0.85rem', // Slightly smaller than the 0.95rem copyright text
+    color: '#888',      // Light gray for a subtle look
+    textDecoration: 'none',
+    marginLeft: '15px',
+    transition: 'color 0.3s', // Inherit the smooth hover effect
+  };
+
   return (
     <footer className="ali-footer">
       <div className="footer-line top-line"></div>
@@ -22,6 +31,22 @@ const Footer = () => {
 
         <div className="footer-copyright">
           &copy; 2025 Always Living Inspired
+
+          {/* ⭐️ HOLYSMOKAS SLEEK ADVERTISEMENT START ⭐️ */}
+          <span style={{ color: '#ccc', padding: '0 10px' }}>|</span>
+          <a
+            href="http://www.holysmokas.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={holysmokasStyle}
+            // Add a simple hover effect for sleeker interaction
+            onMouseEnter={e => e.target.style.color = '#555'}
+            onMouseLeave={e => e.target.style.color = holysmokasStyle.color}
+          >
+            Built with Holysmokas
+          </a>
+          {/* ⭐️ HOLYSMOKAS SLEEK ADVERTISEMENT END ⭐️ */}
+
         </div>
 
         <div className="footer-social">
