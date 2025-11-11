@@ -5,20 +5,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+  <!-- Google tag (gtag.js) - MUST be in head -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-N4Z6EBDP9R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    // Disable automatic page views - we'll handle them in React
+    gtag('config', 'G-N4Z6EBDP9R', {
+      send_page_view: false
+    });
+  </script>
+
   <title>Always Living Inspired</title>
   <script type="module" crossorigin src="/assets/index-BQ8hGnU_.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-ZhvKBp5Y.css">
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N4Z6EBDP9R"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-
-  gtag('config', 'G-N4Z6EBDP9R');
-</script>
 
 <body>
   <div id="root"></div>
