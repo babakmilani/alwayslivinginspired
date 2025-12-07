@@ -134,7 +134,7 @@ function createArticleHTML(articleData) {
 
     // Update content
     const introText = `This ${articleData.category.toLowerCase()} guide explores the latest trends and styling strategies. ${articleData.summary}`;
-
+    
     $(".blog-post-content > p").first().html(`
         <span style="font-size: 1.1em; line-height: 1.7; margin-bottom: 30px;">
             ${introText}
@@ -160,7 +160,7 @@ function updateFashionBlogPage(articleData) {
 
     const slug = toSlug(articleData.title);
     const gradient = `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`;
-
+    
     // Create new blog card
     const newCard = `
                 {/* NEW ARTICLE: ${articleData.title} */}
@@ -180,7 +180,7 @@ function updateFashionBlogPage(articleData) {
     if (galleryMatch) {
         const insertIndex = galleryMatch.index + galleryMatch[0].length;
         jsxContent = jsxContent.slice(0, insertIndex) + newCard + jsxContent.slice(insertIndex);
-
+        
         fs.writeFileSync(CONFIG.fashionBlogFile, jsxContent, "utf8");
         console.log(`🧩 Updated FashionBlog.jsx with "${articleData.title}"`);
     } else {
@@ -198,7 +198,7 @@ function updateHomePage(articleData) {
 
     const slug = toSlug(articleData.title);
     const gradient = `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`;
-
+    
     // Create featured blog card for home page
     const newCard = `
                     {/* Featured Blog: ${articleData.title} */}
@@ -217,16 +217,16 @@ function updateHomePage(articleData) {
                     </Link>
 `;
 
-    // Find the "Latest Fashion Insights" gallery div
-    const insightsGalleryMatch = jsxContent.match(/<h2[^>]*>Latest Fashion Insights<\/h2>[\s\S]*?<div className="gallery">/);
+    // Find the "Latest Fashion Insights" section - more flexible regex
+    const insightsGalleryMatch = jsxContent.match(/Latest Fashion Insights[\s\S]{0,200}?<div className="gallery">/);
     if (insightsGalleryMatch) {
         const insertIndex = insightsGalleryMatch.index + insightsGalleryMatch[0].length;
         jsxContent = jsxContent.slice(0, insertIndex) + newCard + jsxContent.slice(insertIndex);
-
+        
         fs.writeFileSync(CONFIG.homeFile, jsxContent, "utf8");
         console.log(`🏠 Updated Home.jsx with featured blog "${articleData.title}"`);
     } else {
-        console.warn("⚠️ Could not find Latest Fashion Insights section in Home.jsx");
+        console.warn("⚠️ Could not find Latest Fashion Insights section in Home.jsx - skipping Home page update (article still created successfully)");
     }
 }
 
@@ -244,7 +244,7 @@ async function main() {
         fs.writeFileSync(outputPath, html, "utf8");
 
         console.log(`✅ Created new article: ${outputPath}`);
-
+        
         updateFashionBlogPage(articleData);
         updateHomePage(articleData);
 
