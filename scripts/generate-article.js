@@ -199,6 +199,10 @@ function updateHomePage(articleData) {
     const slug = toSlug(articleData.title);
     const gradient = `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`;
 
+    // Determine text color based on gradient - use white for most, adjust for light backgrounds
+    const textColor = articleData.gradientStart === '#f0f0f0' || articleData.gradientStart === '#e6e6fa' ? '#333' : '#fff';
+    const subtextColor = textColor === '#333' ? '#555' : '#fff';
+
     // Create featured blog card for home page
     const newCard = `
                     {/* Featured Blog: ${articleData.title} */}
@@ -211,47 +215,22 @@ function updateHomePage(articleData) {
                             <i className="${articleData.iconClass} blog-icon" style={{ color: '${articleData.iconColor}' }}></i>
                         </div>
                         <div className="blog-text" style={{ padding: '20px' }}>
-                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>${articleData.title}</h3>
-                            <p style={{ color: '#fff', fontSize: '0.95em' }}>${articleData.summary}</p>
+                            <h3 style={{ color: '${textColor}', fontSize: '1.4em', marginBottom: '10px' }}>${articleData.title}</h3>
+                            <p style={{ color: '${subtextColor}', fontSize: '0.95em' }}>${articleData.summary}</p>
                         </div>
                     </Link>
 `;
 
-    // Find the "Latest Fashion Insights" section
+    // Find the "Latest Fashion Insights" section and the gallery div within it
     const insightsMatch = jsxContent.match(/Latest Fashion Insights[\s\S]{0,200}?<div className="gallery">/);
     if (insightsMatch) {
-        const galleryStart = insightsMatch.index + insightsMatch[0].length;
+        const insertIndex = insightsMatch.index + insightsMatch[0].length;
 
-        // Find the end of this gallery section (next closing </div> after 4 blog cards)
-        const afterGallery = jsxContent.indexOf('</div>\n            </div>', galleryStart);
+        // Simply prepend the new card
+        jsxContent = jsxContent.slice(0, insertIndex) + newCard + jsxContent.slice(insertIndex);
 
-        if (afterGallery > galleryStart) {
-            // Find all existing blog cards in this section
-            const gallerySection = jsxContent.substring(galleryStart, afterGallery);
-            const blogCards = gallerySection.match(/{\/\* Featured Blog:[\s\S]*?<\/Link>/g) || [];
-
-            // If we have 4 cards, remove the last one to make room for the new one
-            if (blogCards.length >= 4) {
-                const lastCardStart = jsxContent.lastIndexOf(blogCards[blogCards.length - 1], afterGallery);
-                jsxContent = jsxContent.slice(0, lastCardStart) + jsxContent.slice(afterGallery);
-
-                // Recalculate insertion point
-                const newInsightsMatch = jsxContent.match(/Latest Fashion Insights[\s\S]{0,200}?<div className="gallery">/);
-                const newInsertIndex = newInsightsMatch.index + newInsightsMatch[0].length;
-                jsxContent = jsxContent.slice(0, newInsertIndex) + newCard + jsxContent.slice(newInsertIndex);
-            } else {
-                // If less than 4 cards, just prepend
-                jsxContent = jsxContent.slice(0, galleryStart) + newCard + jsxContent.slice(galleryStart);
-            }
-
-            fs.writeFileSync(CONFIG.homeFile, jsxContent, "utf8");
-            console.log(`🏠 Updated Home.jsx with featured blog "${articleData.title}"`);
-        } else {
-            // Fallback: just prepend
-            jsxContent = jsxContent.slice(0, galleryStart) + newCard + jsxContent.slice(galleryStart);
-            fs.writeFileSync(CONFIG.homeFile, jsxContent, "utf8");
-            console.log(`🏠 Updated Home.jsx with featured blog "${articleData.title}" (prepended)`);
-        }
+        fs.writeFileSync(CONFIG.homeFile, jsxContent, "utf8");
+        console.log(`🏠 Updated Home.jsx with featured blog "${articleData.title}"`);
     } else {
         console.warn("⚠️ Could not find Latest Fashion Insights section in Home.jsx - skipping Home page update (article still created successfully)");
     }

@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Sustainable Fashion: How Eco-Conscious Styling is Reshaping Modern Wardrobes */}
+                <Link to="/blogs/the-art-of-sustainable-fashion-how-eco-conscious-styling-is-reshaping-modern-wardrobes" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #4ade80 0%, #059669 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-leaf blog-icon" style={{ color: '#10b981' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Sustainable Fashion: How Eco-Conscious Styling is Reshaping Modern Wardrobes</h2>
+                        <p style={{ color: '#fff' }}>Discover how sustainable fashion is evolving beyond just eco-friendly materials to become a sophisticated style movement. Learn practical strategies for building a conscious wardrobe that's both environmentally responsible and effortlessly chic.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Renaissance of Vintage-Inspired Workwear: How Heritage Craft Clothing Is Revolutionizing Modern Professional Style */}
                 <Link to="/blogs/the-renaissance-of-vintage-inspired-workwear-how-heritage-craft-clothing-is-revolutionizing-modern-professional-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #8B4513 0%, #D2691E 100%)' }}>
                     <div className="blog-icon-wrapper">
