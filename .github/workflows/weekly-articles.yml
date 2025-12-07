@@ -44,7 +44,11 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/generate-article.js
       
-      # ✅ 6. Commit & Push new article
+      # ✅ 6. Build the site (copies blogs to docs/blogs)
+      - name: Build Site
+        run: npm run build
+      
+      # ✅ 7. Commit & Push new article
       - name: Commit and Push new article
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

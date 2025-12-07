@@ -134,7 +134,7 @@ function createArticleHTML(articleData) {
 
     // Update content
     const introText = `This ${articleData.category.toLowerCase()} guide explores the latest trends and styling strategies. ${articleData.summary}`;
-    
+
     $(".blog-post-content > p").first().html(`
         <span style="font-size: 1.1em; line-height: 1.7; margin-bottom: 30px;">
             ${introText}
@@ -160,17 +160,17 @@ function updateFashionBlogPage(articleData) {
 
     const slug = toSlug(articleData.title);
     const gradient = `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`;
-    
-    // Create new blog card
+
+    // Create new blog card - note the color needs to be #fff not #ffffffff
     const newCard = `
                 {/* NEW ARTICLE: ${articleData.title} */}
-                <Link to="/blogs/${slug}" className="gallery-item blog-card" style={{ '--card-gradient': '${gradient}' }}>
+                <Link to="/blogs/${slug}" className="gallery-item blog-card" style={{ '--card-gradient': '${gradient}', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
                         <i className="${articleData.iconClass} blog-icon" style={{ color: '${articleData.iconColor}' }}></i>
                     </div>
                     <div className="blog-text">
-                        <h2 style={{ color: '#ffffffff' }}>${articleData.title}</h2>
-                        <p style={{ color: '#ffffffff' }}>${articleData.summary}</p>
+                        <h2 style={{ color: '#fff' }}>${articleData.title}</h2>
+                        <p style={{ color: '#fff' }}>${articleData.summary}</p>
                     </div>
                 </Link>
 `;
@@ -180,7 +180,7 @@ function updateFashionBlogPage(articleData) {
     if (galleryMatch) {
         const insertIndex = galleryMatch.index + galleryMatch[0].length;
         jsxContent = jsxContent.slice(0, insertIndex) + newCard + jsxContent.slice(insertIndex);
-        
+
         fs.writeFileSync(CONFIG.fashionBlogFile, jsxContent, "utf8");
         console.log(`🧩 Updated FashionBlog.jsx with "${articleData.title}"`);
     } else {
@@ -198,7 +198,7 @@ function updateHomePage(articleData) {
 
     const slug = toSlug(articleData.title);
     const gradient = `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`;
-    
+
     // Create featured blog card for home page
     const newCard = `
                     {/* Featured Blog: ${articleData.title} */}
@@ -217,14 +217,41 @@ function updateHomePage(articleData) {
                     </Link>
 `;
 
-    // Find the "Latest Fashion Insights" section - more flexible regex
-    const insightsGalleryMatch = jsxContent.match(/Latest Fashion Insights[\s\S]{0,200}?<div className="gallery">/);
-    if (insightsGalleryMatch) {
-        const insertIndex = insightsGalleryMatch.index + insightsGalleryMatch[0].length;
-        jsxContent = jsxContent.slice(0, insertIndex) + newCard + jsxContent.slice(insertIndex);
-        
-        fs.writeFileSync(CONFIG.homeFile, jsxContent, "utf8");
-        console.log(`🏠 Updated Home.jsx with featured blog "${articleData.title}"`);
+    // Find the "Latest Fashion Insights" section
+    const insightsMatch = jsxContent.match(/Latest Fashion Insights[\s\S]{0,200}?<div className="gallery">/);
+    if (insightsMatch) {
+        const galleryStart = insightsMatch.index + insightsMatch[0].length;
+
+        // Find the end of this gallery section (next closing </div> after 4 blog cards)
+        const afterGallery = jsxContent.indexOf('</div>\n            </div>', galleryStart);
+
+        if (afterGallery > galleryStart) {
+            // Find all existing blog cards in this section
+            const gallerySection = jsxContent.substring(galleryStart, afterGallery);
+            const blogCards = gallerySection.match(/{\/\* Featured Blog:[\s\S]*?<\/Link>/g) || [];
+
+            // If we have 4 cards, remove the last one to make room for the new one
+            if (blogCards.length >= 4) {
+                const lastCardStart = jsxContent.lastIndexOf(blogCards[blogCards.length - 1], afterGallery);
+                jsxContent = jsxContent.slice(0, lastCardStart) + jsxContent.slice(afterGallery);
+
+                // Recalculate insertion point
+                const newInsightsMatch = jsxContent.match(/Latest Fashion Insights[\s\S]{0,200}?<div className="gallery">/);
+                const newInsertIndex = newInsightsMatch.index + newInsightsMatch[0].length;
+                jsxContent = jsxContent.slice(0, newInsertIndex) + newCard + jsxContent.slice(newInsertIndex);
+            } else {
+                // If less than 4 cards, just prepend
+                jsxContent = jsxContent.slice(0, galleryStart) + newCard + jsxContent.slice(galleryStart);
+            }
+
+            fs.writeFileSync(CONFIG.homeFile, jsxContent, "utf8");
+            console.log(`🏠 Updated Home.jsx with featured blog "${articleData.title}"`);
+        } else {
+            // Fallback: just prepend
+            jsxContent = jsxContent.slice(0, galleryStart) + newCard + jsxContent.slice(galleryStart);
+            fs.writeFileSync(CONFIG.homeFile, jsxContent, "utf8");
+            console.log(`🏠 Updated Home.jsx with featured blog "${articleData.title}" (prepended)`);
+        }
     } else {
         console.warn("⚠️ Could not find Latest Fashion Insights section in Home.jsx - skipping Home page update (article still created successfully)");
     }
@@ -244,7 +271,7 @@ async function main() {
         fs.writeFileSync(outputPath, html, "utf8");
 
         console.log(`✅ Created new article: ${outputPath}`);
-        
+
         updateFashionBlogPage(articleData);
         updateHomePage(articleData);
 

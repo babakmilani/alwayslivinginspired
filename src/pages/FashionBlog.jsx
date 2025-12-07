@@ -25,7 +25,9 @@ function closeModal(modalId) {
 
 const FashionBlog = () => {
     return (
-        <>
+
+
+        <div className="fashion-blog-page">
             {/* ⭐️ AD PLACEHOLDER 1: TOP OF PAGE ⭐️ */}
             <div className="adsense-placeholder top-ad">
                 {/* When approved, replace this comment with your AdSense code */}
@@ -205,8 +207,8 @@ const FashionBlog = () => {
                 Google AdSense Ad - Bottom Placeholder (e.g., Large Rectangle)
             </div>
 
+        </div>
 
-        </>
     );
 };
 

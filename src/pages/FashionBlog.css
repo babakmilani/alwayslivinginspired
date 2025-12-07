@@ -245,3 +245,14 @@
         margin-top: 20px !important;
     }
 }
+
+/* Fashion Blog Page Wrapper - clears fixed header */
+.fashion-blog-page {
+    padding-top: 210px;
+}
+
+@media (max-width: 768px) {
+    .fashion-blog-page {
+        padding-top: 280px;
+    }
+}
