@@ -42,6 +42,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Renaissance of Vintage-Inspired Workwear: How Heritage Craft Clothing Is Revolutionizing Modern Professional Style */}
+                <Link to="/blogs/the-renaissance-of-vintage-inspired-workwear-how-heritage-craft-clothing-is-revolutionizing-modern-professional-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #8B4513 0%, #D2691E 100%)' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-hard-hat blog-icon" style={{ color: '#CD853F' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#ffffffff' }}>The Renaissance of Vintage-Inspired Workwear: How Heritage Craft Clothing Is Revolutionizing Modern Professional Style</h2>
+                        <p style={{ color: '#ffffffff' }}>Vintage-inspired workwear is making a powerful comeback, blending authentic craftsmanship with contemporary professional needs. This comprehensive guide explores how heritage brands and traditional techniques are reshaping modern workplace fashion.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Rise of Maximalist Jewelry: How Bold Statement Pieces Are Redefining Personal Style */}
                 <Link to="/blogs/the-rise-of-maximalist-jewelry-how-bold-statement-pieces-are-redefining-personal-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ffd700 0%, #ff6b6b 100%)' }}>
                     <div className="blog-icon-wrapper">
