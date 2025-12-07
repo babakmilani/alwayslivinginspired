@@ -42,6 +42,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Rise of Maximalist Jewelry: How Bold Statement Pieces Are Redefining Personal Style */}
+                <Link to="/blogs/the-rise-of-maximalist-jewelry-how-bold-statement-pieces-are-redefining-personal-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ffd700 0%, #ff6b6b 100%)' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-gem blog-icon" style={{ color: '#ffd700' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#ffffffff' }}>The Rise of Maximalist Jewelry: How Bold Statement Pieces Are Redefining Personal Style</h2>
+                        <p style={{ color: '#ffffffff' }}>After years of minimalist jewelry dominating fashion, maximalist accessories are making a powerful comeback. From chunky chains to layered statement pieces, bold jewelry is becoming the ultimate form of self-expression and personal branding.</p>
+                    </div>
+                </Link>
+
 
                 {/* 1. NEW ARTICLE: 8 Defining Trends (8-Trends-set-for-Fall-2025.html) */}
                 <Link to="/blogs/8-Trends-set-for-Fall-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #434343 0%, #000000 100%)', color: '#fff' }}>
