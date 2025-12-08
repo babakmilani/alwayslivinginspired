@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Revival of Power Dressing: How Contemporary Blazers Are Defining Professional Confidence in 2025 */}
+                    <Link
+                        to="/blogs/the-revival-of-power-dressing-how-contemporary-blazers-are-defining-professional-confidence-in-2025"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #2E3192 0%, #1BFFFF 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-user-tie blog-icon" style={{ color: '#2E3192' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Revival of Power Dressing: How Contemporary Blazers Are Defining Professional Confidence in 2025</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Discover how the modern blazer has evolved beyond traditional suiting to become the ultimate symbol of professional power and personal style. From oversized silhouettes to unexpected textures, explore the blazer trends that are reshaping workplace fashion.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Sustainable Fashion: How Eco-Conscious Styling is Reshaping Modern Wardrobes */}
                     <Link
                         to="/blogs/the-art-of-sustainable-fashion-how-eco-conscious-styling-is-reshaping-modern-wardrobes"
