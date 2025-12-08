@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Revival of Power Dressing: How Contemporary Blazers Are Defining Professional Confidence in 2025 */}
+                <Link to="/blogs/the-revival-of-power-dressing-how-contemporary-blazers-are-defining-professional-confidence-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #2E3192 0%, #1BFFFF 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-user-tie blog-icon" style={{ color: '#2E3192' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Revival of Power Dressing: How Contemporary Blazers Are Defining Professional Confidence in 2025</h2>
+                        <p style={{ color: '#fff' }}>Discover how the modern blazer has evolved beyond traditional suiting to become the ultimate symbol of professional power and personal style. From oversized silhouettes to unexpected textures, explore the blazer trends that are reshaping workplace fashion.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Art of Sustainable Fashion: How Eco-Conscious Styling is Reshaping Modern Wardrobes */}
                 <Link to="/blogs/the-art-of-sustainable-fashion-how-eco-conscious-styling-is-reshaping-modern-wardrobes" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #4ade80 0%, #059669 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
