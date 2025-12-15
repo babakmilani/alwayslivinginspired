@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Minimalist Renaissance: How Clean Lines and Quiet Luxury Are Defining 2025's Fashion Movement */}
+                <Link to="/blogs/the-minimalist-renaissance-how-clean-lines-and-quiet-luxury-are-defining-2025s-fashion-movement" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-gem blog-icon" style={{ color: '#646cff' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Minimalist Renaissance: How Clean Lines and Quiet Luxury Are Defining 2025's Fashion Movement</h2>
+                        <p style={{ color: '#fff' }}>Discover how minimalist fashion is experiencing a sophisticated revival, blending timeless elegance with modern innovation. From capsule wardrobes to investment pieces that transcend seasons, explore the art of refined simplicity that's reshaping contemporary style.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Revival of Power Dressing: How Contemporary Blazers Are Defining Professional Confidence in 2025 */}
                 <Link to="/blogs/the-revival-of-power-dressing-how-contemporary-blazers-are-defining-professional-confidence-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #2E3192 0%, #1BFFFF 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
