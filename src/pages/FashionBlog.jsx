@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Digital Fashion Revolution: How Virtual Styling and AI-Powered Wardrobes Are Transforming Personal Style in 2025 */}
+                <Link to="/blogs/the-digital-fashion-revolution-how-virtual-styling-and-ai-powered-wardrobes-are-transforming-personal-style-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-robot blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Digital Fashion Revolution: How Virtual Styling and AI-Powered Wardrobes Are Transforming Personal Style in 2025</h2>
+                        <p style={{ color: '#fff' }}>Explore how cutting-edge technology is revolutionizing the way we approach fashion, from AI-powered style recommendations to virtual try-on experiences. Discover the tools and trends that are making personal styling more accessible, sustainable, and personalized than ever before.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Minimalist Renaissance: How Clean Lines and Quiet Luxury Are Defining 2025's Fashion Movement */}
                 <Link to="/blogs/the-minimalist-renaissance-how-clean-lines-and-quiet-luxury-are-defining-2025s-fashion-movement" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

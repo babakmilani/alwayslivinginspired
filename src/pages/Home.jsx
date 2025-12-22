@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Digital Fashion Revolution: How Virtual Styling and AI-Powered Wardrobes Are Transforming Personal Style in 2025 */}
+                    <Link
+                        to="/blogs/the-digital-fashion-revolution-how-virtual-styling-and-ai-powered-wardrobes-are-transforming-personal-style-in-2025"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-robot blog-icon" style={{ color: '#667eea' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Digital Fashion Revolution: How Virtual Styling and AI-Powered Wardrobes Are Transforming Personal Style in 2025</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Explore how cutting-edge technology is revolutionizing the way we approach fashion, from AI-powered style recommendations to virtual try-on experiences. Discover the tools and trends that are making personal styling more accessible, sustainable, and personalized than ever before.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Minimalist Renaissance: How Clean Lines and Quiet Luxury Are Defining 2025's Fashion Movement */}
                     <Link
                         to="/blogs/the-minimalist-renaissance-how-clean-lines-and-quiet-luxury-are-defining-2025s-fashion-movement"
