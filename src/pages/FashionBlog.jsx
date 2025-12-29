@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Color Blocking: Mastering Bold Combinations for Modern Style */}
+                <Link to="/blogs/the-art-of-color-blocking-mastering-bold-combinations-for-modern-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-palette blog-icon" style={{ color: '#ff6b6b' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Color Blocking: Mastering Bold Combinations for Modern Style</h2>
+                        <p style={{ color: '#fff' }}>Color blocking has emerged as one of the most powerful styling techniques of 2025, allowing fashion enthusiasts to create striking, confident looks through strategic color pairing. This comprehensive guide explores how to master this vibrant trend with sophistication and personal flair.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Digital Fashion Revolution: How Virtual Styling and AI-Powered Wardrobes Are Transforming Personal Style in 2025 */}
                 <Link to="/blogs/the-digital-fashion-revolution-how-virtual-styling-and-ai-powered-wardrobes-are-transforming-personal-style-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

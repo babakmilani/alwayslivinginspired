@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Art of Color Blocking: Mastering Bold Combinations for Modern Style */}
+                    <Link
+                        to="/blogs/the-art-of-color-blocking-mastering-bold-combinations-for-modern-style"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-palette blog-icon" style={{ color: '#ff6b6b' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Art of Color Blocking: Mastering Bold Combinations for Modern Style</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Color blocking has emerged as one of the most powerful styling techniques of 2025, allowing fashion enthusiasts to create striking, confident looks through strategic color pairing. This comprehensive guide explores how to master this vibrant trend with sophistication and personal flair.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Digital Fashion Revolution: How Virtual Styling and AI-Powered Wardrobes Are Transforming Personal Style in 2025 */}
                     <Link
                         to="/blogs/the-digital-fashion-revolution-how-virtual-styling-and-ai-powered-wardrobes-are-transforming-personal-style-in-2025"
