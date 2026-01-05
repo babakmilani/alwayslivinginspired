@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Transitional Dressing: Mastering Climate-Adaptive Fashion for the Modern Wardrobe */}
+                <Link to="/blogs/the-art-of-transitional-dressing-mastering-climate-adaptive-fashion-for-the-modern-wardrobe" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-thermometer-half blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Transitional Dressing: Mastering Climate-Adaptive Fashion for the Modern Wardrobe</h2>
+                        <p style={{ color: '#fff' }}>As global weather patterns become increasingly unpredictable, mastering the art of transitional dressing has become essential for the modern fashion-conscious individual. This comprehensive guide explores innovative layering techniques, versatile pieces, and climate-responsive styling strategies that ensure you look polished regardless of temperature fluctuations.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Art of Color Blocking: Mastering Bold Combinations for Modern Style */}
                 <Link to="/blogs/the-art-of-color-blocking-mastering-bold-combinations-for-modern-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

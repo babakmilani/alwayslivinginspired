@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Art of Transitional Dressing: Mastering Climate-Adaptive Fashion for the Modern Wardrobe */}
+                    <Link
+                        to="/blogs/the-art-of-transitional-dressing-mastering-climate-adaptive-fashion-for-the-modern-wardrobe"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-thermometer-half blog-icon" style={{ color: '#667eea' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Art of Transitional Dressing: Mastering Climate-Adaptive Fashion for the Modern Wardrobe</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>As global weather patterns become increasingly unpredictable, mastering the art of transitional dressing has become essential for the modern fashion-conscious individual. This comprehensive guide explores innovative layering techniques, versatile pieces, and climate-responsive styling strategies that ensure you look polished regardless of temperature fluctuations.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Color Blocking: Mastering Bold Combinations for Modern Style */}
                     <Link
                         to="/blogs/the-art-of-color-blocking-mastering-bold-combinations-for-modern-style"
