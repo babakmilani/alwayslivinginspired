@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The New Romantic: How Cottagecore-Inspired Evening Wear is Transforming Modern Formal Dressing */}
+                <Link to="/blogs/the-new-romantic-how-cottagecore-inspired-evening-wear-is-transforming-modern-formal-dressing" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-leaf blog-icon" style={{ color: '#e91e63' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The New Romantic: How Cottagecore-Inspired Evening Wear is Transforming Modern Formal Dressing</h2>
+                        <p style={{ color: '#fff' }}>Discover how the romantic cottagecore aesthetic is revolutionizing evening wear with prairie-inspired silhouettes, artisanal details, and sustainable luxury. This comprehensive guide explores how to master the new romantic formal style that's captivating fashion enthusiasts worldwide.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Art of Transitional Dressing: Mastering Climate-Adaptive Fashion for the Modern Wardrobe */}
                 <Link to="/blogs/the-art-of-transitional-dressing-mastering-climate-adaptive-fashion-for-the-modern-wardrobe" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

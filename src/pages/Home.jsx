@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The New Romantic: How Cottagecore-Inspired Evening Wear is Transforming Modern Formal Dressing */}
+                    <Link
+                        to="/blogs/the-new-romantic-how-cottagecore-inspired-evening-wear-is-transforming-modern-formal-dressing"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-leaf blog-icon" style={{ color: '#e91e63' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The New Romantic: How Cottagecore-Inspired Evening Wear is Transforming Modern Formal Dressing</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Discover how the romantic cottagecore aesthetic is revolutionizing evening wear with prairie-inspired silhouettes, artisanal details, and sustainable luxury. This comprehensive guide explores how to master the new romantic formal style that's captivating fashion enthusiasts worldwide.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Transitional Dressing: Mastering Climate-Adaptive Fashion for the Modern Wardrobe */}
                     <Link
                         to="/blogs/the-art-of-transitional-dressing-mastering-climate-adaptive-fashion-for-the-modern-wardrobe"
