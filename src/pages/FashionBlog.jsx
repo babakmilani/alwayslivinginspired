@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Elevated Casual: How Contemporary Comfort Wear is Redefining Modern Sophistication */}
+                <Link to="/blogs/the-art-of-elevated-casual-how-contemporary-comfort-wear-is-redefining-modern-sophistication" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-tshirt blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Elevated Casual: How Contemporary Comfort Wear is Redefining Modern Sophistication</h2>
+                        <p style={{ color: '#fff' }}>Discover how the elevated casual movement is transforming everyday comfort wear into sophisticated fashion statements. This comprehensive guide explores the techniques, key pieces, and styling secrets that make casual clothing look effortlessly chic and intentionally curated.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The New Romantic: How Cottagecore-Inspired Evening Wear is Transforming Modern Formal Dressing */}
                 <Link to="/blogs/the-new-romantic-how-cottagecore-inspired-evening-wear-is-transforming-modern-formal-dressing" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
