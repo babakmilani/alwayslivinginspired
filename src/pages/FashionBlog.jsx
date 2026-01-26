@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Androgynous Fashion Revolution: How Gender-Neutral Styling is Reshaping Contemporary Fashion */}
+                <Link to="/blogs/the-androgynous-fashion-revolution-how-gender-neutral-styling-is-reshaping-contemporary-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-venus-mars blog-icon" style={{ color: '#7c3aed' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Androgynous Fashion Revolution: How Gender-Neutral Styling is Reshaping Contemporary Fashion</h2>
+                        <p style={{ color: '#fff' }}>Explore the transformative power of androgynous fashion as it breaks traditional gender barriers and creates a new paradigm for self-expression. This comprehensive guide reveals how to master the art of gender-neutral styling for a more inclusive and versatile wardrobe.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Art of Elevated Casual: How Contemporary Comfort Wear is Redefining Modern Sophistication */}
                 <Link to="/blogs/the-art-of-elevated-casual-how-contemporary-comfort-wear-is-redefining-modern-sophistication" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
