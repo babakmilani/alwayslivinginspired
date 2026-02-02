@@ -44,6 +44,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Layered Textures: How Mixed-Media Fashion is Creating Depth in Modern Style */}
+                <Link to="/blogs/the-art-of-layered-textures-how-mixed-media-fashion-is-creating-depth-in-modern-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-layer-group blog-icon" style={{ color: '#764ba2' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Layered Textures: How Mixed-Media Fashion is Creating Depth in Modern Style</h2>
+                        <p style={{ color: '#fff' }}>Discover how the strategic combination of contrasting textures and materials is revolutionizing contemporary fashion, creating visually compelling outfits that tell stories through tactile experiences. This comprehensive guide explores the art of mixing silk with denim, leather with knits, and other unexpected combinations that are defining modern style.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Androgynous Fashion Revolution: How Gender-Neutral Styling is Reshaping Contemporary Fashion */}
                 <Link to="/blogs/the-androgynous-fashion-revolution-how-gender-neutral-styling-is-reshaping-contemporary-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
