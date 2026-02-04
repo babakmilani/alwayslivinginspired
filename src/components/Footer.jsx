@@ -35,7 +35,7 @@ const Footer = () => {
           {/* ⭐️ HOLYSMOKAS SLEEK ADVERTISEMENT START ⭐️ */}
           <span style={{ color: '#ccc', padding: '0 10px' }}>|</span>
           <a
-            href="http://www.holysmokas.com"
+            href="http://www.milanilabs.com"
             target="_blank"
             rel="noopener noreferrer"
             style={holysmokasStyle}
@@ -43,7 +43,7 @@ const Footer = () => {
             onMouseEnter={e => e.target.style.color = '#555'}
             onMouseLeave={e => e.target.style.color = holysmokasStyle.color}
           >
-            Built with Holysmokas
+            Built with Milani Labs
           </a>
           {/* ⭐️ HOLYSMOKAS SLEEK ADVERTISEMENT END ⭐️ */}
 
