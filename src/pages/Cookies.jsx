@@ -45,7 +45,7 @@ const Cookies = () => {
             <p>We reserve the right to update this Cookie Policy at any time to reflect changes to our practices or for other operational, legal, or regulatory reasons. We will notify you of any changes by posting the new policy on this page.</p>
 
             <h3>Contact Us</h3>
-            <p>If you have any questions about this Cookie Policy, you can contact us at: livinginspiredsince1958@gmail.com</p>
+            <p>If you have any questions about this Cookie Policy, you can contact us at: support@alwayslivinginspired.com</p>
         </div>
     );
 

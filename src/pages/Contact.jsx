@@ -4,7 +4,7 @@ import './Contact.css';
 import '../pages/Home.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faPhone, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faYoutube, faTiktok, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -66,7 +66,7 @@ const Contact = () => {
                 We'd love to hear from you! Whether you have questions about our apparel, an order inquiry, or just want to share your inspired story, reach out using the form or the details below.
             </p>
 
-            
+
 
             <div className="contact-grid">
                 {/* Contact Information Column */}
@@ -89,14 +89,14 @@ const Contact = () => {
 
                     <h3 className='mt-8'>Follow Us</h3>
                     <div className="flex space-x-4">
-                        <a href="https://facebook.com/alwayslivinginspired" aria-label="Facebook">
-                            <FontAwesomeIcon icon={faFacebook} size="2x" className="text-[#3b5998] hover:scale-110 transition-transform" />
+                        <a href="https://youtube.com/@alwayslivinginspired" aria-label="YouTube">
+                            <FontAwesomeIcon icon={faYoutube} size="2x" className="text-[#FF0000] hover:scale-110 transition-transform" />
+                        </a>
+                        <a href="https://tiktok.com/@alwayslivinginspired" aria-label="TikTok">
+                            <FontAwesomeIcon icon={faTiktok} size="2x" className="text-[#000000] hover:scale-110 transition-transform" />
                         </a>
                         <a href="https://instagram.com/alwayslivinginspired" aria-label="Instagram">
                             <FontAwesomeIcon icon={faInstagram} size="2x" className="text-[#E1306C] hover:scale-110 transition-transform" />
-                        </a>
-                        <a href="https://twitter.com/ali_apparel" aria-label="Twitter">
-                            <FontAwesomeIcon icon={faTwitter} size="2x" className="text-[#1DA1F2] hover:scale-110 transition-transform" />
                         </a>
                     </div>
                 </div>
@@ -188,7 +188,7 @@ const Contact = () => {
                 </div>
             </div>
 
-            
+
         </div>
     );
 

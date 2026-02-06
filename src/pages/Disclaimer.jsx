@@ -27,7 +27,7 @@ const Disclaimer = () => {
             <p>Your use of the site and your reliance on any information on the site is solely at your own risk. By using this website, you agree to these terms.</p>
 
             <h3>Contact Us</h3>
-            <p>Should you have any feedback, comments, requests for technical support or other inquiries, please contact us by email: livinginspiredsince1958@gmail.com</p>
+            <p>Should you have any feedback, comments, requests for technical support or other inquiries, please contact us by email: support@alwayslivinginspired.com</p>
         </div>
     );
 
