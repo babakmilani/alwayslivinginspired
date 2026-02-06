@@ -30,12 +30,12 @@ const Footer = () => {
         </div>
 
         <div className="footer-copyright">
-          &copy; 2025 Always Living Inspired
+          &copy; 2026 Always Living Inspired
 
           {/* ⭐️ HOLYSMOKAS SLEEK ADVERTISEMENT START ⭐️ */}
           <span style={{ color: '#ccc', padding: '0 10px' }}>|</span>
           <a
-            href="http://www.milanilabs.com"
+            href="https://milanilabs.com"
             target="_blank"
             rel="noopener noreferrer"
             style={holysmokasStyle}

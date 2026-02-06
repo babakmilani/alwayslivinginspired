@@ -75,15 +75,15 @@ const Contact = () => {
                     <div className="contact-details-list">
                         <div className="contact-detail">
                             <FontAwesomeIcon icon={faEnvelope} />
-                            <a href="mailto:livinginspiredsince1958@gmail.com">livinginspiredsince1958@gmail.com</a>
+                            <a href="mailto:support@alwayslivinginspired.com">support@alwayslivinginspired.com</a>
                         </div>
                         <div className="contact-detail">
                             <FontAwesomeIcon icon={faPhone} />
-                            <p>(646) 410 - 9559</p>
+                            <p>(415) 691 - 7085</p>
                         </div>
                         <div className="contact-detail">
                             <FontAwesomeIcon icon={faMapMarkerAlt} />
-                            <p>534 W 112th Street Nr. 250225, New York, NY 10025</p>
+                            <p>791 Valencia Street San Francisco CA 94110</p>
                         </div>
                     </div>
 

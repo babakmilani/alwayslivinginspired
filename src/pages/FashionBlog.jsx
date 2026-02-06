@@ -28,12 +28,7 @@ const FashionBlog = () => {
 
 
         <div className="fashion-blog-page">
-            {/* ⭐️ AD PLACEHOLDER 1: TOP OF PAGE ⭐️ */}
-            <div className="adsense-placeholder top-ad">
-                {/* When approved, replace this comment with your AdSense code */}
-                Google AdSense Ad - Top Placeholder (e.g., Leaderboard or Banner)
-            </div>
-
+            
             {/* Blog Header Section */}
             <div className="blog-header">
                 <h1>Fashion & Style Blog</h1>
@@ -320,12 +315,6 @@ const FashionBlog = () => {
                     </div>
                 </Link>
 
-            </div>
-
-            {/* ⭐️ AD PLACEHOLDER 2: BOTTOM OF PAGE ⭐️ */}
-            <div className="adsense-placeholder bottom-ad">
-                {/* When approved, replace this comment with your AdSense code */}
-                Google AdSense Ad - Bottom Placeholder (e.g., Large Rectangle)
             </div>
 
         </div>

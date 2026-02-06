@@ -55,8 +55,8 @@ const PrivacyPolicy = () => {
 
             <h3>9. Contact Us</h3>
             <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-            <p>Email: livinginspiredsince1958@gmail.com</p>
-            <p>Address: 534 West 112th Street nr. 250225, New York, NY 10025</p>
+            <p>Email: support@alwayslivinginspired.com</p>
+            <p>Address: 791 Valencia Street San Francisco CA 94110</p>
         </div>
     );
 
