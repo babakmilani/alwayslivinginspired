@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Effortless Elegance: How French Girl Style is Redefining Modern Sophistication */}
+                <Link to="/blogs/the-art-of-effortless-elegance-how-french-girl-style-is-redefining-modern-sophistication" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b8a 0%, #4ecdc4 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-heart blog-icon" style={{ color: '#ff6b8a' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Effortless Elegance: How French Girl Style is Redefining Modern Sophistication</h2>
+                        <p style={{ color: '#fff' }}>Discover the timeless secrets of French girl style and learn how to master the art of effortless elegance. This comprehensive guide breaks down the essential elements, key pieces, and styling philosophy that make this aesthetic eternally chic.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Art of Layered Textures: How Mixed-Media Fashion is Creating Depth in Modern Style */}
                 <Link to="/blogs/the-art-of-layered-textures-how-mixed-media-fashion-is-creating-depth-in-modern-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

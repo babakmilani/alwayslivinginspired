@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Art of Effortless Elegance: How French Girl Style is Redefining Modern Sophistication */}
+                    <Link
+                        to="/blogs/the-art-of-effortless-elegance-how-french-girl-style-is-redefining-modern-sophistication"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #ff6b8a 0%, #4ecdc4 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-heart blog-icon" style={{ color: '#ff6b8a' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Art of Effortless Elegance: How French Girl Style is Redefining Modern Sophistication</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Discover the timeless secrets of French girl style and learn how to master the art of effortless elegance. This comprehensive guide breaks down the essential elements, key pieces, and styling philosophy that make this aesthetic eternally chic.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Layered Textures: How Mixed-Media Fashion is Creating Depth in Modern Style */}
                     <Link
                         to="/blogs/the-art-of-layered-textures-how-mixed-media-fashion-is-creating-depth-in-modern-style"
