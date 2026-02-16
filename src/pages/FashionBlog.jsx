@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Mirror Method: How Self-Styling Technology and Smart Wardrobes Are Revolutionizing Personal Fashion */}
+                <Link to="/blogs/the-mirror-method-how-self-styling-technology-and-smart-wardrobes-are-revolutionizing-personal-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-mirror blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Mirror Method: How Self-Styling Technology and Smart Wardrobes Are Revolutionizing Personal Fashion</h2>
+                        <p style={{ color: '#fff' }}>Explore how smart mirrors, AI styling assistants, and tech-integrated wardrobes are transforming the way we approach personal style. From virtual try-ons to mood-responsive outfit curation, discover the future of fashion at your fingertips.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Art of Effortless Elegance: How French Girl Style is Redefining Modern Sophistication */}
                 <Link to="/blogs/the-art-of-effortless-elegance-how-french-girl-style-is-redefining-modern-sophistication" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b8a 0%, #4ecdc4 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Mirror Method: How Self-Styling Technology and Smart Wardrobes Are Revolutionizing Personal Fashion */}
+                    <Link
+                        to="/blogs/the-mirror-method-how-self-styling-technology-and-smart-wardrobes-are-revolutionizing-personal-fashion"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-mirror blog-icon" style={{ color: '#667eea' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Mirror Method: How Self-Styling Technology and Smart Wardrobes Are Revolutionizing Personal Fashion</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Explore how smart mirrors, AI styling assistants, and tech-integrated wardrobes are transforming the way we approach personal style. From virtual try-ons to mood-responsive outfit curation, discover the future of fashion at your fingertips.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Effortless Elegance: How French Girl Style is Redefining Modern Sophistication */}
                     <Link
                         to="/blogs/the-art-of-effortless-elegance-how-french-girl-style-is-redefining-modern-sophistication"
