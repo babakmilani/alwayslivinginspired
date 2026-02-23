@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Artisan Revival: How Handcrafted Fashion is Redefining Luxury in the Digital Age */}
+                <Link to="/blogs/the-artisan-revival-how-handcrafted-fashion-is-redefining-luxury-in-the-digital-age" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #8B4513 0%, #DEB887 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-hands blog-icon" style={{ color: '#8B4513' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Artisan Revival: How Handcrafted Fashion is Redefining Luxury in the Digital Age</h2>
+                        <p style={{ color: '#fff' }}>Discover how the resurgence of handcrafted fashion is challenging fast fashion dominance, with artisan-made pieces becoming the ultimate status symbol. From hand-embroidered details to traditional weaving techniques, explore how to incorporate authentic craftsmanship into your modern wardrobe.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Mirror Method: How Self-Styling Technology and Smart Wardrobes Are Revolutionizing Personal Fashion */}
                 <Link to="/blogs/the-mirror-method-how-self-styling-technology-and-smart-wardrobes-are-revolutionizing-personal-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
