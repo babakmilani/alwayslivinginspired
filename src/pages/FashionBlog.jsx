@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Tech-Fashion Fusion: How Smart Accessories Are Revolutionizing Personal Style in 2025 */}
+                <Link to="/blogs/the-tech-fashion-fusion-how-smart-accessories-are-revolutionizing-personal-style-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-microchip blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Tech-Fashion Fusion: How Smart Accessories Are Revolutionizing Personal Style in 2025</h2>
+                        <p style={{ color: '#fff' }}>Explore the groundbreaking intersection of technology and fashion as smart accessories transform how we express personal style. From AI-powered jewelry to adaptive footwear, discover how tech-infused fashion pieces are creating a new era of intelligent style.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Artisan Revival: How Handcrafted Fashion is Redefining Luxury in the Digital Age */}
                 <Link to="/blogs/the-artisan-revival-how-handcrafted-fashion-is-redefining-luxury-in-the-digital-age" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #8B4513 0%, #DEB887 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Tech-Fashion Fusion: How Smart Accessories Are Revolutionizing Personal Style in 2025 */}
+                    <Link
+                        to="/blogs/the-tech-fashion-fusion-how-smart-accessories-are-revolutionizing-personal-style-in-2025"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-microchip blog-icon" style={{ color: '#667eea' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Tech-Fashion Fusion: How Smart Accessories Are Revolutionizing Personal Style in 2025</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Explore the groundbreaking intersection of technology and fashion as smart accessories transform how we express personal style. From AI-powered jewelry to adaptive footwear, discover how tech-infused fashion pieces are creating a new era of intelligent style.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Artisan Revival: How Handcrafted Fashion is Redefining Luxury in the Digital Age */}
                     <Link
                         to="/blogs/the-artisan-revival-how-handcrafted-fashion-is-redefining-luxury-in-the-digital-age"
