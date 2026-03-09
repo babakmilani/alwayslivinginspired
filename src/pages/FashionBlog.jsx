@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Micro-Trend Revolution: How Viral Fashion Moments Are Reshaping How We Shop and Style */}
+                <Link to="/blogs/the-micro-trend-revolution-how-viral-fashion-moments-are-reshaping-how-we-shop-and-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-mobile-alt blog-icon" style={{ color: '#ff6b9d' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Micro-Trend Revolution: How Viral Fashion Moments Are Reshaping How We Shop and Style</h2>
+                        <p style={{ color: '#fff' }}>From TikTok-driven aesthetics to Instagram-inspired micro-trends, social media is creating fashion cycles that last weeks instead of seasons. We explore how to navigate this fast-paced style landscape while building a thoughtful, adaptable wardrobe.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Tech-Fashion Fusion: How Smart Accessories Are Revolutionizing Personal Style in 2025 */}
                 <Link to="/blogs/the-tech-fashion-fusion-how-smart-accessories-are-revolutionizing-personal-style-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

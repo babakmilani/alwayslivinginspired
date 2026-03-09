@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Micro-Trend Revolution: How Viral Fashion Moments Are Reshaping How We Shop and Style */}
+                    <Link
+                        to="/blogs/the-micro-trend-revolution-how-viral-fashion-moments-are-reshaping-how-we-shop-and-style"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-mobile-alt blog-icon" style={{ color: '#ff6b9d' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Micro-Trend Revolution: How Viral Fashion Moments Are Reshaping How We Shop and Style</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>From TikTok-driven aesthetics to Instagram-inspired micro-trends, social media is creating fashion cycles that last weeks instead of seasons. We explore how to navigate this fast-paced style landscape while building a thoughtful, adaptable wardrobe.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Tech-Fashion Fusion: How Smart Accessories Are Revolutionizing Personal Style in 2025 */}
                     <Link
                         to="/blogs/the-tech-fashion-fusion-how-smart-accessories-are-revolutionizing-personal-style-in-2025"
