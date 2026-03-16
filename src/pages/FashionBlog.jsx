@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Capsule Wardrobe Building: Creating Maximum Style with Minimal Pieces in 2025 */}
+                <Link to="/blogs/the-art-of-capsule-wardrobe-building-creating-maximum-style-with-minimal-pieces-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-layer-group blog-icon" style={{ color: '#646cff' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Capsule Wardrobe Building: Creating Maximum Style with Minimal Pieces in 2025</h2>
+                        <p style={{ color: '#fff' }}>Discover how to build a strategic capsule wardrobe that maximizes style versatility while minimizing clutter. Learn the essential pieces, color coordination strategies, and styling formulas that create endless outfit possibilities from just 30-40 carefully chosen items.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Micro-Trend Revolution: How Viral Fashion Moments Are Reshaping How We Shop and Style */}
                 <Link to="/blogs/the-micro-trend-revolution-how-viral-fashion-moments-are-reshaping-how-we-shop-and-style" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
