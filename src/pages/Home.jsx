@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Art of Pattern Mixing: Mastering the Bold Trend Reshaping Contemporary Style in 2025 */}
+                    <Link
+                        to="/blogs/the-art-of-pattern-mixing-mastering-the-bold-trend-reshaping-contemporary-style-in-2025"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-palette blog-icon" style={{ color: '#ff6b6b' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Art of Pattern Mixing: Mastering the Bold Trend Reshaping Contemporary Style in 2025</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Pattern mixing has emerged as 2025's most daring and creative fashion trend, allowing individuals to break traditional style rules while creating uniquely personal and expressive looks. This comprehensive guide reveals the art and science behind successfully combining different patterns for maximum impact.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Capsule Wardrobe Building: Creating Maximum Style with Minimal Pieces in 2025 */}
                     <Link
                         to="/blogs/the-art-of-capsule-wardrobe-building-creating-maximum-style-with-minimal-pieces-in-2025"
