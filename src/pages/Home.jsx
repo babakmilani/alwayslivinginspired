@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Quiet Revolution: How Stealth Wealth Fashion is Redefining Modern Status Dressing */}
+                    <Link
+                        to="/blogs/the-quiet-revolution-how-stealth-wealth-fashion-is-redefining-modern-status-dressing"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-gem blog-icon" style={{ color: '#bdc3c7' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Quiet Revolution: How Stealth Wealth Fashion is Redefining Modern Status Dressing</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Discover how the stealth wealth movement is transforming luxury fashion, where understated elegance and quality craftsmanship replace flashy logos and obvious displays of wealth. This comprehensive guide explores the psychology, key pieces, and styling strategies behind fashion's most sophisticated trend.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Pattern Mixing: Mastering the Bold Trend Reshaping Contemporary Style in 2025 */}
                     <Link
                         to="/blogs/the-art-of-pattern-mixing-mastering-the-bold-trend-reshaping-contemporary-style-in-2025"
