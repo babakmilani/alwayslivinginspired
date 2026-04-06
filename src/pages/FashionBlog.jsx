@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The New Vintage: How Y2K-Inspired Tech Wear is Defining Future Fashion */}
+                <Link to="/blogs/the-new-vintage-how-y2k-inspired-tech-wear-is-defining-future-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-rocket blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The New Vintage: How Y2K-Inspired Tech Wear is Defining Future Fashion</h2>
+                        <p style={{ color: '#fff' }}>The Y2K tech wear revival is transforming modern fashion with metallic fabrics, holographic details, and futuristic silhouettes. This comprehensive guide explores how to master this bold trend that's bridging nostalgia with cutting-edge style.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Quiet Revolution: How Stealth Wealth Fashion is Redefining Modern Status Dressing */}
                 <Link to="/blogs/the-quiet-revolution-how-stealth-wealth-fashion-is-redefining-modern-status-dressing" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

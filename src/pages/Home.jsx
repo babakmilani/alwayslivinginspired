@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The New Vintage: How Y2K-Inspired Tech Wear is Defining Future Fashion */}
+                    <Link
+                        to="/blogs/the-new-vintage-how-y2k-inspired-tech-wear-is-defining-future-fashion"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-rocket blog-icon" style={{ color: '#667eea' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The New Vintage: How Y2K-Inspired Tech Wear is Defining Future Fashion</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>The Y2K tech wear revival is transforming modern fashion with metallic fabrics, holographic details, and futuristic silhouettes. This comprehensive guide explores how to master this bold trend that's bridging nostalgia with cutting-edge style.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Quiet Revolution: How Stealth Wealth Fashion is Redefining Modern Status Dressing */}
                     <Link
                         to="/blogs/the-quiet-revolution-how-stealth-wealth-fashion-is-redefining-modern-status-dressing"
