@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Wardrobe Remixing: How Creative Styling is Revolutionizing Fashion Consumption */}
+                <Link to="/blogs/the-art-of-wardrobe-remixing-how-creative-styling-is-revolutionizing-fashion-consumption" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-recycle blog-icon" style={{ color: '#646cff' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Wardrobe Remixing: How Creative Styling is Revolutionizing Fashion Consumption</h2>
+                        <p style={{ color: '#fff' }}>Discover how wardrobe remixing is transforming the fashion landscape by teaching us to reimagine existing pieces in countless new ways. Learn the techniques and strategies that make creative styling the ultimate sustainable fashion practice.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The New Vintage: How Y2K-Inspired Tech Wear is Defining Future Fashion */}
                 <Link to="/blogs/the-new-vintage-how-y2k-inspired-tech-wear-is-defining-future-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

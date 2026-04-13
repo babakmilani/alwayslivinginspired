@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Art of Wardrobe Remixing: How Creative Styling is Revolutionizing Fashion Consumption */}
+                    <Link
+                        to="/blogs/the-art-of-wardrobe-remixing-how-creative-styling-is-revolutionizing-fashion-consumption"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-recycle blog-icon" style={{ color: '#646cff' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Art of Wardrobe Remixing: How Creative Styling is Revolutionizing Fashion Consumption</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Discover how wardrobe remixing is transforming the fashion landscape by teaching us to reimagine existing pieces in countless new ways. Learn the techniques and strategies that make creative styling the ultimate sustainable fashion practice.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The New Vintage: How Y2K-Inspired Tech Wear is Defining Future Fashion */}
                     <Link
                         to="/blogs/the-new-vintage-how-y2k-inspired-tech-wear-is-defining-future-fashion"
