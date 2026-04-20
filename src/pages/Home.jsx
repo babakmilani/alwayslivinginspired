@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Textile Revolution: How Advanced Fabric Innovation is Transforming Modern Fashion */}
+                    <Link
+                        to="/blogs/the-textile-revolution-how-advanced-fabric-innovation-is-transforming-modern-fashion"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-microscope blog-icon" style={{ color: '#646cff' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Textile Revolution: How Advanced Fabric Innovation is Transforming Modern Fashion</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Discover how cutting-edge fabric technologies are reshaping fashion, from temperature-regulating textiles to self-cleaning materials. This comprehensive guide explores the revolutionary fabrics changing how we dress and style ourselves.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Wardrobe Remixing: How Creative Styling is Revolutionizing Fashion Consumption */}
                     <Link
                         to="/blogs/the-art-of-wardrobe-remixing-how-creative-styling-is-revolutionizing-fashion-consumption"

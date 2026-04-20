@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Textile Revolution: How Advanced Fabric Innovation is Transforming Modern Fashion */}
+                <Link to="/blogs/the-textile-revolution-how-advanced-fabric-innovation-is-transforming-modern-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-microscope blog-icon" style={{ color: '#646cff' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Textile Revolution: How Advanced Fabric Innovation is Transforming Modern Fashion</h2>
+                        <p style={{ color: '#fff' }}>Discover how cutting-edge fabric technologies are reshaping fashion, from temperature-regulating textiles to self-cleaning materials. This comprehensive guide explores the revolutionary fabrics changing how we dress and style ourselves.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Art of Wardrobe Remixing: How Creative Styling is Revolutionizing Fashion Consumption */}
                 <Link to="/blogs/the-art-of-wardrobe-remixing-how-creative-styling-is-revolutionizing-fashion-consumption" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
