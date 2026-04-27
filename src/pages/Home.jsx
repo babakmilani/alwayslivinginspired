@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Rise of Dopamine Dressing: How Color Psychology Is Revolutionizing Wardrobe Choices in 2025 */}
+                    <Link
+                        to="/blogs/the-rise-of-dopamine-dressing-how-color-psychology-is-revolutionizing-wardrobe-choices-in-2025"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-palette blog-icon" style={{ color: '#ff6b6b' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Rise of Dopamine Dressing: How Color Psychology Is Revolutionizing Wardrobe Choices in 2025</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Discover how dopamine dressing is transforming the fashion landscape, using scientifically-backed color psychology to boost mood and confidence. Learn practical styling strategies to incorporate joy-inducing hues into your everyday wardrobe.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Textile Revolution: How Advanced Fabric Innovation is Transforming Modern Fashion */}
                     <Link
                         to="/blogs/the-textile-revolution-how-advanced-fabric-innovation-is-transforming-modern-fashion"

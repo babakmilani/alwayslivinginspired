@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Rise of Dopamine Dressing: How Color Psychology Is Revolutionizing Wardrobe Choices in 2025 */}
+                <Link to="/blogs/the-rise-of-dopamine-dressing-how-color-psychology-is-revolutionizing-wardrobe-choices-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-palette blog-icon" style={{ color: '#ff6b6b' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Rise of Dopamine Dressing: How Color Psychology Is Revolutionizing Wardrobe Choices in 2025</h2>
+                        <p style={{ color: '#fff' }}>Discover how dopamine dressing is transforming the fashion landscape, using scientifically-backed color psychology to boost mood and confidence. Learn practical styling strategies to incorporate joy-inducing hues into your everyday wardrobe.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Textile Revolution: How Advanced Fabric Innovation is Transforming Modern Fashion */}
                 <Link to="/blogs/the-textile-revolution-how-advanced-fabric-innovation-is-transforming-modern-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
