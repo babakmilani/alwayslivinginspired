@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Art of Statement Sleeves: How Dramatic Silhouettes Are Redefining Contemporary Fashion */}
+                <Link to="/blogs/the-art-of-statement-sleeves-how-dramatic-silhouettes-are-redefining-contemporary-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-tshirt blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Art of Statement Sleeves: How Dramatic Silhouettes Are Redefining Contemporary Fashion</h2>
+                        <p style={{ color: '#fff' }}>Statement sleeves are taking center stage in 2025, transforming ordinary outfits into extraordinary fashion moments. From billowing bishop sleeves to architectural puff details, discover how this bold trend is reshaping modern style and learn to master the art of dramatic sleeve styling.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Rise of Dopamine Dressing: How Color Psychology Is Revolutionizing Wardrobe Choices in 2025 */}
                 <Link to="/blogs/the-rise-of-dopamine-dressing-how-color-psychology-is-revolutionizing-wardrobe-choices-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
