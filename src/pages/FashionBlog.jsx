@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Rise of Textural Storytelling: How Fabric Mixing is Creating the Most Dynamic Wardrobes of 2025 */}
+                <Link to="/blogs/the-rise-of-textural-storytelling-how-fabric-mixing-is-creating-the-most-dynamic-wardrobes-of-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-palette blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Rise of Textural Storytelling: How Fabric Mixing is Creating the Most Dynamic Wardrobes of 2025</h2>
+                        <p style={{ color: '#fff' }}>Discover how the revolutionary trend of textural storytelling is transforming modern wardrobes through strategic fabric mixing and sensory fashion experiences. Learn to master the art of combining contrasting textures to create visually compelling and emotionally resonant outfits that speak volumes without saying a word.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Art of Statement Sleeves: How Dramatic Silhouettes Are Redefining Contemporary Fashion */}
                 <Link to="/blogs/the-art-of-statement-sleeves-how-dramatic-silhouettes-are-redefining-contemporary-fashion" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">

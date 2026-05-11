@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Rise of Textural Storytelling: How Fabric Mixing is Creating the Most Dynamic Wardrobes of 2025 */}
+                    <Link
+                        to="/blogs/the-rise-of-textural-storytelling-how-fabric-mixing-is-creating-the-most-dynamic-wardrobes-of-2025"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-palette blog-icon" style={{ color: '#667eea' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Rise of Textural Storytelling: How Fabric Mixing is Creating the Most Dynamic Wardrobes of 2025</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Discover how the revolutionary trend of textural storytelling is transforming modern wardrobes through strategic fabric mixing and sensory fashion experiences. Learn to master the art of combining contrasting textures to create visually compelling and emotionally resonant outfits that speak volumes without saying a word.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Art of Statement Sleeves: How Dramatic Silhouettes Are Redefining Contemporary Fashion */}
                     <Link
                         to="/blogs/the-art-of-statement-sleeves-how-dramatic-silhouettes-are-redefining-contemporary-fashion"
