@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Rise of Architectural Fashion: How Geometric Silhouettes Are Sculpting Tomorrow's Wardrobe */}
+                <Link to="/blogs/the-rise-of-architectural-fashion-how-geometric-silhouettes-are-sculpting-tomorrows-wardrobe" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-drafting-compass blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Rise of Architectural Fashion: How Geometric Silhouettes Are Sculpting Tomorrow's Wardrobe</h2>
+                        <p style={{ color: '#fff' }}>Architectural fashion is revolutionizing modern style with bold geometric cuts, structured silhouettes, and construction-inspired details. This movement transforms clothing into wearable art, blending engineering precision with haute couture elegance.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Rise of Textural Storytelling: How Fabric Mixing is Creating the Most Dynamic Wardrobes of 2025 */}
                 <Link to="/blogs/the-rise-of-textural-storytelling-how-fabric-mixing-is-creating-the-most-dynamic-wardrobes-of-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
