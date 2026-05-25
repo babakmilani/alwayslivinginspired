@@ -62,6 +62,21 @@ const Home = () => {
                 </h2>
 
                 <div className="gallery">
+                    {/* Featured Blog: The Resurgence of Bohemian Luxury: How Modern Boho is Redefining Elevated Casual Wear in 2025 */}
+                    <Link
+                        to="/blogs/the-resurgence-of-bohemian-luxury-how-modern-boho-is-redefining-elevated-casual-wear-in-2025"
+                        className="gallery-item blog-card"
+                        style={{ textDecoration: 'none', background: 'linear-gradient(135deg, #8B4513 0%, #DEB887 100%)' }}
+                    >
+                        <div className="blog-icon-wrapper">
+                            <i className="fas fa-feather-alt blog-icon" style={{ color: '#8B4513' }}></i>
+                        </div>
+                        <div className="blog-text" style={{ padding: '20px' }}>
+                            <h3 style={{ color: '#fff', fontSize: '1.4em', marginBottom: '10px' }}>The Resurgence of Bohemian Luxury: How Modern Boho is Redefining Elevated Casual Wear in 2025</h3>
+                            <p style={{ color: '#fff', fontSize: '0.95em' }}>Bohemian fashion is experiencing a sophisticated renaissance, blending free-spirited aesthetics with luxury craftsmanship. This new wave of elevated boho style combines artisanal details, premium fabrics, and contemporary silhouettes to create a movement that's both nostalgic and refreshingly modern.</p>
+                        </div>
+                    </Link>
+
                     {/* Featured Blog: The Rise of Architectural Fashion: How Geometric Silhouettes Are Sculpting Tomorrow's Wardrobe */}
                     <Link
                         to="/blogs/the-rise-of-architectural-fashion-how-geometric-silhouettes-are-sculpting-tomorrows-wardrobe"
