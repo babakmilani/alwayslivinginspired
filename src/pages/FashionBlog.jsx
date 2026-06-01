@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Cropped Revolution: How Shortened Silhouettes Are Redefining Modern Style in 2025 */}
+                <Link to="/blogs/the-cropped-revolution-how-shortened-silhouettes-are-redefining-modern-style-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-cut blog-icon" style={{ color: '#ff6b6b' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Cropped Revolution: How Shortened Silhouettes Are Redefining Modern Style in 2025</h2>
+                        <p style={{ color: '#fff' }}>The cropped trend is transforming every aspect of fashion, from blazers to pants to accessories. Discover how this powerful silhouette shift is creating fresh proportions and revolutionizing the way we approach styling in 2025.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Resurgence of Bohemian Luxury: How Modern Boho is Redefining Elevated Casual Wear in 2025 */}
                 <Link to="/blogs/the-resurgence-of-bohemian-luxury-how-modern-boho-is-redefining-elevated-casual-wear-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #8B4513 0%, #DEB887 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
