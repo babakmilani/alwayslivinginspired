@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Sheer Revolution: How Transparent and Semi-Sheer Fashion is Redefining Modern Elegance */}
+                <Link to="/blogs/the-sheer-revolution-how-transparent-and-semi-sheer-fashion-is-redefining-modern-elegance" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-eye blog-icon" style={{ color: '#9ca3ff' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Sheer Revolution: How Transparent and Semi-Sheer Fashion is Redefining Modern Elegance</h2>
+                        <p style={{ color: '#fff' }}>Sheer and semi-transparent fabrics are transforming contemporary fashion, offering a sophisticated approach to revealing and concealing that challenges traditional notions of elegance. From runway to street style, this transparent trend is creating new possibilities for layering, texture, and modern sophistication.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Cropped Revolution: How Shortened Silhouettes Are Redefining Modern Style in 2025 */}
                 <Link to="/blogs/the-cropped-revolution-how-shortened-silhouettes-are-redefining-modern-style-in-2025" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
