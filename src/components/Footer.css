@@ -1,133 +1,114 @@
-/* ==================================== */
-/* 1. Base Footer Styling and Lines */
-/* ==================================== */
-.ali-footer {
-    width: 100%;
-    background-color: #f7f7f7;
-    color: #333;
-    /* ⭐️ REMOVED: margin-top: 150px; as the Sticky Footer/content handles spacing */
-    padding: 20px 0;
-    box-sizing: border-box;
+/* src/components/Footer.css */
+
+.foot {
+    padding: 70px 40px 40px;
 }
 
-a .footer-line {
-    width: 90%;
-    height: 1px;
-    background-color: #ccc;
-    margin: 0 auto;
-}
-
-.top-line {
-    margin-bottom: 20px;
-}
-
-.bottom-line {
-    margin-top: 20px;
-}
-
-
-/* ==================================== */
-/* 2. Content Layout (Flexbox) */
-/* ==================================== */
-.footer-content-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+.foot-top {
     display: flex;
-    /* Distributes space between the three main elements */
     justify-content: space-between;
     align-items: center;
-    /* Vertically center all items */
+    gap: 30px;
     flex-wrap: wrap;
+    padding-bottom: 34px;
+    border-bottom: 1px solid var(--line);
 }
 
-
-/* ==================================== */
-/* 3. Content Styling */
-/* ==================================== */
-.footer-links a,
-.footer-link,
-.footer-copyright {
-    color: #555;
-    text-decoration: none;
-    font-size: 0.95rem;
-    padding: 0 10px;
-    transition: color 0.3s;
+.foot .wm-line.big {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(28px, 4.5vw, 58px);
+    letter-spacing: .01em;
 }
 
-.footer-links a:hover {
-    color: #000;
-}
-
-.footer-copyright {
-    /* Ensure the copyright text is clearly centered */
-    text-align: center;
-}
-
-.footer-social {
+/* join the list */
+.join {
     display: flex;
-    gap: 15px;
+    gap: 10px;
+    align-items: center;
 }
 
-.social-icon-link {
-    color: #333;
+.join input {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 40px;
+    padding: 13px 18px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    min-width: 230px;
+    outline: none;
+}
+
+.join input:focus {
+    border-color: var(--ink);
+}
+
+.join input::placeholder {
+    color: var(--ink2);
+}
+
+.join-done {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    color: var(--clay);
+}
+
+.join-error {
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: var(--clay);
+}
+
+.foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 28px;
+    font-size: 12.5px;
+    letter-spacing: .02em;
+}
+
+.foot-links a {
+    color: var(--ink2);
     text-decoration: none;
-    /* remove any default underline from the <a> tag */
 }
 
-.social-icon {
-    font-size: 1.5rem;
-    /* Set icon size */
-    transition: color 0.3s;
+.foot-links a:hover {
+    color: var(--clay);
 }
 
-.social-icon-link:first-child:hover .social-icon {
-    /* TikTok hover color */
-    color: #ff0050;
+.foot-bot {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+    font-size: 12px;
+    color: var(--ink2);
+    letter-spacing: .02em;
 }
 
-.social-icon-link:last-child:hover .social-icon {
-    /* Instagram hover color */
-    color: #c13584;
+.foot-credit a {
+    color: #9a8f7d;
+    text-decoration: none;
 }
 
+.foot-credit a:hover {
+    color: var(--ink);
+}
 
-/* ==================================== */
-/* 4. Responsive Adjustments (for Mobile) */
-/* ==================================== */
-
-@media (max-width: 768px) {
-    .footer-content-container {
-        /* Stack the items vertically */
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
+@media(max-width:860px) {
+    .foot {
+        padding: 48px 20px 32px;
     }
 
-    .footer-links,
-    .footer-copyright,
-    .footer-social {
-        margin-bottom: 15px;
+    .join {
         width: 100%;
     }
 
-    /* Center the social icons when stacked */
-    .footer-social {
-        justify-content: center;
-    }
-
-    /* Adjust the order of elements for mobile view */
-    .footer-links {
-        order: 1;
-    }
-
-    .footer-social {
-        order: 2;
-    }
-
-    .footer-copyright {
-        order: 3;
+    .join input {
+        flex: 1;
+        min-width: 0;
     }
 }
-
-/* end footer */

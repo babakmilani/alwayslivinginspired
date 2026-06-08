@@ -1,0 +1,12 @@
+# wrangler.toml — CJ proxy Worker
+name = "cj-proxy"
+main = "cj-proxy-worker.js"
+compatibility_date = "2025-06-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://www.alwayslivinginspired.com"
+MARKUP = "2.5"   # retail = CJ cost x this, charm-rounded to x.99
+
+[[kv_namespaces]]
+binding = "CJ_KV"
+id = "c631fe51667e4d26ac34c299f68213be"

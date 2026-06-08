@@ -1,81 +1,76 @@
 // src/components/Footer.jsx
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Footer.css';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import "./Footer.css";
 
-const Footer = () => {
-  // Define styles for the Holysmokas link to be consistent and subtle
-  const holysmokasStyle = {
-    fontSize: '0.85rem', // Slightly smaller than the 0.95rem copyright text
-    color: '#888',      // Light gray for a subtle look
-    textDecoration: 'none',
-    marginLeft: '15px',
-    transition: 'color 0.3s', // Inherit the smooth hover effect
+const SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxKrhjqiqCx7TkZeKByUxlFlOmURFgsSOWjuPPFmk09k5h6KH_b2oJQHC64CvvKUTnc/exec";
+
+export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState(null); // null | "sending" | "done" | "error"
+
+  const join = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("sending");
+    try {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ formType: "mailing-list", email, source: "footer" }),
+      });
+      setStatus("done");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
-    <footer className="ali-footer">
-      <div className="footer-line top-line"></div>
+    <footer className="foot brand">
+      <div className="foot-top">
+        <span className="wm-line big">Always Living Inspired</span>
 
-      <div className="footer-content-container">
-
-        <div className="footer-links">
-          <Link to="/privacy-policy" className="footer-link">Privacy Policy</Link>
-          <Link to="/terms" className="footer-link">Terms & Conditions</Link>
-          <Link to="/cookies" className="footer-link">Cookie Policy</Link>
-          <Link to="/disclaimer" className="footer-link">Disclaimer</Link>
-          <Link to="/contact" className="footer-link">Contact</Link>
-          <Link to="/about" className="footer-link">About</Link>
-          <Link to="/fashion-blog" className="footer-link">Fashion Blog</Link>
-        </div>
-
-        <div className="footer-copyright">
-          &copy; 2026 Always Living Inspired
-
-          {/* ⭐️ HOLYSMOKAS SLEEK ADVERTISEMENT START ⭐️ */}
-          <span style={{ color: '#ccc', padding: '0 10px' }}>|</span>
-          <a
-            href="https://milanilabs.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={holysmokasStyle}
-            // Add a simple hover effect for sleeker interaction
-            onMouseEnter={e => e.target.style.color = '#555'}
-            onMouseLeave={e => e.target.style.color = holysmokasStyle.color}
-          >
-            Built with Milani Labs
-          </a>
-          {/* ⭐️ HOLYSMOKAS SLEEK ADVERTISEMENT END ⭐️ */}
-
-        </div>
-
-        <div className="footer-social">
-          <a
-            href="YOUR_TIKTOK_URL"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit our TikTok page"
-            className="social-icon-link"
-          >
-            <i className="fab fa-tiktok social-icon"></i>
-          </a>
-
-          <a
-            href="YOUR_INSTAGRAM_URL"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visit our Instagram page"
-            className="social-icon-link"
-          >
-            <i className="fab fa-instagram social-icon"></i>
-          </a>
-        </div>
-
+        {status === "done" ? (
+          <span className="join-done">You're on the list ✶</span>
+        ) : (
+          <form className="join" onSubmit={join}>
+            <input
+              type="email"
+              required
+              placeholder="Email for new drops"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              aria-label="Email address"
+            />
+            <button type="submit" className="cta" disabled={status === "sending"}>
+              {status === "sending" ? "Joining…" : <>Join the list <ArrowRight size={16} /></>}
+            </button>
+          </form>
+        )}
       </div>
 
-      <div className="footer-line bottom-line"></div>
-    </footer>
-  )
-}
+      {status === "error" && <p className="join-error">Couldn't sign you up — please try again.</p>}
 
-export default Footer;
+      <div className="foot-links">
+        <Link to="/fashion-blog">Journal</Link>
+        <Link to="/about">About</Link>
+        <Link to="/contact">Contact</Link>
+        <Link to="/privacy-policy">Privacy</Link>
+        <Link to="/terms">Terms</Link>
+        <Link to="/cookies">Cookies</Link>
+        <Link to="/disclaimer">Disclaimer</Link>
+      </div>
+
+      <div className="foot-bot">
+        <span>© 2026 Always Living Inspired · alwayslivinginspired.com</span>
+        <span className="foot-credit">
+          <a href="https://milanilabs.com" target="_blank" rel="noopener noreferrer">Built with Milani Labs</a>
+        </span>
+      </div>
+    </footer>
+  );
+}

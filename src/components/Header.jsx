@@ -1,60 +1,44 @@
 // src/components/Header.jsx
+import React from "react";
+import { Link } from "react-router-dom";
+import { ShoppingBag } from "lucide-react";
+import { useCart } from "../context/CartContext";
+import "./Header.css";
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Header.css';
+const ETHOS = ["NEW IN WEEKLY", "SHIPS FROM THE US", "3-DAY DELIVERY", "CURATED, NOT CLUTTERED", "THE WEAR-NOW EDIT"];
 
-const Header = () => {
+export default function Header() {
+    const { count } = useCart();
+
     return (
-        <header className="ali-header">
-            {/* ... REMOVED: Top divider line ... */}
+        <header className="site-header brand">
+            <div className="mast">
+                <nav className="mast-nav left">
+                    <Link to="/">New in</Link>
+                    <Link to="/fashion-blog">Journal</Link>
+                    <Link to="/about">About</Link>
+                </nav>
 
-            <div className="header-content-container">
-
-                {/* Logo Image */}
-                <Link to="/">
-                    <img
-                        src="/images/Ali_Logo_White_0.png"
-                        alt="Company Logo"
-                        height="150"
-                        width="135"
-                    />
+                <Link to="/" className="wordmark">
+                    <span className="wm-line">Always Living Inspired</span>
+                    <span className="wm-sub">Women's Edit</span>
                 </Link>
 
-                {/* ⭐️ NAVIGATION WRAPPER WITH LINES ⭐️ */}
-                <div className="nav-wrapper">
-                    {/* ⭐️ MOVED: Top divider line is now here ⭐️ */}
-                    <div className="header-line top-line"></div>
-
-                    {/* Navigation (right-side content) */}
-                    <nav className="double-line-nav">
-                        <ul>
-                            <li><Link to="/">Ali</Link></li>
-                            <li><Link to="https://alwayslivinginspired.printful.me/">Shop</Link></li>
-                            {/*<li><Link to="/products#accessories">Accessories</Link></li>*/}
-                            {/*<li><Link to="/products#tshirts">T-shirts</Link></li>*/}
-                            {/*<li><Link to="/products#shoes">Shoes</Link></li>*/}
-                            {/*<li><Link to="/products#bags">Bags</Link></li>*/}
-                            <li><Link to="/fashion-blog">Blog</Link></li>
-                        </ul>
-                    </nav>
-
-                    {/* ⭐️ MOVED: Bottom divider line is now here ⭐️ */}
-                    <div className="header-line bottom-line"></div>
-                </div>
-
-                {/* ⭐️ ADDED: SALE BILLBOARD AD ⭐️ */}
-                <div className="sale-billboard-container">
-                    <div className="marquee-content">
-                        <span>💰 SITEWIDE 15% OFF! 🎁 FREE SHIPPING ON ALL ORDERS! ⚡️ LIMITED TIME ONLY! 💰 SITEWIDE 15% OFF! 🎁 FREE SHIPPING ON ALL ORDERS! ⚡️ LIMITED TIME ONLY!</span>
-                    </div>
-                </div>
- 
+                <nav className="mast-nav right">
+                    <Link to="/contact">Help</Link>
+                    <button className="bag" aria-label="Bag">
+                        <ShoppingBag size={17} strokeWidth={1.6} /> <span>{count}</span>
+                    </button>
+                </nav>
             </div>
 
-            {/* ... REMOVED: Bottom divider line ... */}
+            <div className="marquee" aria-hidden>
+                <div className="marquee-track">
+                    {[...ETHOS, ...ETHOS, ...ETHOS].map((w, i) => (
+                        <span key={i} className="mq-item">{w}<i className="dot">✶</i></span>
+                    ))}
+                </div>
+            </div>
         </header>
-    )
+    );
 }
-
-export default Header;

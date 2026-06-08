@@ -1,0 +1,15 @@
+{
+  "name": "cj-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "cj-proxy-worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "hono": "^4.12.23"
+  }
+}

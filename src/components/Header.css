@@ -1,166 +1,127 @@
-/* Header.css - FIXED VERSION */
+/* src/components/Header.css */
 
-/* Base header element properties */
-.ali-header {
-    position: fixed;
+.site-header {
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 10;
-    background-color: white;
-    color: #333;
-    padding: 10px 0;
-    box-sizing: border-box;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 40;
+    background: var(--bone);
+    border-bottom: 1px solid var(--line);
 }
 
-/* ==================================== */
-/* 1. Divider Lines */
-/* ==================================== */
-.header-line {
-    height: 1px;
-    background-color: #ccc;
-    width: 100%;
-}
-
-.top-line {
-    margin-bottom: 10px;
-}
-
-.bottom-line {
-    margin-top: 10px;
-}
-
-/* ==================================== */
-/* 2. Content Layout (Flexbox: Logo Left, Nav Right) */
-/* ==================================== */
-.header-content-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: flex-start;
-    gap: 40px;
+.mast {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    flex-wrap: wrap;
+    padding: 22px 40px;
 }
 
-/* ==================================== */
-/* 3. Navigation Styling */
-/* ==================================== */
-.double-line-nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: inline-block;
-}
-
-.double-line-nav ul {
+.mast-nav {
     display: flex;
-    gap: 20px;
-    list-style: none;
-    margin: 0;
-    padding: 10px 0;
+    gap: 26px;
+    font-size: 12.5px;
+    letter-spacing: .04em;
 }
 
-.double-line-nav li {
-    display: inline;
+.mast-nav.right {
+    justify-content: flex-end;
+    align-items: center;
 }
 
-.double-line-nav li a {
+.mast-nav a {
+    color: var(--ink);
     text-decoration: none;
-    color: #000;
-    font-family: system-ui, sans-serif;
-    white-space: nowrap;
-    font-size: 1rem;
-    transition: color 0.3s;
+    cursor: pointer;
 }
 
-.double-line-nav li a:hover {
-    color: #555;
+.mast-nav a:hover {
+    color: var(--clay);
 }
 
-/* Vertical line separator between links */
-.double-line-nav li:not(:last-child)::after {
-    content: '|';
-    padding-left: 20px;
-    color: #ccc;
+.wordmark {
+    text-align: center;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--ink);
 }
 
-/* Ensure the last link doesn't have the pipe */
-.double-line-nav li:last-child::after {
-    content: '';
+.wm-line {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 21px;
+    letter-spacing: .02em;
+    display: block;
 }
 
-/* ==================================== */
-/* 4. Responsive Adjustments (for Mobile) */
-/* ==================================== */
-@media (max-width: 768px) {
-    .header-content-container {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-        gap: 15px;
-    }
-
-    .ali-header img {
-        margin-bottom: 0;
-    }
-
-    .double-line-nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+.wm-sub {
+    font-size: 10px;
+    letter-spacing: .42em;
+    text-transform: uppercase;
+    color: var(--clay);
+    display: block;
+    margin-top: 5px;
 }
 
-/* ==================================== */
-/* 5. SALE BILLBOARD AD STYLING (MARQUEE) */
-/* ==================================== */
-
-.sale-billboard-container {
-    width: 300px;
-    height: 35px;
-    background-color: #ff4d4d;
-    border-radius: 5px;
-    margin-left: 20px;
-    overflow: hidden;
-    display: flex;
+.bag {
+    display: inline-flex;
     align-items: center;
-    flex-shrink: 0;
+    gap: 6px;
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--ink);
 }
 
-.marquee-content {
-    display: inline-block;
+.bag:hover {
+    border-color: var(--ink);
+}
+
+.marquee {
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    background: var(--paper);
+    padding: 11px 0;
+}
+
+.marquee-track {
+    display: flex;
     white-space: nowrap;
-    padding-left: 100%;
-    animation: marquee 15s linear infinite;
-    font-size: 1.1em;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 1px;
+    width: max-content;
+    animation: mq-slide 34s linear infinite;
 }
 
-/* The Scrolling Animation */
-@keyframes marquee {
-    0% {
-        transform: translate(0, 0);
-    }
+.mq-item {
+    font-size: 12px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    display: inline-flex;
+    align-items: center;
+}
 
-    100% {
-        transform: translate(-100%, 0);
+.mq-item .dot {
+    color: var(--clay);
+    margin: 0 30px;
+    font-style: normal;
+    font-size: 9px;
+}
+
+@keyframes mq-slide {
+    to {
+        transform: translateX(-33.33%);
     }
 }
 
-/* Hide the billboard on smaller screens */
-@media (max-width: 1024px) {
-    .sale-billboard-container {
-        display: none;
+@media(max-width:860px) {
+    .mast {
+        grid-template-columns: 1fr auto;
+        padding: 16px 20px;
     }
-}
 
-@media (max-width: 768px) {
-    .sale-billboard-container {
+    .mast-nav.left {
         display: none;
     }
 }

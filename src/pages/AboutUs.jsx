@@ -1,51 +1,71 @@
-import React from 'react';
-// FIX: Uncomment the import for the LegalPage component
-import LegalPage from '../components/LegalPage'; // Using LegalPage for shared layout
-import '../LegalPages.css'; // For the page layout
-import '../pages/Home.css'; // For adsense placeholders
-import '../pages/AboutUs.css';
+// src/pages/AboutUs.jsx
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import "./AboutUs.css";
 
 const AboutUs = () => {
-    const content = (
-        <div className="legal-content">
-            <h2>The Always Living Inspired Story</h2>
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
 
+    return (
+        <div className="about-page brand">
+            <section className="about-hero">
+                <span className={`eyebrow rise ${mounted ? "in" : ""}`} style={{ "--d": "0ms" }}>
+                    (About) — Always Living Inspired
+                </span>
+                <h1 className={`rise ${mounted ? "in" : ""}`} style={{ "--d": "80ms" }}>
+                    We built a <span className="it">smaller</span> store on purpose.
+                </h1>
+                <p className={`about-lead rise ${mounted ? "in" : ""}`} style={{ "--d": "200ms" }}>
+                    Always Living Inspired is a tight, rotating edit of women's clothing — not a catalog of
+                    ten thousand things you'll scroll past, but a short list of pieces chosen to earn a place
+                    in your week.
+                </p>
+            </section>
 
-            {/* ⭐️ ADDED: Image of the Founder ⭐️ */}
-            <div className="about-me-image-container">
-                <img
-                    src="/images/me.JPEG"
-                    alt="Founder, John, standing by the sea"
-                    className="about-me-image"
-                />
-            </div>
+            <section className="about-block">
+                <span className="sec-label">(01) — The idea</span>
+                <p>
+                    Fast fashion's whole bet is volume: flood you with options, hope something sticks, and
+                    ship it slowly from the other side of the world. We took the opposite bet — choose less,
+                    choose things that work in real life, and keep them close enough to arrive fast.
+                </p>
+            </section>
 
-            <p className="text-xl font-semibold mt-8 mb-4">From Code to Canvas: A Creative Awakening</p>
+            <section className="about-block">
+                <span className="sec-label">(02) — How we choose</span>
+                <p>
+                    We watch what's actually being worn, not just what walks a runway, and we keep the edit
+                    deliberately small — a handful of new pieces at a time, refreshed often. If we wouldn't
+                    reach for it ourselves, it doesn't make the cut.
+                </p>
+            </section>
 
-            <p>
-                Our founder, Bobby, used to be a Software Engineer—the kind who spent his days in the quiet hum of a server room, his world measured in lines of code and the cramped dimensions of a corporate cubicle. For years, the desk life paid the bills, but it slowly eroded his soul, leaving him with an unshakeable feeling of creative restlessness. He needed to build something tangible, something that spoke to the vibrancy missing from his routine.
-            </p>
+            <section className="about-block">
+                <span className="sec-label">(03) — How it reaches you</span>
+                <p>
+                    Everything we carry is held in US warehouses, so your order ships from a domestic shelf and
+                    lands in days — not the two-to-three weeks most overseas shops quietly run. Fast isn't a
+                    premium add-on here; it's the default.
+                </p>
+            </section>
 
-            <p className="mt-6">
-                That need led him away from his keyboard and into the practical, tactile world of fabric and screen printing. He immersed himself in the mechanics of clothing creation, not just the art, mastering the supply chain and building strong, ethical relationships with manufacturers. This hands-on, relationship-building ensured that every piece created under the **Always Living Inspired** name would be an authentic extension of his original design, not a watered-down copy.
-            </p>
+            <section className="about-block">
+                <span className="sec-label">(04) — The honest part</span>
+                <p>
+                    We're small and independent — a one-person studio, not a fashion house. That's the point.
+                    It keeps the edit tight, the choices personal, and the whole thing honest about what it is:
+                    a place to find a few good things and get on with your day.
+                </p>
+            </section>
 
-            <p className="text-xl font-semibold mt-8 mb-4">Our Mission: To Live Inspired</p>
-
-            <p>
-                **Always Living Inspired** is the sweet result of that pivot—a place where technical diligence meets boundless creativity. We don't just sell apparel; we sell wearable art, designed for those who believe that life is too short to be confined by a cubicle or conventional fashion. Every stitch, every design, is a reminder that the greatest inspiration comes from daring to change your path.
-            </p>
-
-            <p className="mt-6">
-                Thank you for being part of our story. We hope our creations inspire you to live your life with a little more color, a little more courage, and a whole lot of inspiration.
-            </p>
-
-
+            <section className="about-cta">
+                <p className="about-close">No noise. No thousand-item scroll. Just the edit, refreshed each week.</p>
+                <Link to="/" className="cta">Shop the edit <ArrowRight size={18} /></Link>
+            </section>
         </div>
     );
-
-    // This component now has the LegalPage component available to render the content
-    return <LegalPage title="About Always Living Inspired" content={content} />;
 };
 
 export default AboutUs;

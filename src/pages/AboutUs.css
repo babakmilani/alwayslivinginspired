@@ -1,46 +1,80 @@
-/* src/pages/AboutUs.css */
+/* src/pages/AboutUs.css  (replaces the old founder-photo version) */
 
-
-/* Ensure About Us page clears the fixed header */
-.about-me-image-container {
-    padding-top: 210px;
+.about-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 40px 90px;
 }
 
-@media (max-width: 768px) {
-    .about-me-image-container {
-        padding-top: 280px;
-    }
+.eyebrow {
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--clay);
+    display: block;
 }
 
-/* Styles for the Founder's Image */
-.about-me-image-container {
+.about-hero {
+    margin-bottom: 64px;
+}
+
+.about-hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 340;
+    font-size: clamp(40px, 6vw, 84px);
+    line-height: .98;
+    letter-spacing: -.02em;
+    margin-top: 14px;
+}
+
+.about-hero h1 .it {
+    font-style: italic;
+    color: var(--clay);
+}
+
+.about-lead {
+    font-family: 'Fraunces', serif;
+    font-weight: 330;
+    font-size: clamp(18px, 2.2vw, 24px);
+    line-height: 1.5;
+    color: var(--ink2);
+    max-width: 680px;
+    margin-top: 30px;
+}
+
+.about-block {
+    padding: 34px 0;
+    border-top: 1px solid var(--line);
+}
+
+.about-block p {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink);
+    max-width: 680px;
+}
+
+.about-cta {
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
     display: flex;
-    justify-content: center;
-    /* Center the image horizontally */
-    margin: 20px 0 30px 0;
-    /* Add space above and below */
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
 }
 
-.about-me-image {
-    max-width: 100%;
-    /* Ensure responsiveness */
-    height: auto;
-    width: 350px;
-    /* Set a maximum size for the image */
-    border-radius: 50%;
-    /* Make it perfectly circular */
-    object-fit: cover;
-    /* Ensures the image covers the area without distortion */
-    border: 5px solid #646cff;
-    /* A nice border color */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    /* Stronger shadow for the picture */
+.about-close {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(22px, 3vw, 34px);
+    color: var(--ink);
+    line-height: 1.25;
+    max-width: 680px;
 }
 
-/* Responsive adjustment for smaller screens */
-@media (max-width: 600px) {
-    .about-me-image {
-        width: 250px;
-        /* Smaller size on mobile */
+@media(max-width:860px) {
+    .about-page {
+        padding: 48px 20px 70px;
     }
 }

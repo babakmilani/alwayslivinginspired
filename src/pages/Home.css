@@ -1,44 +1,373 @@
-/* Ensure Home page clears the fixed header */
-.home-page {
-    padding-top: 210px;
+/* src/pages/Home.css  (replaces the old Home.css) */
+
+.home {
+    overflow-x: hidden;
 }
 
-@media (max-width: 768px) {
-    .home-page {
-        padding-top: 280px;
-    }
+/* HERO */
+.hero {
+    display: grid;
+    grid-template-columns: 1.55fr .85fr;
+    gap: 50px;
+    padding: 84px 40px 70px;
+    align-items: end;
 }
 
-
-
-/* ==================================== */
-/* ⭐️ Product Card/Label Styling ⭐️ */
-/* ==================================== */
-
-.product-card {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+.eyebrow {
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--clay);
+    display: block;
+    margin-bottom: 26px;
 }
 
-.product-card img {
-    width: 100%;
-    height: auto;
+.hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 340;
+    font-size: clamp(54px, 8.4vw, 128px);
+    line-height: .92;
+    letter-spacing: -.02em;
+}
+
+.hero h1 span {
     display: block;
 }
 
-.product-label {
-    width: 100%;
-    padding: 12px 5px;
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: 700;
-    color: #ffffff;
-    background-color: #333333;
+.hero h1 .it {
+    font-style: italic;
+    color: var(--clay);
+    font-weight: 380;
+    margin-left: .08em;
+}
+
+.hero p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink2);
+    max-width: 430px;
+    margin-top: 30px;
+}
+
+.hero .cta {
+    margin-top: 34px;
+}
+
+.hero-panel {
+    background: var(--clay);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 30px 28px;
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 18px;
+}
+
+.panel-rot {
+    position: absolute;
+    top: 26px;
+    right: -7px;
+    transform: rotate(90deg);
+    transform-origin: right top;
+    font-size: 10.5px;
+    letter-spacing: .28em;
+    opacity: .8;
+}
+
+.panel-stat b {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 38px;
+    display: block;
+    line-height: 1;
+}
+
+.panel-stat span {
+    font-size: 13px;
+    opacity: .85;
+    display: block;
+    margin-top: 7px;
+    line-height: 1.4;
+}
+
+.panel-rule {
+    height: 1px;
+    background: rgba(251, 247, 239, .3);
+}
+
+/* CATEGORIES */
+.cats {
+    padding: 14px 40px 60px;
+}
+
+.cat-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 11px;
+}
+
+.pill {
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 40px;
+    padding: 11px 22px;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--ink);
+    transition: all .2s ease;
+}
+
+.pill:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+
+/* PRODUCT RAIL */
+.shop {
+    padding: 0 0 70px 40px;
+}
+
+.shop-head {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding-right: 40px;
+}
+
+.shop-hint {
+    font-size: 11px;
+    letter-spacing: .14em;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    transition: none;
+    color: var(--ink2);
+    margin-left: auto;
+}
+
+.rail {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 6px 40px 24px 0;
+    scroll-snap-type: x mandatory;
+}
+
+.rail::-webkit-scrollbar {
+    height: 5px;
+}
+
+.rail::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 3px;
+}
+
+.card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+}
+
+.card-vis {
+    height: 330px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-2, #EFE7D8);
+}
+
+.card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 6px 11px;
+    border-radius: 30px;
+}
+
+.stock {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(25, 20, 15, .62);
+    color: var(--paper);
+    font-size: 10px;
+    letter-spacing: .04em;
+    padding: 6px 10px;
+    border-radius: 30px;
+    backdrop-filter: blur(4px);
+}
+
+.stock.out {
+    background: rgba(192, 102, 78, .92);
+}
+
+.swatches {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    display: flex;
+    gap: 7px;
+}
+
+.swatches i {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--paper);
+    display: block;
+}
+
+.card-meta {
+    padding: 16px 4px 0;
+}
+
+.cm-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.cm-row h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 450;
+    font-size: 20px;
+}
+
+.price {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    color: var(--clay);
+}
+
+.cm-sub {
+    font-size: 13px;
+    color: var(--ink2);
+    margin-top: 5px;
+}
+
+.add {
+    margin-top: 15px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: none;
+    border: 1px solid var(--ink);
+    border-radius: 40px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 13.5px;
+    cursor: pointer;
+    color: var(--ink);
+    transition: all .2s ease;
+}
+
+.add:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+.add:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+    border-style: dashed;
+}
+
+.skeleton {
+    flex: 0 0 300px;
+    height: 420px;
+    border-radius: 4px;
+    background: linear-gradient(100deg, #e6ddcd 30%, #efe7d8 50%, #e6ddcd 70%);
+    background-size: 200% 100%;
+    animation: shimmer 1.3s infinite;
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* MANIFESTO */
+.manifesto {
+    background: var(--wine);
+    color: var(--paper);
+    margin: 0 40px;
+    border-radius: 6px;
+    padding: 72px 64px;
+}
+
+.manifesto-q {
+    font-family: 'Fraunces', serif;
+    font-weight: 330;
+    font-size: clamp(26px, 3.6vw, 46px);
+    line-height: 1.22;
+    letter-spacing: -.01em;
+    max-width: 1000px;
+}
+
+.manifesto-q em {
+    font-style: italic;
+    color: var(--rose);
+}
+
+.manifesto-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 34px;
+    margin-top: 48px;
+    font-size: 12.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(251, 247, 239, .7);
+}
+
+@media(max-width:860px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 54px 20px 50px;
+        gap: 34px;
+    }
+
+    .hero-panel {
+        min-height: auto;
+    }
+
+    .cats {
+        padding: 14px 20px 50px;
+    }
+
+    .shop {
+        padding-left: 20px;
+    }
+
+    .shop-head {
+        padding-right: 20px;
+    }
+
+    .rail {
+        padding-right: 20px;
+    }
+
+    .manifesto {
+        margin: 0 20px;
+        padding: 48px 28px;
+    }
 }
