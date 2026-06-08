@@ -5,7 +5,16 @@ import { getProducts } from "../api/cj";
 import { useCart } from "../context/CartContext";
 import "./Home.css";
 
-const CATEGORIES = ["Dresses", "Tops", "Knitwear", "Denim", "Sets", "Outerwear", "Activewear"];
+// label -> CJ categoryId (from /api/categories). Pills fetch these live.
+const CATEGORIES = [
+    { label: "Dresses", id: "D2432903-0D4E-4787-886F-D3D9DA7890D9" },   // Lady Dresses
+    { label: "Tops", id: "5A3E7341-18B5-4C61-BFCD-8965B3479A9A" },      // Blouses & Shirts
+    { label: "Knitwear", id: "DE9C662C-3F48-4855-87E7-E18733EFF6D2" },  // Sweaters
+    { label: "Denim", id: "63584B9B-5275-4268-8BEA-7D3C7A7BB925" },     // Woman Jeans
+    { label: "Sets", id: "ECDBD4C4-7467-4831-9F55-740E3C7968BE" },      // Suits & Sets
+    { label: "Outerwear", id: "07398ADB-FC5E-4CC4-AD00-EB230E779E88" }, // Blazers
+    { label: "Activewear", id: "396E962A-5632-49C2-B9BF-9529DE3B9141" },// Leggings
+];
 
 function swatchGradient(colors = []) {
     if (!colors.length) return "var(--paper-2, #EFE7D8)";
@@ -32,11 +41,23 @@ export default function Home() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [mounted, setMounted] = useState(false);
+    const [active, setActive] = useState(""); // "" = default women's edit
     const { addItem } = useCart();
+
+    const loadProducts = (categoryId = "") => {
+        setLoading(true);
+        setActive(categoryId);
+        getProducts(categoryId ? { categoryId } : {})
+            .then((p) => { setProducts(p); setLoading(false); })
+            .catch(() => setLoading(false));
+    };
+
+    const scrollToEdit = () =>
+        document.getElementById("edit")?.scrollIntoView({ behavior: "smooth", block: "start" });
 
     useEffect(() => {
         setMounted(true);
-        getProducts().then((p) => { setProducts(p); setLoading(false); });
+        loadProducts();
     }, []);
 
     return (
@@ -53,7 +74,7 @@ export default function Home() {
                         A tight, trend-led edit of women's clothing — picked for real life, not the
                         runway, and shipped from a US shelf so it lands in days, not weeks.
                     </p>
-                    <button className={`cta rise ${mounted ? "in" : ""}`} style={{ "--d": "400ms" }}>
+                    <button onClick={scrollToEdit} className={`cta rise ${mounted ? "in" : ""}`} style={{ "--d": "400ms" }}>
                         Shop new in <ArrowRight size={18} strokeWidth={2} />
                     </button>
                 </div>
@@ -70,12 +91,20 @@ export default function Home() {
             <section className="cats">
                 <span className="sec-label">(02) — Shop by category</span>
                 <div className="cat-pills">
-                    {CATEGORIES.map((c) => <button key={c} className="pill">{c}</button>)}
+                    {CATEGORIES.map((c) => (
+                        <button
+                            key={c.id}
+                            className={`pill ${active === c.id ? "on" : ""}`}
+                            onClick={() => { loadProducts(c.id); scrollToEdit(); }}
+                        >
+                            {c.label}
+                        </button>
+                    ))}
                 </div>
             </section>
 
             {/* PRODUCT RAIL */}
-            <section className="shop">
+            <section className="shop" id="edit">
                 <div className="shop-head">
                     <span className="sec-label">(03) — The edit</span>
                     <span className="shop-hint">drag / scroll →</span>

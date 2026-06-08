@@ -1,12 +1,20 @@
-# wrangler.toml — CJ proxy Worker
+# wrangler.toml  — CJ proxy Worker
 name = "cj-proxy"
 main = "cj-proxy-worker.js"
 compatibility_date = "2025-06-01"
 
+# Lock CORS to your storefront in production (Worker reads c.env.ALLOWED_ORIGIN)
 [vars]
-ALLOWED_ORIGIN = "https://www.alwayslivinginspired.com"
+# Comma-separated allowlist of site origins permitted to call this Worker.
+ALLOWED_ORIGIN = "https://alwayslivinginspired.com,https://www.alwayslivinginspired.com,https://alwayslivinginspired.pages.dev"
 MARKUP = "2.5"   # retail = CJ cost x this, charm-rounded to x.99
 
+# Token + product-list cache. Create it first, then paste the id below:
+#   npx wrangler kv namespace create CJ_KV
 [[kv_namespaces]]
 binding = "CJ_KV"
 id = "c631fe51667e4d26ac34c299f68213be"
+
+# Secret (do NOT put it here) — set it once from the CLI:
+#   npx wrangler secret put CJ_API_KEY
+#   (paste your CJ apiKey, format: CJUserNum@api@xxxxxxxxxxxx)

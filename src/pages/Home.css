@@ -127,6 +127,12 @@
     border-color: var(--ink);
 }
 
+.pill.on {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+}
+
 /* PRODUCT RAIL */
 .shop {
     padding: 0 0 70px 40px;

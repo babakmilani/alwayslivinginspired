@@ -34,9 +34,18 @@ const LIST_KEY = "cj_list_womens";
 
 const app = new Hono();
 
-app.use("*", (c, next) =>
-    cors({ origin: c.env.ALLOWED_ORIGIN || "*", allowMethods: ["GET", "OPTIONS"] })(c, next)
-);
+app.use("*", (c, next) => {
+    const allow = (
+        c.env.ALLOWED_ORIGIN ||
+        "https://alwayslivinginspired.com,https://www.alwayslivinginspired.com,https://alwayslivinginspired.pages.dev,http://localhost:5173"
+    )
+        .split(",")
+        .map((s) => s.trim());
+    return cors({
+        origin: (o) => (allow.includes(o) ? o : ""),
+        allowMethods: ["GET", "OPTIONS"],
+    })(c, next);
+});
 
 /* ---- AUTH: apiKey -> access token, cached in KV (token issuance is QPS-limited) ---- */
 async function getToken(env) {
