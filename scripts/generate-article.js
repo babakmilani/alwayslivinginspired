@@ -155,42 +155,34 @@ function createArticleHTML(articleData) {
     return $.html();
 }
 
-function updateFashionBlogPage(articleData) {
-    if (!fs.existsSync(CONFIG.fashionBlogFile)) {
-        console.warn("⚠️ FashionBlog.jsx not found, skipping update.");
-        return;
+// Append the new article's metadata to public/blogs/articles.json.
+// The Journal page (FashionBlog.jsx) reads this manifest and renders + searches it.
+function updateManifest(articleData) {
+    const manifestPath = path.join(CONFIG.blogsDir, "articles.json");
+    let list = [];
+    if (fs.existsSync(manifestPath)) {
+        try { list = JSON.parse(fs.readFileSync(manifestPath, "utf8")) || []; }
+        catch { list = []; }
     }
-
-    let jsxContent = fs.readFileSync(CONFIG.fashionBlogFile, "utf8");
 
     const slug = toSlug(articleData.title);
-    const gradient = `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`;
+    const entry = {
+        slug,
+        title: articleData.title,
+        summary: articleData.summary,
+        category: articleData.category || "",
+        date: articleData.date,
+        gradient: `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`,
+        iconClass: articleData.iconClass,
+        iconColor: articleData.iconColor,
+    };
 
-    // Create new blog card
-    const newCard = `
-                {/* NEW ARTICLE: ${articleData.title} */}
-                <Link to="/blogs/${slug}" className="gallery-item blog-card" style={{ '--card-gradient': '${gradient}', color: '#fff' }}>
-                    <div className="blog-icon-wrapper">
-                        <i className="${articleData.iconClass} blog-icon" style={{ color: '${articleData.iconColor}' }}></i>
-                    </div>
-                    <div className="blog-text">
-                        <h2 style={{ color: '#fff' }}>${articleData.title}</h2>
-                        <p style={{ color: '#fff' }}>${articleData.summary}</p>
-                    </div>
-                </Link>
-`;
+    // De-dupe by slug, newest first.
+    list = list.filter((a) => a.slug !== slug);
+    list.unshift(entry);
 
-    // Find the gallery div and insert after the opening tag
-    const galleryMatch = jsxContent.match(/(<div className="gallery">)/);
-    if (galleryMatch) {
-        const insertIndex = galleryMatch.index + galleryMatch[0].length;
-        jsxContent = jsxContent.slice(0, insertIndex) + newCard + jsxContent.slice(insertIndex);
-
-        fs.writeFileSync(CONFIG.fashionBlogFile, jsxContent, "utf8");
-        console.log(`🧩 Updated FashionBlog.jsx with "${articleData.title}"`);
-    } else {
-        console.warn("⚠️ Could not find gallery div in FashionBlog.jsx — article still created.");
-    }
+    fs.writeFileSync(manifestPath, JSON.stringify(list, null, 2), "utf8");
+    console.log(`🧩 Updated articles.json — ${list.length} articles`);
 }
 
 async function main() {
@@ -208,9 +200,9 @@ async function main() {
 
         console.log(`✅ Created new article: ${outputPath}`);
 
-        // NOTE: Home.jsx is intentionally NOT touched — that's the storefront.
-        // Articles surface on the Journal page (FashionBlog.jsx) only.
-        updateFashionBlogPage(articleData);
+        // NOTE: Home.jsx and FashionBlog.jsx are intentionally NOT edited.
+        // Articles surface via the articles.json manifest the Journal page reads.
+        updateManifest(articleData);
 
         // Write report files
         fs.writeFileSync(".article-title.txt", articleData.title, "utf8");

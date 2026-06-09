@@ -1,0 +1,380 @@
+[
+    {
+        "slug": "the-sheer-revolution-how-transparent-and-semi-sheer-fashion-is-redefining-modern-elegance",
+        "title": "The Sheer Revolution: How Transparent and Semi-Sheer Fashion is Redefining Modern Elegance",
+        "summary": "Sheer and semi-transparent fabrics are transforming contemporary fashion, offering a sophisticated approach to revealing and concealing that challenges traditional notions of elegance. From runway to street style, this transparent trend is creating new possibilities for layering, texture, and modern sophistication.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%)",
+        "iconClass": "fas fa-eye",
+        "iconColor": "#9ca3ff"
+    },
+    {
+        "slug": "the-cropped-revolution-how-shortened-silhouettes-are-redefining-modern-style-in-2025",
+        "title": "The Cropped Revolution: How Shortened Silhouettes Are Redefining Modern Style in 2025",
+        "summary": "The cropped trend is transforming every aspect of fashion, from blazers to pants to accessories. Discover how this powerful silhouette shift is creating fresh proportions and revolutionizing the way we approach styling in 2025.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)",
+        "iconClass": "fas fa-cut",
+        "iconColor": "#ff6b6b"
+    },
+    {
+        "slug": "the-resurgence-of-bohemian-luxury-how-modern-boho-is-redefining-elevated-casual-wear-in-2025",
+        "title": "The Resurgence of Bohemian Luxury: How Modern Boho is Redefining Elevated Casual Wear in 2025",
+        "summary": "Bohemian fashion is experiencing a sophisticated renaissance, blending free-spirited aesthetics with luxury craftsmanship. This new wave of elevated boho style combines artisanal details, premium fabrics, and contemporary silhouettes to create a movement that's both nostalgic and refreshingly modern.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #8B4513 0%, #DEB887 100%)",
+        "iconClass": "fas fa-feather-alt",
+        "iconColor": "#8B4513"
+    },
+    {
+        "slug": "the-rise-of-architectural-fashion-how-geometric-silhouettes-are-sculpting-tomorrows-wardrobe",
+        "title": "The Rise of Architectural Fashion: How Geometric Silhouettes Are Sculpting Tomorrow's Wardrobe",
+        "summary": "Architectural fashion is revolutionizing modern style with bold geometric cuts, structured silhouettes, and construction-inspired details. This movement transforms clothing into wearable art, blending engineering precision with haute couture elegance.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-drafting-compass",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-rise-of-textural-storytelling-how-fabric-mixing-is-creating-the-most-dynamic-wardrobes-of-2025",
+        "title": "The Rise of Textural Storytelling: How Fabric Mixing is Creating the Most Dynamic Wardrobes of 2025",
+        "summary": "Discover how the revolutionary trend of textural storytelling is transforming modern wardrobes through strategic fabric mixing and sensory fashion experiences. Learn to master the art of combining contrasting textures to create visually compelling and emotionally resonant outfits that speak volumes without saying a word.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-palette",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-art-of-statement-sleeves-how-dramatic-silhouettes-are-redefining-contemporary-fashion",
+        "title": "The Art of Statement Sleeves: How Dramatic Silhouettes Are Redefining Contemporary Fashion",
+        "summary": "Statement sleeves are taking center stage in 2025, transforming ordinary outfits into extraordinary fashion moments. From billowing bishop sleeves to architectural puff details, discover how this bold trend is reshaping modern style and learn to master the art of dramatic sleeve styling.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-tshirt",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-rise-of-dopamine-dressing-how-color-psychology-is-revolutionizing-wardrobe-choices-in-2025",
+        "title": "The Rise of Dopamine Dressing: How Color Psychology Is Revolutionizing Wardrobe Choices in 2025",
+        "summary": "Discover how dopamine dressing is transforming the fashion landscape, using scientifically-backed color psychology to boost mood and confidence. Learn practical styling strategies to incorporate joy-inducing hues into your everyday wardrobe.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)",
+        "iconClass": "fas fa-palette",
+        "iconColor": "#ff6b6b"
+    },
+    {
+        "slug": "the-textile-revolution-how-advanced-fabric-innovation-is-transforming-modern-fashion",
+        "title": "The Textile Revolution: How Advanced Fabric Innovation is Transforming Modern Fashion",
+        "summary": "Discover how cutting-edge fabric technologies are reshaping fashion, from temperature-regulating textiles to self-cleaning materials. This comprehensive guide explores the revolutionary fabrics changing how we dress and style ourselves.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-microscope",
+        "iconColor": "#646cff"
+    },
+    {
+        "slug": "the-art-of-wardrobe-remixing-how-creative-styling-is-revolutionizing-fashion-consumption",
+        "title": "The Art of Wardrobe Remixing: How Creative Styling is Revolutionizing Fashion Consumption",
+        "summary": "Discover how wardrobe remixing is transforming the fashion landscape by teaching us to reimagine existing pieces in countless new ways. Learn the techniques and strategies that make creative styling the ultimate sustainable fashion practice.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)",
+        "iconClass": "fas fa-recycle",
+        "iconColor": "#646cff"
+    },
+    {
+        "slug": "the-new-vintage-how-y2k-inspired-tech-wear-is-defining-future-fashion",
+        "title": "The New Vintage: How Y2K-Inspired Tech Wear is Defining Future Fashion",
+        "summary": "The Y2K tech wear revival is transforming modern fashion with metallic fabrics, holographic details, and futuristic silhouettes. This comprehensive guide explores how to master this bold trend that's bridging nostalgia with cutting-edge style.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-rocket",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-quiet-revolution-how-stealth-wealth-fashion-is-redefining-modern-status-dressing",
+        "title": "The Quiet Revolution: How Stealth Wealth Fashion is Redefining Modern Status Dressing",
+        "summary": "Discover how the stealth wealth movement is transforming luxury fashion, where understated elegance and quality craftsmanship replace flashy logos and obvious displays of wealth. This comprehensive guide explores the psychology, key pieces, and styling strategies behind fashion's most sophisticated trend.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #2c3e50 0%, #34495e 100%)",
+        "iconClass": "fas fa-gem",
+        "iconColor": "#bdc3c7"
+    },
+    {
+        "slug": "the-art-of-pattern-mixing-mastering-the-bold-trend-reshaping-contemporary-style-in-2025",
+        "title": "The Art of Pattern Mixing: Mastering the Bold Trend Reshaping Contemporary Style in 2025",
+        "summary": "Pattern mixing has emerged as 2025's most daring and creative fashion trend, allowing individuals to break traditional style rules while creating uniquely personal and expressive looks. This comprehensive guide reveals the art and science behind successfully combining different patterns for maximum impact.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)",
+        "iconClass": "fas fa-palette",
+        "iconColor": "#ff6b6b"
+    },
+    {
+        "slug": "the-art-of-capsule-wardrobe-building-creating-maximum-style-with-minimal-pieces-in-2025",
+        "title": "The Art of Capsule Wardrobe Building: Creating Maximum Style with Minimal Pieces in 2025",
+        "summary": "Discover how to build a strategic capsule wardrobe that maximizes style versatility while minimizing clutter. Learn the essential pieces, color coordination strategies, and styling formulas that create endless outfit possibilities from just 30-40 carefully chosen items.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-layer-group",
+        "iconColor": "#646cff"
+    },
+    {
+        "slug": "the-micro-trend-revolution-how-viral-fashion-moments-are-reshaping-how-we-shop-and-style",
+        "title": "The Micro-Trend Revolution: How Viral Fashion Moments Are Reshaping How We Shop and Style",
+        "summary": "From TikTok-driven aesthetics to Instagram-inspired micro-trends, social media is creating fashion cycles that last weeks instead of seasons. We explore how to navigate this fast-paced style landscape while building a thoughtful, adaptable wardrobe.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)",
+        "iconClass": "fas fa-mobile-alt",
+        "iconColor": "#ff6b9d"
+    },
+    {
+        "slug": "the-tech-fashion-fusion-how-smart-accessories-are-revolutionizing-personal-style-in-2025",
+        "title": "The Tech-Fashion Fusion: How Smart Accessories Are Revolutionizing Personal Style in 2025",
+        "summary": "Explore the groundbreaking intersection of technology and fashion as smart accessories transform how we express personal style. From AI-powered jewelry to adaptive footwear, discover how tech-infused fashion pieces are creating a new era of intelligent style.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-microchip",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-artisan-revival-how-handcrafted-fashion-is-redefining-luxury-in-the-digital-age",
+        "title": "The Artisan Revival: How Handcrafted Fashion is Redefining Luxury in the Digital Age",
+        "summary": "Discover how the resurgence of handcrafted fashion is challenging fast fashion dominance, with artisan-made pieces becoming the ultimate status symbol. From hand-embroidered details to traditional weaving techniques, explore how to incorporate authentic craftsmanship into your modern wardrobe.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #8B4513 0%, #DEB887 100%)",
+        "iconClass": "fas fa-hands",
+        "iconColor": "#8B4513"
+    },
+    {
+        "slug": "the-mirror-method-how-self-styling-technology-and-smart-wardrobes-are-revolutionizing-personal-fashion",
+        "title": "The Mirror Method: How Self-Styling Technology and Smart Wardrobes Are Revolutionizing Personal Fashion",
+        "summary": "Explore how smart mirrors, AI styling assistants, and tech-integrated wardrobes are transforming the way we approach personal style. From virtual try-ons to mood-responsive outfit curation, discover the future of fashion at your fingertips.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-mirror",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-art-of-effortless-elegance-how-french-girl-style-is-redefining-modern-sophistication",
+        "title": "The Art of Effortless Elegance: How French Girl Style is Redefining Modern Sophistication",
+        "summary": "Discover the timeless secrets of French girl style and learn how to master the art of effortless elegance. This comprehensive guide breaks down the essential elements, key pieces, and styling philosophy that make this aesthetic eternally chic.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ff6b8a 0%, #4ecdc4 100%)",
+        "iconClass": "fas fa-heart",
+        "iconColor": "#ff6b8a"
+    },
+    {
+        "slug": "the-art-of-layered-textures-how-mixed-media-fashion-is-creating-depth-in-modern-style",
+        "title": "The Art of Layered Textures: How Mixed-Media Fashion is Creating Depth in Modern Style",
+        "summary": "Discover how the strategic combination of contrasting textures and materials is revolutionizing contemporary fashion, creating visually compelling outfits that tell stories through tactile experiences. This comprehensive guide explores the art of mixing silk with denim, leather with knits, and other unexpected combinations that are defining modern style.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-layer-group",
+        "iconColor": "#764ba2"
+    },
+    {
+        "slug": "the-androgynous-fashion-revolution-how-gender-neutral-styling-is-reshaping-contemporary-fashion",
+        "title": "The Androgynous Fashion Revolution: How Gender-Neutral Styling is Reshaping Contemporary Fashion",
+        "summary": "Explore the transformative power of androgynous fashion as it breaks traditional gender barriers and creates a new paradigm for self-expression. This comprehensive guide reveals how to master the art of gender-neutral styling for a more inclusive and versatile wardrobe.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
+        "iconClass": "fas fa-venus-mars",
+        "iconColor": "#7c3aed"
+    },
+    {
+        "slug": "the-art-of-elevated-casual-how-contemporary-comfort-wear-is-redefining-modern-sophistication",
+        "title": "The Art of Elevated Casual: How Contemporary Comfort Wear is Redefining Modern Sophistication",
+        "summary": "Discover how the elevated casual movement is transforming everyday comfort wear into sophisticated fashion statements. This comprehensive guide explores the techniques, key pieces, and styling secrets that make casual clothing look effortlessly chic and intentionally curated.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-tshirt",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-new-romantic-how-cottagecore-inspired-evening-wear-is-transforming-modern-formal-dressing",
+        "title": "The New Romantic: How Cottagecore-Inspired Evening Wear is Transforming Modern Formal Dressing",
+        "summary": "Discover how the romantic cottagecore aesthetic is revolutionizing evening wear with prairie-inspired silhouettes, artisanal details, and sustainable luxury. This comprehensive guide explores how to master the new romantic formal style that's captivating fashion enthusiasts worldwide.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ff7eb3 0%, #ff758c 100%)",
+        "iconClass": "fas fa-leaf",
+        "iconColor": "#e91e63"
+    },
+    {
+        "slug": "the-art-of-transitional-dressing-mastering-climate-adaptive-fashion-for-the-modern-wardrobe",
+        "title": "The Art of Transitional Dressing: Mastering Climate-Adaptive Fashion for the Modern Wardrobe",
+        "summary": "As global weather patterns become increasingly unpredictable, mastering the art of transitional dressing has become essential for the modern fashion-conscious individual. This comprehensive guide explores innovative layering techniques, versatile pieces, and climate-responsive styling strategies that ensure you look polished regardless of temperature fluctuations.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-thermometer-half",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-art-of-color-blocking-mastering-bold-combinations-for-modern-style",
+        "title": "The Art of Color Blocking: Mastering Bold Combinations for Modern Style",
+        "summary": "Color blocking has emerged as one of the most powerful styling techniques of 2025, allowing fashion enthusiasts to create striking, confident looks through strategic color pairing. This comprehensive guide explores how to master this vibrant trend with sophistication and personal flair.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%)",
+        "iconClass": "fas fa-palette",
+        "iconColor": "#ff6b6b"
+    },
+    {
+        "slug": "the-digital-fashion-revolution-how-virtual-styling-and-ai-powered-wardrobes-are-transforming-personal-style-in-2025",
+        "title": "The Digital Fashion Revolution: How Virtual Styling and AI-Powered Wardrobes Are Transforming Personal Style in 2025",
+        "summary": "Explore how cutting-edge technology is revolutionizing the way we approach fashion, from AI-powered style recommendations to virtual try-on experiences. Discover the tools and trends that are making personal styling more accessible, sustainable, and personalized than ever before.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        "iconClass": "fas fa-robot",
+        "iconColor": "#667eea"
+    },
+    {
+        "slug": "the-minimalist-renaissance-how-clean-lines-and-quiet-luxury-are-defining-2025s-fashion-movement",
+        "title": "The Minimalist Renaissance: How Clean Lines and Quiet Luxury Are Defining 2025's Fashion Movement",
+        "summary": "Discover how minimalist fashion is experiencing a sophisticated revival, blending timeless elegance with modern innovation. From capsule wardrobes to investment pieces that transcend seasons, explore the art of refined simplicity that's reshaping contemporary style.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
+        "iconClass": "fas fa-gem",
+        "iconColor": "#646cff"
+    },
+    {
+        "slug": "the-revival-of-power-dressing-how-contemporary-blazers-are-defining-professional-confidence-in-2025",
+        "title": "The Revival of Power Dressing: How Contemporary Blazers Are Defining Professional Confidence in 2025",
+        "summary": "Discover how the modern blazer has evolved beyond traditional suiting to become the ultimate symbol of professional power and personal style. From oversized silhouettes to unexpected textures, explore the blazer trends that are reshaping workplace fashion.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #2E3192 0%, #1BFFFF 100%)",
+        "iconClass": "fas fa-user-tie",
+        "iconColor": "#2E3192"
+    },
+    {
+        "slug": "the-art-of-sustainable-fashion-how-eco-conscious-styling-is-reshaping-modern-wardrobes",
+        "title": "The Art of Sustainable Fashion: How Eco-Conscious Styling is Reshaping Modern Wardrobes",
+        "summary": "Discover how sustainable fashion is evolving beyond just eco-friendly materials to become a sophisticated style movement. Learn practical strategies for building a conscious wardrobe that's both environmentally responsible and effortlessly chic.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #4ade80 0%, #059669 100%)",
+        "iconClass": "fas fa-leaf",
+        "iconColor": "#10b981"
+    },
+    {
+        "slug": "the-renaissance-of-vintage-inspired-workwear-how-heritage-craft-clothing-is-revolutionizing-modern-professional-style",
+        "title": "The Renaissance of Vintage-Inspired Workwear: How Heritage Craft Clothing Is Revolutionizing Modern Professional Style",
+        "summary": "Vintage-inspired workwear is making a powerful comeback, blending authentic craftsmanship with contemporary professional needs. This comprehensive guide explores how heritage brands and traditional techniques are reshaping modern workplace fashion.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #8B4513 0%, #D2691E 100%)",
+        "iconClass": "fas fa-hard-hat",
+        "iconColor": "#CD853F"
+    },
+    {
+        "slug": "the-rise-of-maximalist-jewelry-how-bold-statement-pieces-are-redefining-personal-style",
+        "title": "The Rise of Maximalist Jewelry: How Bold Statement Pieces Are Redefining Personal Style",
+        "summary": "After years of minimalist jewelry dominating fashion, maximalist accessories are making a powerful comeback. From chunky chains to layered statement pieces, bold jewelry is becoming the ultimate form of self-expression and personal branding.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ffd700 0%, #ff6b6b 100%)",
+        "iconClass": "fas fa-gem",
+        "iconColor": "#ffd700"
+    },
+    {
+        "slug": "8-Trends-set-for-Fall-2025",
+        "title": "The Eight Themes",
+        "summary": "Dark Age, Curvature, and Technicolor: The 8 Concepts Defining Fall 2025.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #434343 0%, #000000 100%)",
+        "iconClass": "fas fa-magic",
+        "iconColor": "#fff"
+    },
+    {
+        "slug": "7-Shoes-to-Achieve-the-Fall-Look",
+        "title": "Fall Shoe Edit",
+        "summary": "7 essential shoes to complete all your Fall 2025 looks (Loafers, Mary Janes & more).",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #a87f58 0%, #b8976b 100%)",
+        "iconClass": "fas fa-shoe-prints",
+        "iconColor": "#fff"
+    },
+    {
+        "slug": "4-Mens-Wear-for-Fall",
+        "title": "Menswear Pillars",
+        "summary": "The Four Essential Investment Pieces to Anchor Your Fall Style.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
+        "iconClass": "fas fa-male",
+        "iconColor": "#fff"
+    },
+    {
+        "slug": "The-New-Luxury-Structure-and-Texture-Fall-2025",
+        "title": "Structure & Texture",
+        "summary": "The New Rules of Style for Fall 2025: Why Structure and Suede Are Back.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)",
+        "iconClass": "fas fa-tshirt",
+        "iconColor": "#C0664E"
+    },
+    {
+        "slug": "30-Fall-Skirt-Outfits",
+        "title": "Fall Skirt Formulas",
+        "summary": "My 3 Go-To Skirt Formulas for Effortless Fall Dressing.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #f0f0f0 0%, #dddddd 100%)",
+        "iconClass": "fas fa-venus",
+        "iconColor": "#764ba2"
+    },
+    {
+        "slug": "5-autumn-color-trends-2025",
+        "title": "Color Conviction",
+        "summary": "Opinion: The 5 Essential Colors You Need for the Bold & Textured Fall 2025.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #74ebd5 0%, #9face6 100%)",
+        "iconClass": "fas fa-palette",
+        "iconColor": "#C0664E"
+    },
+    {
+        "slug": "top-5-must-have-autumn-styles",
+        "title": "Autumn Must-Haves",
+        "summary": "My Top 5 Must-Have Pieces to Nail Autumn Style.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #ffc3a0 0%, #ff9e86 100%)",
+        "iconClass": "fas fa-star",
+        "iconColor": "#a80000"
+    },
+    {
+        "slug": "The-Unexpected-Neutrals-of-2026",
+        "title": "Unexpected Neutrals",
+        "summary": "Forget Beige: Why Creamy Yellow and Lilac are your new base layer essentials.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #e6e6fa 0%, #ffefd5 100%)",
+        "iconClass": "fas fa-palette",
+        "iconColor": "#8a2be2"
+    },
+    {
+        "slug": "Functional-Necklaces-and-Necklace-Bags",
+        "title": "Accessories with Purpose",
+        "summary": "Necklace Bags & Utility Pendants: The ultimate hands-free fashion statement.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #bdb76b 0%, #696969 100%)",
+        "iconClass": "fas fa-boxes",
+        "iconColor": "#ffffff"
+    },
+    {
+        "slug": "Luxe-leather",
+        "title": "Leather",
+        "summary": "How to Invest in Soft, Butter-Finished Leather Essentials.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #bdb76b 0%, #696969 100%)",
+        "iconClass": "fas fa-boxes",
+        "iconColor": "#b31919ff"
+    },
+    {
+        "slug": "The-Power-Couple",
+        "title": "The Power Couple",
+        "summary": "Mastering High-Impact Pink and Red Color Combinations.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #e91e63 0%, #d32f2f 100%)",
+        "iconClass": "fas fa-heart",
+        "iconColor": "#ffffff"
+    },
+    {
+        "slug": "Moccasins-and-Loafers",
+        "title": "The Elegant Flat",
+        "summary": "Moccasins and Loafers: The footwear replacing the chunky sneaker.",
+        "category": "",
+        "gradient": "linear-gradient(135deg, #4b4b4b 0%, #2c3e50 100%)",
+        "iconClass": "fas fa-shoe-prints",
+        "iconColor": "#ffffff"
+    }
+]

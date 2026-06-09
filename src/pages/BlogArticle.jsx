@@ -1,7 +1,11 @@
 // src/pages/BlogArticle.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './FashionBlog.css'; // This imports the fixed CSS file
+import './FashionBlog.css';
+
+// Same endpoint the site footer posts to; routes by formType on the Apps Script side.
+const MAILING_LIST_URL =
+    'https://script.google.com/macros/s/AKfycbxKrhjqiqCx7TkZeKByUxlFlOmURFgsSOWjuPPFmk09k5h6KH_b2oJQHC64CvvKUTnc/exec';
 
 const BlogArticle = () => {
     const { filename } = useParams();
@@ -9,34 +13,22 @@ const BlogArticle = () => {
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const contentRef = useRef(null);
 
     useEffect(() => {
-        console.log('Loading blog:', filename);
         setIsLoading(true);
         setError(null);
 
-        // Fetch from public folder - Vite serves public folder at root
         fetch(`/blogs/${filename}.html`)
             .then(response => {
-                console.log('Fetch response:', response.status, response.url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 return response.text();
             })
             .then(htmlContent => {
-                console.log('HTML loaded successfully');
-                // Parse and clean the HTML
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
-
-                // Remove link tags (prevents external blog styles from conflicting)
-                const links = doc.querySelectorAll('link[rel="stylesheet"]');
-                links.forEach(link => link.remove());
-
-                // Get body content (The content that needs fixing)
-                const bodyContent = doc.body.innerHTML;
-                setContent(bodyContent);
+                doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => link.remove());
+                setContent(doc.body.innerHTML);
                 setIsLoading(false);
             })
             .catch(err => {
@@ -45,6 +37,45 @@ const BlogArticle = () => {
                 setIsLoading(false);
             });
     }, [filename]);
+
+    // Wire any mailing-list form inside the injected article HTML.
+    useEffect(() => {
+        if (!content || !contentRef.current) return;
+        const forms = contentRef.current.querySelectorAll('form');
+        if (!forms.length) return;
+
+        const handlers = [];
+        forms.forEach((form) => {
+            const handler = async (e) => {
+                e.preventDefault();
+                const emailEl = form.querySelector('input[type="email"], input[name="email"]');
+                const email = emailEl ? emailEl.value.trim() : '';
+                if (!email) return;
+
+                const btn = form.querySelector('button, input[type="submit"]');
+                const original = btn ? btn.innerText : '';
+                if (btn) { btn.disabled = true; btn.innerText = 'Joining…'; }
+
+                try {
+                    await fetch(MAILING_LIST_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({ formType: 'mailing-list', email, source: `blog:${filename}` }),
+                    });
+                    form.innerHTML =
+                        '<p style="padding:14px 0;font-weight:600;">Thanks — you\'re on the list.</p>';
+                } catch (err) {
+                    if (btn) { btn.disabled = false; btn.innerText = original; }
+                    console.error('Mailing list submit failed:', err);
+                }
+            };
+            form.addEventListener('submit', handler);
+            handlers.push([form, handler]);
+        });
+
+        return () => handlers.forEach(([form, handler]) => form.removeEventListener('submit', handler));
+    }, [content, filename]);
 
     if (isLoading) {
         return (
@@ -67,20 +98,15 @@ const BlogArticle = () => {
 
     return (
         <div className="article-wrapper">
-            <button
-                onClick={() => navigate('/fashion-blog')}
-                className="back-button"
-            >
+            <button onClick={() => navigate('/fashion-blog')} className="back-button">
                 <i className="fas fa-arrow-left"></i> Back to Blog
             </button>
 
-            {/* The blog content is inserted here with the class 'blog-content' */}
             <div
+                ref={contentRef}
                 className="blog-content"
                 dangerouslySetInnerHTML={{ __html: content }}
             />
-
-            
         </div>
     );
 };

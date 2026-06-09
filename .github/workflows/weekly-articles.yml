@@ -46,7 +46,7 @@ jobs:
           git config --global user.email "action@github.com"
 
           git add public/blogs/*.html || true
-          git add src/pages/FashionBlog.jsx || true
+          git add public/blogs/articles.json || true
           git add article-report.txt .article-title.txt || true
 
           if git diff --cached --quiet; then
