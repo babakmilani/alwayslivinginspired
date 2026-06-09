@@ -31,7 +31,6 @@ const CONFIG = {
     ],
     blogsDir: path.join(__dirname, "../public/blogs"),
     fashionBlogFile: path.join(__dirname, "../src/pages/FashionBlog.jsx"),
-    homeFile: path.join(__dirname, "../src/pages/Home.jsx"),
     templateFile: path.join(__dirname, "../public/blogs/4-Mens-Wear-for-Fall.html"),
 };
 
@@ -81,7 +80,6 @@ Return ONLY valid JSON (no markdown code blocks) with these exact fields:
   "title": "Complete article title",
   "category": "One of: Fashion Trends, Style Guide, Seasonal Fashion, Wardrobe Essentials, Color Theory, Accessories, Footwear, Menswear, Womenswear, Fashion Opinion",
   "author": "The Style Futurist or The Fashion Editor",
-  "date": "Month Day, Year (e.g., December 7, 2025)",
   "summary": "2-3 sentence engaging summary",
   "gradientStart": "#hexcolor",
   "gradientEnd": "#hexcolor",
@@ -116,6 +114,13 @@ Return ONLY valid JSON (no markdown code blocks) with these exact fields:
             throw new Error("No valid JSON found in Claude response");
         }
     }
+
+    // Always stamp the real current date — never trust the model's date field.
+    articleData.date = new Date().toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
 
     articleData.filename = `${toSlug(articleData.title)}.html`;
     return articleData;
@@ -161,7 +166,7 @@ function updateFashionBlogPage(articleData) {
     const slug = toSlug(articleData.title);
     const gradient = `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`;
 
-    // Create new blog card - note the color needs to be #fff not #ffffffff
+    // Create new blog card
     const newCard = `
                 {/* NEW ARTICLE: ${articleData.title} */}
                 <Link to="/blogs/${slug}" className="gallery-item blog-card" style={{ '--card-gradient': '${gradient}', color: '#fff' }}>
@@ -184,55 +189,7 @@ function updateFashionBlogPage(articleData) {
         fs.writeFileSync(CONFIG.fashionBlogFile, jsxContent, "utf8");
         console.log(`🧩 Updated FashionBlog.jsx with "${articleData.title}"`);
     } else {
-        console.warn("⚠️ Could not find gallery div in FashionBlog.jsx");
-    }
-}
-
-function updateHomePage(articleData) {
-    if (!fs.existsSync(CONFIG.homeFile)) {
-        console.warn("⚠️ Home.jsx not found, skipping update.");
-        return;
-    }
-
-    let jsxContent = fs.readFileSync(CONFIG.homeFile, "utf8");
-
-    const slug = toSlug(articleData.title);
-    const gradient = `linear-gradient(135deg, ${articleData.gradientStart} 0%, ${articleData.gradientEnd} 100%)`;
-
-    // Determine text color based on gradient - use white for most, adjust for light backgrounds
-    const textColor = articleData.gradientStart === '#f0f0f0' || articleData.gradientStart === '#e6e6fa' ? '#333' : '#fff';
-    const subtextColor = textColor === '#333' ? '#555' : '#fff';
-
-    // Create featured blog card for home page
-    const newCard = `
-                    {/* Featured Blog: ${articleData.title} */}
-                    <Link
-                        to="/blogs/${slug}"
-                        className="gallery-item blog-card"
-                        style={{ textDecoration: 'none', background: '${gradient}' }}
-                    >
-                        <div className="blog-icon-wrapper">
-                            <i className="${articleData.iconClass} blog-icon" style={{ color: '${articleData.iconColor}' }}></i>
-                        </div>
-                        <div className="blog-text" style={{ padding: '20px' }}>
-                            <h3 style={{ color: '${textColor}', fontSize: '1.4em', marginBottom: '10px' }}>${articleData.title}</h3>
-                            <p style={{ color: '${subtextColor}', fontSize: '0.95em' }}>${articleData.summary}</p>
-                        </div>
-                    </Link>
-`;
-
-    // Find the "Latest Fashion Insights" section and the gallery div within it
-    const insightsMatch = jsxContent.match(/Latest Fashion Insights[\s\S]{0,200}?<div className="gallery">/);
-    if (insightsMatch) {
-        const insertIndex = insightsMatch.index + insightsMatch[0].length;
-
-        // Simply prepend the new card
-        jsxContent = jsxContent.slice(0, insertIndex) + newCard + jsxContent.slice(insertIndex);
-
-        fs.writeFileSync(CONFIG.homeFile, jsxContent, "utf8");
-        console.log(`🏠 Updated Home.jsx with featured blog "${articleData.title}"`);
-    } else {
-        console.warn("⚠️ Could not find Latest Fashion Insights section in Home.jsx - skipping Home page update (article still created successfully)");
+        console.warn("⚠️ Could not find gallery div in FashionBlog.jsx — article still created.");
     }
 }
 
@@ -251,8 +208,9 @@ async function main() {
 
         console.log(`✅ Created new article: ${outputPath}`);
 
+        // NOTE: Home.jsx is intentionally NOT touched — that's the storefront.
+        // Articles surface on the Journal page (FashionBlog.jsx) only.
         updateFashionBlogPage(articleData);
-        updateHomePage(articleData);
 
         // Write report files
         fs.writeFileSync(".article-title.txt", articleData.title, "utf8");

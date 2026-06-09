@@ -12,79 +12,63 @@ permissions:
 jobs:
   generate-article:
     runs-on: ubuntu-latest
-    
+
     steps:
-      # ✅ 1. Checkout repo
+      # 1. Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
-      # ✅ 2. Setup Node.js
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # 2. Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      
-      # ✅ 3. Debug – list folders
-      - name: Debug file check
-        run: |
-          echo "Checking repo structure..."
-          ls -R | head -50
-      
-      # ✅ 4. Install dependencies
+
+      # 3. Install dependencies
       - name: Install dependencies
         run: |
           npm ci || npm install
           npm install @anthropic-ai/sdk cheerio
-      
-      # ✅ 5. Generate the fashion article
+
+      # 4. Generate the fashion article
       - name: Generate Fashion Article
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/generate-article.js
-      
-      # ✅ 6. Build the site (copies blogs to docs/blogs)
-      - name: Build Site
-        run: npm run build
-      
-      # ✅ 7. Commit & Push new article
+
+      # 5. Commit & push (rebase first so we never race a manual push)
       - name: Commit and Push new article
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "🧠 Preparing to commit changes..."
           git config --global user.name "Always Living Inspired Bot"
           git config --global user.email "action@github.com"
-          
-          # Ensure we're on the main branch
-          git checkout main || git checkout -b main
-          
-          # Add any new or updated files
+
           git add public/blogs/*.html || true
           git add src/pages/FashionBlog.jsx || true
-          git add src/pages/Home.jsx || true
           git add article-report.txt .article-title.txt || true
-          
-          # Only commit if there are actual changes
+
           if git diff --cached --quiet; then
-            echo "✅ No new article to commit."
-          else
-            ARTICLE_TITLE=$(cat .article-title.txt 2>/dev/null || echo "Weekly Fashion Article")
-            echo "📰 Committing new article: $ARTICLE_TITLE"
-            git commit -m "📰 Auto-generated fashion article: ${ARTICLE_TITLE}"
-            echo "🚀 Pushing to main branch..."
-            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
+            echo "No new article to commit."
+            exit 0
           fi
-      
-      # ✅ 7. Display article generation report
+
+          ARTICLE_TITLE=$(cat .article-title.txt 2>/dev/null || echo "Weekly Fashion Article")
+          git commit -m "Auto-generated fashion article: ${ARTICLE_TITLE}"
+
+          # Integrate anything pushed since checkout, then push.
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      # 6. Display report
       - name: Display Article Report
         if: always()
         run: |
           if [ -f article-report.txt ]; then
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "----------------------------------------------"
             cat article-report.txt
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "----------------------------------------------"
           else
-            echo "⚠️ No article-report.txt file found."
+            echo "No article-report.txt found."
           fi
