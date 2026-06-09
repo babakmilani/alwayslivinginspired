@@ -39,6 +39,17 @@ const FashionBlog = () => {
 
             {/* Blog Gallery Section */}
             <div className="gallery">
+                {/* NEW ARTICLE: The Renaissance of Circular Fashion: How Clothing Rental and Resale Culture is Revolutionizing Modern Style Consumption */}
+                <Link to="/blogs/the-renaissance-of-circular-fashion-how-clothing-rental-and-resale-culture-is-revolutionizing-modern-style-consumption" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#fff' }}>
+                    <div className="blog-icon-wrapper">
+                        <i className="fas fa-recycle blog-icon" style={{ color: '#667eea' }}></i>
+                    </div>
+                    <div className="blog-text">
+                        <h2 style={{ color: '#fff' }}>The Renaissance of Circular Fashion: How Clothing Rental and Resale Culture is Revolutionizing Modern Style Consumption</h2>
+                        <p style={{ color: '#fff' }}>The fashion industry is witnessing a paradigm shift as consumers embrace circular fashion through rental services, resale platforms, and clothing swaps. This revolutionary approach is not only transforming how we build our wardrobes but also redefining luxury, accessibility, and personal style expression in the digital age.</p>
+                    </div>
+                </Link>
+
                 {/* NEW ARTICLE: The Sheer Revolution: How Transparent and Semi-Sheer Fashion is Redefining Modern Elegance */}
                 <Link to="/blogs/the-sheer-revolution-how-transparent-and-semi-sheer-fashion-is-redefining-modern-elegance" className="gallery-item blog-card" style={{ '--card-gradient': 'linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%)', color: '#fff' }}>
                     <div className="blog-icon-wrapper">
