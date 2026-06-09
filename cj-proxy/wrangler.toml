@@ -9,12 +9,19 @@ compatibility_date = "2025-06-01"
 ALLOWED_ORIGIN = "https://alwayslivinginspired.com,https://www.alwayslivinginspired.com,https://alwayslivinginspired.pages.dev"
 MARKUP = "2.5"   # retail = CJ cost x this, charm-rounded to x.99
 
-# Token + product-list cache. Create it first, then paste the id below:
+# Token + product-list cache.
 #   npx wrangler kv namespace create CJ_KV
 [[kv_namespaces]]
 binding = "CJ_KV"
 id = "c631fe51667e4d26ac34c299f68213be"
 
-# Secret (do NOT put it here) — set it once from the CLI:
-#   npx wrangler secret put CJ_API_KEY
-#   (paste your CJ apiKey, format: CJUserNum@api@xxxxxxxxxxxx)
+# Catalog database. Create it, then paste the id below:
+#   npx wrangler d1 create ali-catalog
+[[d1_databases]]
+binding = "DB"
+database_name = "ali-catalog"
+database_id = "751321f3-eb03-444b-958a-7e3fffaa307e"
+
+# Secrets (do NOT put here) — set once from the CLI:
+#   npx wrangler secret put CJ_API_KEY     (CJ apiKey: CJUserNum@api@xxxx)
+#   npx wrangler secret put ADMIN_TOKEN    (any strong string; gates /admin + /sync) 

@@ -1,0 +1,153 @@
+/* src/pages/Admin.css */
+.admin,
+.admin-gate {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+}
+
+.admin-gate {
+    max-width: 420px;
+    text-align: center;
+    padding-top: 120px;
+}
+
+.admin-gate h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+}
+
+.admin-gate p {
+    color: #555;
+    margin: 8px 0 20px;
+}
+
+.admin-gate input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.admin-gate button {
+    margin-top: 12px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #19140F;
+    color: #fff;
+    cursor: pointer;
+}
+
+.admin-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid #e5ddcd;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.admin-bar h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+}
+
+.admin-bar span {
+    color: #777;
+    font-size: 13px;
+}
+
+.admin-actions button {
+    margin-left: 8px;
+    padding: 9px 16px;
+    border: 1px solid #19140F;
+    border-radius: 40px;
+    background: none;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.admin-actions button:hover {
+    background: #19140F;
+    color: #fff;
+}
+
+.admin-msg {
+    color: #8a5a2b;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.admin-card {
+    border: 1px solid #ece4d4;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+}
+
+.admin-card.is-hidden {
+    opacity: 0.4;
+}
+
+.ac-img {
+    aspect-ratio: 1;
+    background: #f1e9dc;
+}
+
+.ac-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ac-body {
+    padding: 10px 12px;
+    flex: 1;
+}
+
+.ac-name {
+    font-size: 13px;
+    line-height: 1.35;
+    margin-bottom: 6px;
+}
+
+.ac-meta {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.ac-meta span {
+    font-weight: 400;
+    color: #999;
+}
+
+.ac-cat {
+    font-size: 11px;
+    color: #999;
+    margin-top: 4px;
+}
+
+.ac-toggle {
+    border: none;
+    border-top: 1px solid #ece4d4;
+    padding: 10px;
+    background: #faf6ee;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.ac-toggle:hover {
+    background: #19140F;
+    color: #fff;
+}

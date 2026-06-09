@@ -43,7 +43,8 @@ app.use("*", (c, next) => {
         .map((s) => s.trim());
     return cors({
         origin: (o) => (allow.includes(o) ? o : ""),
-        allowMethods: ["GET", "OPTIONS"],
+        allowMethods: ["GET", "POST", "OPTIONS"],
+        allowHeaders: ["Content-Type", "Authorization"],
     })(c, next);
 });
 
@@ -157,6 +158,65 @@ app.get("/api/inventory/:vid", async (c) => {
         inUS: Number(us?.storageNum ?? 0) > 0,
         areas, // full per-warehouse breakdown
     });
+});
+
+/* ===== D1 catalog + admin (curation system) ========================
+   D1 binding: DB. Admin auth: header "Authorization: Bearer <ADMIN_TOKEN>".
+   Set token: npx wrangler secret put ADMIN_TOKEN
+   The public storefront can switch to /api/catalog once you've synced + curated. */
+function adminOk(c) {
+    const t = c.env.ADMIN_TOKEN;
+    return !!t && (c.req.header("Authorization") || "") === `Bearer ${t}`;
+}
+
+// Pull women's product/list pages into D1 (token-protected; run manually or via cron).
+app.post("/sync", async (c) => {
+    if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
+    const markup = Number(c.env.MARKUP) || 2.5;
+    const pages = Math.min(Number(c.req.query("pages") || "3"), 10);
+    let upserted = 0;
+    for (let p = 1; p <= pages; p++) {
+        const cards = await listByCategory(c.env, WOMENS_FIRST_ID, String(p), "", markup);
+        for (const it of cards) {
+            await c.env.DB.prepare(
+                `INSERT INTO products (pid,name,price,cost,image,sku,category,synced_at)
+         VALUES (?1,?2,?3,?4,?5,?6,?7,datetime('now'))
+         ON CONFLICT(pid) DO UPDATE SET
+           name=?2, price=?3, cost=?4, image=?5, sku=?6, category=?7, synced_at=datetime('now')`
+            ).bind(it.id, it.name, it.price, it.cost, it.image, it.sku, it.category).run();
+            upserted++;
+        }
+        if (p < pages) await new Promise((r) => setTimeout(r, 1100)); // QPS=1 between CJ pages
+    }
+    return c.json({ ok: true, pages, upserted });
+});
+
+// Public storefront feed — visible (non-hidden) items from D1.
+app.get("/api/catalog", async (c) => {
+    const { results } = await c.env.DB.prepare(
+        `SELECT pid AS id, name, price, cost, image, sku, category, us_stock AS usStock
+     FROM products WHERE hidden = 0 ORDER BY synced_at DESC LIMIT 80`
+    ).all();
+    return c.json((results || []).map((r) => ({ ...r, fabric: "", colorways: [], badge: null })));
+});
+
+// Admin: list everything (incl. hidden), newest first.
+app.get("/admin/products", async (c) => {
+    if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
+    const { results } = await c.env.DB.prepare(
+        `SELECT pid AS id, name, price, cost, image, category, us_stock AS usStock, hidden
+     FROM products ORDER BY synced_at DESC LIMIT 500`
+    ).all();
+    return c.json(results || []);
+});
+
+// Admin: hide/show a product.
+app.post("/admin/visibility", async (c) => {
+    if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
+    const { pid, hidden } = await c.req.json();
+    await c.env.DB.prepare(`UPDATE products SET hidden=?2 WHERE pid=?1`)
+        .bind(pid, hidden ? 1 : 0).run();
+    return c.json({ ok: true, pid, hidden: hidden ? 1 : 0 });
 });
 
 app.get("/", (c) => c.text("CJ proxy up. Try /api/products"));

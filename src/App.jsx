@@ -13,6 +13,7 @@ import Contact from "./pages/Contact.jsx";
 import FashionBlog from "./pages/FashionBlog.jsx";
 import BlogArticle from "./pages/BlogArticle.jsx";
 import useAnalyticsPageViews from "./hooks/useAnalyticsPageViews";
+import Admin from "./pages/Admin";
 
 function GlobalToast() {
   const { toast } = useCart();
@@ -37,6 +38,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
       <Footer />
