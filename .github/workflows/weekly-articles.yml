@@ -58,7 +58,8 @@ jobs:
           git commit -m "Auto-generated fashion article: ${ARTICLE_TITLE}"
 
           # Integrate anything pushed since checkout, then push.
-          git pull --rebase origin main
+          # --autostash handles the package-lock churn from npm install.
+          git pull --rebase --autostash origin main
           git push origin HEAD:main
 
       # 6. Display report
