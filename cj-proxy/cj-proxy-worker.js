@@ -182,32 +182,64 @@ function adminOk(c) {
     return !!t && (c.req.header("Authorization") || "") === `Bearer ${t}`;
 }
 
-// Current season (Northern Hemisphere / US) + a brief the scorer reasons against.
+// Current season (Northern Hemisphere / US) + bands the scorer reasons against.
+// hero = quintessential for the season; staples = year-round/season-adjacent that
+// still sell fine now; offseason = wrong for the weather.
 function seasonNow() {
     const m = new Date().getMonth(); // 0=Jan ... 11=Dec
     if (m === 11 || m <= 1)
-        return { name: "Winter", brief: "warm layers, sweaters, knitwear, coats, jackets, boots, long sleeves, scarves, darker and jewel tones; NOT swimwear, shorts, sleeveless sundresses, sandals" };
+        return {
+            name: "Winter",
+            hero: "sweaters, cable and chunky knits, wool coats, puffer and padded jackets, turtlenecks, thermal layers, scarves",
+            staples: "denim, jeans, trousers, blazers, long-sleeve tops, midi and maxi dresses with sleeves, layering basics, knit sets",
+            offseason: "swimwear, bikinis, beach cover-ups, sleeveless sundresses, shorts, breezy linen-only pieces",
+        };
     if (m <= 4)
-        return { name: "Spring", brief: "light layers, florals, pastels, light jackets, trench coats, midi dresses, transitional pieces; NOT heavy wool coats, swimwear, thick knitwear" };
+        return {
+            name: "Spring",
+            hero: "florals, pastels, light midi dresses, trench and light jackets, light knit cardigans, transitional layers",
+            staples: "denim, jeans, skirts, basic tees, blazers, trousers, casual dresses, lightweight sets",
+            offseason: "heavy wool coats, puffer jackets, thick cable knits, swimwear",
+        };
     if (m <= 7)
-        return { name: "Summer", brief: "lightweight dresses, linen, shorts, swimwear, sleeveless and short-sleeve tops, sandals, breathable fabrics, bright and pastel colors; NOT heavy coats, wool, thick knitwear, boots" };
-    return { name: "Fall", brief: "knitwear, sweaters, jackets, light coats, boots, denim, layering, long sleeves, earth tones; NOT swimwear, sundresses, sandals" };
+        return {
+            name: "Summer",
+            hero: "swimwear, bikinis, linen dresses, sundresses, sleeveless and strappy tops, shorts, beach cover-ups, breathable cotton and linen",
+            staples: "denim, jeans, mini and midi skirts, basic tees, casual short dresses, lightweight trousers, blazers, casual sets",
+            offseason: "heavy sweaters, wool and cable knits, padded or puffer coats, fleece, thermal layers, thick long-sleeve knitwear",
+        };
+    return {
+        name: "Fall",
+        hero: "knitwear, sweaters, cardigans, light coats and jackets, earth tones, long sleeves, denim, boots-friendly looks",
+        staples: "jeans, trousers, blazers, midi dresses, basic long-sleeve tops, skirts",
+        offseason: "swimwear, bikinis, beach cover-ups, sleeveless sundresses, shorts",
+    };
 }
 
 // Score a batch of products 0-100 for fit to the current season via the Anthropic API.
-// Returns [{ n, score }] keyed by 1-based position in `items`.
+// Uses the product IMAGE as the source of truth, because CJ titles stuff misleading
+// SEO season words. Returns [{ n, score }] keyed by 1-based position in `items`.
 async function scoreBatch(env, items, season) {
-    const list = items.map((p, i) => `${i + 1}. [${p.category || "?"}] ${p.name}`).join("\n");
-    const prompt = `You are merchandising a US women's clothing store. The current season is ${season.name}.
-In-season items: ${season.brief}.
+    const prompt = `You are the buyer for a US women's fashion store deciding what to feature in ${season.name}.
+Below are numbered products, each followed by its photo. Judge each item PRIMARILY FROM ITS IMAGE: the actual fabric weight, sleeve length, coverage, and styling you can see. Product titles are auto-generated and routinely stuff in misleading season words (e.g. "Autumn Winter") and keywords — IGNORE those words when the image clearly shows otherwise. A sheer, lightweight, sleeveless, or visibly summer-appropriate garment is a summer piece even if the title says "winter."
 
-Rate how well each item fits RIGHT NOW, 0-100 (100 = perfect for this season, 0 = clearly off-season). Infer garment type and fabric from the name and category.
+Score each 0-100 for how appropriate it is to SELL AND FEATURE right now, using the full range and these bands:
 
-Return ONLY a JSON array, no prose, no code fences:
-[{"n":1,"score":85},{"n":2,"score":20}]
+85-100 = hero ${season.name} pieces, quintessential for the season: ${season.hero}.
+60-84  = sells fine now, year-round staples and season-adjacent basics: ${season.staples}. Denim, jeans, mini/midi skirts, basic tees, blazers, trousers and casual short dresses default to THIS band unless the image clearly shows a heavy or cold-weather garment.
+40-59  = transitional or borderline: wearable but not ideal right now (e.g. a thin long-sleeve top or light cardigan in summer).
+1-39   = wrong for the weather: ${season.offseason}.
 
-Items:
-${list}`;
+HARD RULE: score 5 regardless of season if the image shows the item is NOT women's ready-to-wear — anything modeled on kids/children, men's/male items, non-clothing, or intimates/lingerie/underwear/nightwear. These do not belong in the storefront.
+
+Return ONLY a JSON array, no prose, no code fences, one entry per numbered product:
+[{"n":1,"score":85},{"n":2,"score":20}]`;
+
+    const content = [{ type: "text", text: prompt }];
+    items.forEach((p, i) => {
+        content.push({ type: "text", text: `Product ${i + 1}: [${p.category || "?"}] ${p.name}` });
+        if (p.image) content.push({ type: "image", source: { type: "url", url: p.image } });
+    });
 
     const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -217,15 +249,23 @@ ${list}`;
             "content-type": "application/json",
         },
         body: JSON.stringify({
-            model: env.SCORE_MODEL || "claude-sonnet-4-20250514",
+            model: env.SCORE_MODEL || "claude-sonnet-4-6",
             max_tokens: 1500,
-            messages: [{ role: "user", content: prompt }],
+            messages: [{ role: "user", content }],
         }),
     });
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+        const msg = data?.error?.message || `HTTP ${res.status}`;
+        throw new Error(`Anthropic API error: ${msg}`);
+    }
     const text = (data.content || []).map((c) => c.text || "").join("").trim();
     const clean = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
-    return JSON.parse(clean);
+    try {
+        return JSON.parse(clean);
+    } catch {
+        throw new Error(`Could not parse score JSON. Model said: ${text.slice(0, 200)}`);
+    }
 }
 
 // Pull women's items into D1 by iterating leaf categories at 1 req/sec.
@@ -261,13 +301,25 @@ app.post("/sync", async (c) => {
 });
 
 // Public storefront feed — visible items, most in-season first.
+// Filters: ?cat=<category name> (matches D1's stored leaf name), ?q=<keyword>, ?page=N.
 app.get("/api/catalog", async (c) => {
+    const cat = (c.req.query("cat") || "").trim();
+    const q = (c.req.query("q") || "").trim();
+    const page = Math.max(1, Number(c.req.query("page") || "1"));
+    const pageSize = 120;
+    const offset = (page - 1) * pageSize;
+
+    const where = ["hidden = 0"];
+    const binds = [];
+    if (cat) { where.push("category = ?"); binds.push(cat); }
+    if (q) { where.push("name LIKE ?"); binds.push(`%${q}%`); }
+
     const { results } = await c.env.DB.prepare(
         `SELECT pid AS id, name, price, cost, image, sku, category, us_stock AS usStock, season_score AS seasonScore
-     FROM products WHERE hidden = 0
+     FROM products WHERE ${where.join(" AND ")}
      ORDER BY (season_score IS NULL), season_score DESC, synced_at DESC
-     LIMIT 80`
-    ).all();
+     LIMIT ${pageSize} OFFSET ${offset}`
+    ).bind(...binds).all();
     return c.json((results || []).map((r) => ({ ...r, fabric: "", colorways: [], badge: null })));
 });
 
@@ -295,12 +347,15 @@ app.post("/admin/visibility", async (c) => {
 
 // Admin: score a batch of not-yet-scored products for the current season.
 // Call repeatedly until "remaining" is 0. Chunked to respect Worker limits.
-app.post("/score", async (c) => {
-    if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
+// Accepts GET or POST so it works from the admin page or a direct browser hit.
+app.on(["GET", "POST"], "/score", async (c) => {
+    const tok = c.env.ADMIN_TOKEN;
+    const authed = tok && (c.req.query("t") === tok || (c.req.header("Authorization") || "") === `Bearer ${tok}`);
+    if (!authed) return c.json({ error: "unauthorized" }, 401);
     if (!c.env.ANTHROPIC_API_KEY) return c.json({ error: "ANTHROPIC_API_KEY not set" }, 500);
 
     const season = seasonNow();
-    const limit = Math.min(Number(c.req.query("limit") || "20"), 40);
+    const limit = Math.min(Number(c.req.query("limit") || "8"), 10); // vision: small batches keep image↔score mapping reliable
     const { results } = await c.env.DB.prepare(
         `SELECT pid AS id, name, category FROM products
      WHERE season_score IS NULL ORDER BY synced_at DESC LIMIT ?1`
@@ -314,7 +369,7 @@ app.post("/score", async (c) => {
     try {
         scores = await scoreBatch(c.env, results, season);
     } catch (e) {
-        return c.json({ error: "scoring failed", detail: String(e) }, 502);
+        return c.json({ error: "scoring failed", detail: String(e) }, 500);
     }
 
     const byN = new Map((scores || []).map((s) => [Number(s.n), Number(s.score)]));
@@ -345,6 +400,16 @@ app.post("/admin/showall", async (c) => {
     if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
     const r = await c.env.DB.prepare(`UPDATE products SET hidden=0`).run();
     return c.json({ ok: true, shown: r.meta?.changes ?? null });
+});
+
+// Admin: clear all season scores so the next "Score season" re-scores everything
+// with the current rubric. Browser-friendly: /admin/rescore?t=YOUR_ADMIN_TOKEN
+app.get("/admin/rescore", async (c) => {
+    const t = c.env.ADMIN_TOKEN;
+    const ok = t && (c.req.query("t") === t || (c.req.header("Authorization") || "") === `Bearer ${t}`);
+    if (!ok) return c.json({ error: "unauthorized" }, 401);
+    const r = await c.env.DB.prepare(`UPDATE products SET season_score=NULL`).run();
+    return c.json({ ok: true, cleared: r.meta?.changes ?? null });
 });
 
 // Diagnostic: force a fresh token + list and surface CJ's raw codes.

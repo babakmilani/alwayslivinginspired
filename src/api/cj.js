@@ -20,15 +20,18 @@ const MOCK_PRODUCTS = [
     { id: "cj-1299", name: "The Baby Tee", fabric: "Compact cotton", price: 24, usStock: 510, image: "", colorways: ["#FBF7EF", "#D98E84", "#1C1611"], badge: "Bestseller" },
 ];
 
-export async function getProducts({ page = 1, q = "", categoryId = "" } = {}) {
+// Reads the curated, seasonally-scored catalog from D1 (via the Worker).
+// The Worker no longer calls CJ on page loads, so the live site is fast and
+// never hits CJ's per-IP rate limit. `category` is a D1 category name.
+export async function getProducts({ page = 1, q = "", category = "" } = {}) {
     if (!API_BASE) {
         return new Promise((r) => setTimeout(() => r(MOCK_PRODUCTS), 300)); // dev fallback
     }
     const qs = new URLSearchParams({ page: String(page) });
     if (q) qs.set("q", q);
-    if (categoryId) qs.set("categoryId", categoryId);
-    const res = await fetch(`${API_BASE}/api/products?${qs}`);
-    if (!res.ok) throw new Error(`CJ proxy ${res.status}`);
+    if (category) qs.set("cat", category);
+    const res = await fetch(`${API_BASE}/api/catalog?${qs}`);
+    if (!res.ok) throw new Error(`catalog ${res.status}`);
     return res.json();
 }
 

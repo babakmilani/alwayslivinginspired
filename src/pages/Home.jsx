@@ -5,15 +5,18 @@ import { getProducts } from "../api/cj";
 import { useCart } from "../context/CartContext";
 import "./Home.css";
 
-// label -> CJ categoryId (from /api/categories). Pills fetch these live.
+// label -> D1 category name (exactly as stored from CJ's categoryName).
+// The storefront filters the curated catalog by these names.
 const CATEGORIES = [
-    { label: "Dresses", id: "D2432903-0D4E-4787-886F-D3D9DA7890D9" },   // Lady Dresses
-    { label: "Tops", id: "5A3E7341-18B5-4C61-BFCD-8965B3479A9A" },      // Blouses & Shirts
-    { label: "Knitwear", id: "DE9C662C-3F48-4855-87E7-E18733EFF6D2" },  // Sweaters
-    { label: "Denim", id: "63584B9B-5275-4268-8BEA-7D3C7A7BB925" },     // Woman Jeans
-    { label: "Sets", id: "ECDBD4C4-7467-4831-9F55-740E3C7968BE" },      // Suits & Sets
-    { label: "Outerwear", id: "07398ADB-FC5E-4CC4-AD00-EB230E779E88" }, // Blazers
-    { label: "Activewear", id: "396E962A-5632-49C2-B9BF-9529DE3B9141" },// Leggings
+    { label: "Dresses", cat: "Lady Dresses" },
+    { label: "Tops", cat: "Blouses & Shirts" },
+    { label: "Knitwear", cat: "Sweaters" },
+    { label: "Denim", cat: "Woman Jeans" },
+    { label: "Skirts", cat: "Skirts" },
+    { label: "Pants", cat: "Pants & Capris" },
+    { label: "Sets", cat: "Suits & Sets" },
+    { label: "Blazers", cat: "Blazers" },
+    { label: "Leggings", cat: "Leggings" },
 ];
 
 function swatchGradient(colors = []) {
@@ -44,10 +47,10 @@ export default function Home() {
     const [active, setActive] = useState(""); // "" = default women's edit
     const { addItem } = useCart();
 
-    const loadProducts = (categoryId = "") => {
+    const loadProducts = (cat = "") => {
         setLoading(true);
-        setActive(categoryId);
-        getProducts(categoryId ? { categoryId } : {})
+        setActive(cat);
+        getProducts(cat ? { category: cat } : {})
             .then((p) => { setProducts(p); setLoading(false); })
             .catch(() => setLoading(false));
     };
@@ -93,9 +96,9 @@ export default function Home() {
                 <div className="cat-pills">
                     {CATEGORIES.map((c) => (
                         <button
-                            key={c.id}
-                            className={`pill ${active === c.id ? "on" : ""}`}
-                            onClick={() => { loadProducts(c.id); scrollToEdit(); }}
+                            key={c.cat}
+                            className={`pill ${active === c.cat ? "on" : ""}`}
+                            onClick={() => { loadProducts(c.cat); scrollToEdit(); }}
                         >
                             {c.label}
                         </button>

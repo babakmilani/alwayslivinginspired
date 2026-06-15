@@ -8,7 +8,7 @@ compatibility_date = "2025-06-01"
 # Comma-separated allowlist of site origins permitted to call this Worker.
 ALLOWED_ORIGIN = "https://alwayslivinginspired.com,https://www.alwayslivinginspired.com,https://alwayslivinginspired.pages.dev"
 MARKUP = "2.5"   # retail = CJ cost x this, charm-rounded to x.99
-SCORE_MODEL = "claude-sonnet-4-20250514"   # model used for seasonal scoring
+SCORE_MODEL = "claude-haiku-4-5-20251001"   # model used for seasonal scoring
 
 # Token + product-list cache.
 #   npx wrangler kv namespace create CJ_KV
