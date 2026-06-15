@@ -102,6 +102,7 @@
 .ac-img {
     aspect-ratio: 1;
     background: #f1e9dc;
+    position: relative;
 }
 
 .ac-img img {
@@ -109,6 +110,27 @@
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+.ac-score {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    min-width: 26px;
+    text-align: center;
+    padding: 3px 7px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.ac-score.good {
+    background: #3f7d52;
+}
+
+.ac-score.low {
+    background: #b15c4e;
 }
 
 .ac-body {
