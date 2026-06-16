@@ -1,6 +1,6 @@
 // src/components/CartDrawer.jsx
 import React from "react";
-import { X, Plus, Minus, ArrowRight } from "lucide-react";
+import { X, ArrowRight } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import "./CartDrawer.css";
 
@@ -32,9 +32,9 @@ export default function CartDrawer() {
                                         {it.size && <div className="cd-size">Size {it.size}</div>}
                                         <div className="cd-price">${it.price.toFixed(2)}</div>
                                         <div className="cd-qty">
-                                            <button onClick={() => updateQty(it.key, it.qty - 1)} aria-label="Decrease quantity"><Minus size={13} strokeWidth={2} /></button>
+                                            <button onClick={() => updateQty(it.key, it.qty - 1)} aria-label="Decrease quantity">−</button>
                                             <span>{it.qty}</span>
-                                            <button onClick={() => updateQty(it.key, it.qty + 1)} aria-label="Increase quantity"><Plus size={13} strokeWidth={2} /></button>
+                                            <button onClick={() => updateQty(it.key, it.qty + 1)} aria-label="Increase quantity">+</button>
                                             <button className="cd-remove" onClick={() => removeItem(it.key)}>Remove</button>
                                         </div>
                                     </div>
