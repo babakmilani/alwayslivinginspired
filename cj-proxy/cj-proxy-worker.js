@@ -173,57 +173,28 @@ app.get("/api/inventory/:vid", async (c) => {
     });
 });
 
-/* ---- PRODUCT DETAIL: D1 base + live CJ variants (sizes + vids), KV-cached ---- */
+/* ---- PRODUCT DETAIL: served entirely from D1 (variants synced in advance) ---- */
 app.get("/api/product/:pid", async (c) => {
     const pid = c.req.param("pid");
-    const cacheKey = `prod:${pid}`;
-
-    const cached = await c.env.CJ_KV.get(cacheKey, "json");
-    if (cached) return c.json(cached);
-
-    // Base comes from the curated D1 catalog (our retail price, image, US stock).
-    const base = await c.env.DB.prepare(
-        `SELECT pid AS id, name, price, image, category, us_stock AS usStock FROM products WHERE pid = ?1`
+    const row = await c.env.DB.prepare(
+        `SELECT pid AS id, name, price, image, category, us_stock AS usStock, variants
+     FROM products WHERE pid = ?1`
     ).bind(pid).first();
-    if (!base) return c.json({ error: "not found" }, 404);
+    if (!row) return c.json({ error: "not found" }, 404);
 
-    // Variants (size options + vids) + gallery from CJ product detail.
     let variants = [];
-    let images = base.image ? [base.image] : [];
-    let cjOk = false;
-    try {
-        const d = await cj(c.env, "/product/query", { pid });
-        if (d?.code === 200 && d.data) {
-            cjOk = true;
-            const set = d.data.productImageSet || d.data.productImages || [];
-            if (Array.isArray(set) && set.length) images = set;
-            const vs = d.data.variants || [];
-            variants = vs
-                .map((v, i) => ({
-                    vid: v.vid,
-                    label: (v.variantStandard || v.variantNameEn || v.variantKey || v.variantSku || `Option ${i + 1}`).toString().trim(),
-                }))
-                .filter((v) => v.vid);
-        }
-    } catch {
-        // graceful — page still renders from D1, just without size options
-    }
+    try { variants = row.variants ? JSON.parse(row.variants) : []; } catch { variants = []; }
 
-    const product = {
-        id: base.id,
-        name: base.name,
-        price: base.price,
-        image: base.image,
-        images,
-        category: base.category,
-        usStock: base.usStock,
+    return c.json({
+        id: row.id,
+        name: row.name,
+        price: row.price,
+        image: row.image,
+        images: row.image ? [row.image] : [],
+        category: row.category,
+        usStock: row.usStock,
         variants,
-    };
-
-    // Only cache successful CJ fetches, so a rate-limited (variant-less) result
-    // isn't frozen for 6h — it self-heals on the next view.
-    if (cjOk) await c.env.CJ_KV.put(cacheKey, JSON.stringify(product), { expirationTtl: 60 * 60 * 6 });
-    return c.json(product);
+    });
 });
 
 /* ===== D1 catalog + admin (curation system) ========================
@@ -483,6 +454,24 @@ app.get("/admin/rescore", async (c) => {
     return c.json({ ok: true, cleared: r.meta?.changes ?? null });
 });
 
+// Diagnostic: raw CJ product detail for one pid. /debug/product?t=TOKEN&pid=PID
+app.get("/debug/product", async (c) => {
+    const t = c.env.ADMIN_TOKEN;
+    const ok = t && (c.req.query("t") === t || (c.req.header("Authorization") || "") === `Bearer ${t}`);
+    if (!ok) return c.json({ error: "unauthorized" }, 401);
+    const pid = c.req.query("pid");
+    const d = await cj(c.env, "/product/query", { pid });
+    const data = d?.data || {};
+    const vs = data.variants || data.variant || data.variantList || [];
+    return c.json({
+        code: d?.code,
+        message: d?.message,
+        dataKeys: Object.keys(data).slice(0, 50),
+        variantsLen: Array.isArray(vs) ? vs.length : "not-an-array",
+        firstVariant: Array.isArray(vs) && vs[0] ? vs[0] : null,
+    });
+});
+
 // Diagnostic: force a fresh token + list and surface CJ's raw codes.
 // Hit in browser: /debug?t=YOUR_ADMIN_TOKEN  (remove after debugging)
 app.get("/debug", async (c) => {
@@ -533,13 +522,14 @@ app.post("/admin/import", async (c) => {
     for (const p of products) {
         if (!p?.pid) continue;
         const usStock = typeof p.usStock === "number" ? p.usStock : null;
+        const variants = Array.isArray(p.variants) ? JSON.stringify(p.variants) : null;
         await c.env.DB.prepare(
-            `INSERT INTO products (pid,name,price,cost,image,sku,category,us_stock,synced_at)
-       VALUES (?1,?2,?3,?4,?5,?6,?7,?8,datetime('now'))
+            `INSERT INTO products (pid,name,price,cost,image,sku,category,us_stock,variants,synced_at)
+       VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,datetime('now'))
        ON CONFLICT(pid) DO UPDATE SET
          name=?2, price=?3, cost=?4, image=?5, sku=?6, category=?7,
-         us_stock=COALESCE(?8, us_stock), synced_at=datetime('now')`
-        ).bind(p.pid, p.name, retail(p.cost, markup), Number(p.cost), p.image, p.sku, p.category || "", usStock).run();
+         us_stock=COALESCE(?8, us_stock), variants=COALESCE(?9, variants), synced_at=datetime('now')`
+        ).bind(p.pid, p.name, retail(p.cost, markup), Number(p.cost), p.image, p.sku, p.category || "", usStock, variants).run();
         upserted++;
     }
     return c.json({ ok: true, upserted });

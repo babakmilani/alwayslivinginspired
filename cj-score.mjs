@@ -8,7 +8,8 @@
 // hiding entirely and leave every in-stock item visible (sorted by score).
 
 const API_BASE = process.env.API_BASE || "https://cj-proxy.milani-babak.workers.dev";
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
+const clean = (s) => (s || "").trim().replace(/^[\u2018\u2019\u201C\u201D'"]+|[\u2018\u2019\u201C\u201D'"]+$/g, "");
+const ADMIN_TOKEN = clean(process.env.ADMIN_TOKEN);
 // Empty/unset -> default 50. Explicit "0" -> no hiding.
 const HIDE_BELOW = (process.env.HIDE_BELOW === undefined || process.env.HIDE_BELOW === "")
   ? 50

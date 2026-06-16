@@ -9,10 +9,14 @@
 
 const CJ_BASE = "https://developers.cjdropshipping.com/api2.0/v1";
 const API_BASE = process.env.API_BASE || "https://cj-proxy.milani-babak.workers.dev";
-const CJ_API_KEY = process.env.CJ_API_KEY;
-const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
+// Strip stray wrapping quotes (incl. smart quotes) and whitespace that can sneak
+// in via copy/paste — they'd otherwise break HTTP headers (ByteString error).
+const clean = (s) => (s || "").trim().replace(/^[\u2018\u2019\u201C\u201D'"]+|[\u2018\u2019\u201C\u201D'"]+$/g, "");
+const CJ_API_KEY = clean(process.env.CJ_API_KEY);
+const ADMIN_TOKEN = clean(process.env.ADMIN_TOKEN);
 const COUNTRY = process.env.WAREHOUSE_COUNTRY || "US"; // warehouse to source from
 const PAGE_SIZE = 100; // listV2 max
+const SKIP_VARIANTS = process.env.SKIP_VARIANTS === "1";
 
 // Women's leaf categories (third-level categoryId : storefront label)
 const CATS = [
@@ -93,6 +97,37 @@ async function importProducts(products) {
   return d.upserted;
 }
 
+// Product detail -> variants [{ vid, label }]. One CJ call per product.
+async function getVariants(token, pid) {
+  const r = await fetch(`${CJ_BASE}/product/query?pid=${pid}`, { headers: cjHeaders(token) });
+  const d = await r.json();
+  if (d.code !== 200) return null; // null = unknown; don't overwrite stored variants
+  const vs = d?.data?.variants || [];
+  return vs
+    .map((v, i) => ({
+      vid: v.vid,
+      label: (v.variantStandard || v.variantNameEn || v.variantKey || v.variantSku || `Option ${i + 1}`)
+        .toString()
+        .trim(),
+    }))
+    .filter((v) => v.vid);
+}
+
+// Adds .variants to each product (size/color options + vids for fulfillment).
+async function enrichVariants(token, items) {
+  let done = 0;
+  for (const p of items) {
+    try {
+      const v = await getVariants(token, p.pid);
+      if (v) p.variants = v;
+    } catch {
+      /* leave undefined -> import won't overwrite */
+    }
+    await sleep(QPS);
+    if (++done % 20 === 0) process.stdout.write(`    …variants ${done}/${items.length}\n`);
+  }
+}
+
 (async () => {
   if (!CJ_API_KEY || !ADMIN_TOKEN) {
     console.error("Set CJ_API_KEY and ADMIN_TOKEN env vars first.");
@@ -106,8 +141,9 @@ async function importProducts(products) {
   for (const [id, label] of CATS) {
     const items = await listCategory(token, id, label);
     console.log(`  ${label}: ${items.length} ${COUNTRY}-stock items`);
+    await sleep(QPS);
+    if (items.length && !SKIP_VARIANTS) await enrichVariants(token, items);
     if (items.length) total += await importProducts(items);
-    await sleep(QPS); // QPS = 1 between CJ calls
   }
-  console.log(`\nDone. Imported ${total} ${COUNTRY}-warehouse, in-stock products into D1.`);
+  console.log(`\nDone. Imported ${total} ${COUNTRY}-warehouse, in-stock products into D1${SKIP_VARIANTS ? "" : " (with variants)"}.`);
 })();
