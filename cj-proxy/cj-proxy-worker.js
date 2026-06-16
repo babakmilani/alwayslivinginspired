@@ -173,6 +173,59 @@ app.get("/api/inventory/:vid", async (c) => {
     });
 });
 
+/* ---- PRODUCT DETAIL: D1 base + live CJ variants (sizes + vids), KV-cached ---- */
+app.get("/api/product/:pid", async (c) => {
+    const pid = c.req.param("pid");
+    const cacheKey = `prod:${pid}`;
+
+    const cached = await c.env.CJ_KV.get(cacheKey, "json");
+    if (cached) return c.json(cached);
+
+    // Base comes from the curated D1 catalog (our retail price, image, US stock).
+    const base = await c.env.DB.prepare(
+        `SELECT pid AS id, name, price, image, category, us_stock AS usStock FROM products WHERE pid = ?1`
+    ).bind(pid).first();
+    if (!base) return c.json({ error: "not found" }, 404);
+
+    // Variants (size options + vids) + gallery from CJ product detail.
+    let variants = [];
+    let images = base.image ? [base.image] : [];
+    let cjOk = false;
+    try {
+        const d = await cj(c.env, "/product/query", { pid });
+        if (d?.code === 200 && d.data) {
+            cjOk = true;
+            const set = d.data.productImageSet || d.data.productImages || [];
+            if (Array.isArray(set) && set.length) images = set;
+            const vs = d.data.variants || [];
+            variants = vs
+                .map((v, i) => ({
+                    vid: v.vid,
+                    label: (v.variantStandard || v.variantNameEn || v.variantKey || v.variantSku || `Option ${i + 1}`).toString().trim(),
+                }))
+                .filter((v) => v.vid);
+        }
+    } catch {
+        // graceful — page still renders from D1, just without size options
+    }
+
+    const product = {
+        id: base.id,
+        name: base.name,
+        price: base.price,
+        image: base.image,
+        images,
+        category: base.category,
+        usStock: base.usStock,
+        variants,
+    };
+
+    // Only cache successful CJ fetches, so a rate-limited (variant-less) result
+    // isn't frozen for 6h — it self-heals on the next view.
+    if (cjOk) await c.env.CJ_KV.put(cacheKey, JSON.stringify(product), { expirationTtl: 60 * 60 * 6 });
+    return c.json(product);
+});
+
 /* ===== D1 catalog + admin (curation system) ========================
    D1 binding: DB. Admin auth: header "Authorization: Bearer <ADMIN_TOKEN>".
    Set token: npx wrangler secret put ADMIN_TOKEN
@@ -249,7 +302,7 @@ Return ONLY a JSON array, no prose, no code fences, one entry per numbered produ
             "content-type": "application/json",
         },
         body: JSON.stringify({
-            model: env.SCORE_MODEL || "claude-haiku-4-5-20251001",
+            model: env.SCORE_MODEL || "claude-sonnet-4-6",
             max_tokens: 1500,
             temperature: 0, // deterministic — same product scores the same each run
             messages: [{ role: "user", content }],

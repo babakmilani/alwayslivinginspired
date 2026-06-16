@@ -20,6 +20,14 @@ const MOCK_PRODUCTS = [
     { id: "cj-1299", name: "The Baby Tee", fabric: "Compact cotton", price: 24, usStock: 510, image: "", colorways: ["#FBF7EF", "#D98E84", "#1C1611"], badge: "Bestseller" },
 ];
 
+// Single product detail: D1 base + CJ variants (sizes + vids).
+export async function getProduct(pid) {
+    if (!API_BASE) return null;
+    const res = await fetch(`${API_BASE}/api/product/${pid}`);
+    if (!res.ok) throw new Error(`product ${res.status}`);
+    return res.json();
+}
+
 // Reads the curated, seasonally-scored catalog from D1 (via the Worker).
 // The Worker no longer calls CJ on page loads, so the live site is fast and
 // never hits CJ's per-IP rate limit. `category` is a D1 category name.

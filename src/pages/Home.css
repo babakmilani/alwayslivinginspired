@@ -377,3 +377,22 @@
         padding: 48px 28px;
     }
 }
+
+/* card links into product detail */
+.card-vis {
+    display: block;
+    text-decoration: none;
+}
+
+.cm-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cm-link:hover {
+    text-decoration: underline;
+}
+
+a.add {
+    text-decoration: none;
+}

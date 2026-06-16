@@ -1,5 +1,6 @@
 // src/pages/Home.jsx
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowRight } from "lucide-react";
 import { getProducts } from "../api/cj";
 import { useCart } from "../context/CartContext";
@@ -121,7 +122,8 @@ export default function Home() {
                             const sl = stockLabel(p);
                             return (
                                 <article key={p.id} className="card">
-                                    <div
+                                    <Link
+                                        to={`/product/${p.id}`}
                                         className="card-vis"
                                         style={p.image ? undefined : { background: swatchGradient(p.colorways) }}
                                     >
@@ -131,13 +133,13 @@ export default function Home() {
                                         {!p.image && p.colorways?.length > 0 && (
                                             <div className="swatches">{p.colorways.map((c, i) => <i key={i} style={{ background: c }} />)}</div>
                                         )}
-                                    </div>
+                                    </Link>
                                     <div className="card-meta">
-                                        <div className="cm-row"><h3>{p.name}</h3><span className="price">${p.price}</span></div>
+                                        <div className="cm-row"><h3><Link to={`/product/${p.id}`} className="cm-link">{p.name}</Link></h3><span className="price">${p.price}</span></div>
                                         <p className="cm-sub">{cardSub(p)}</p>
-                                        <button className="add" disabled={p.usStock === 0} onClick={() => addItem(p)}>
-                                            {p.usStock === 0 ? "Notify me" : "Add to bag"} <ArrowUpRight size={15} strokeWidth={2} />
-                                        </button>
+                                        <Link className="add" to={`/product/${p.id}`}>
+                                            {p.usStock === 0 ? "View" : "Choose options"} <ArrowUpRight size={15} strokeWidth={2} />
+                                        </Link>
                                     </div>
                                 </article>
                             );
