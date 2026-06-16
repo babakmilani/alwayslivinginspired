@@ -8,7 +8,7 @@ import "./Header.css";
 const ETHOS = ["NEW IN WEEKLY", "SHIPS FROM THE US", "3-DAY DELIVERY", "CURATED, NOT CLUTTERED", "THE WEAR-NOW EDIT"];
 
 export default function Header() {
-    const { count } = useCart();
+    const { count, openCart } = useCart();
 
     return (
         <header className="site-header brand">
@@ -26,7 +26,7 @@ export default function Header() {
 
                 <nav className="mast-nav right">
                     <Link to="/contact">Help</Link>
-                    <button className="bag" aria-label="Bag">
+                    <button className="bag" aria-label="Bag" onClick={openCart}>
                         <ShoppingBag size={17} strokeWidth={1.6} /> <span>{count}</span>
                     </button>
                 </nav>

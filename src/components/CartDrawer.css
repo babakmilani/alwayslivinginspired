@@ -1,0 +1,249 @@
+/* src/components/CartDrawer.css */
+.cart-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(25, 20, 15, 0.38);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+    z-index: 200;
+}
+
+.cart-scrim.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 92vw);
+    background: var(--bone, #F1E9DC);
+    color: var(--ink, #19140F);
+    z-index: 201;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: -18px 0 50px rgba(25, 20, 15, 0.14);
+}
+
+.cart-drawer.open {
+    transform: translateX(0);
+}
+
+.cd-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 24px 16px;
+    border-bottom: 1px solid rgba(25, 20, 15, 0.12);
+}
+
+.cd-head h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.cd-x {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink, #19140F);
+    padding: 4px;
+    line-height: 0;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+}
+
+.cd-x:hover {
+    background: rgba(25, 20, 15, 0.08);
+}
+
+.cd-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 40px;
+    text-align: center;
+}
+
+.cd-empty p {
+    font-size: 1rem;
+    opacity: 0.7;
+    margin: 0;
+}
+
+.cd-continue {
+    background: var(--ink, #19140F);
+    color: var(--bone, #F1E9DC);
+    border: none;
+    border-radius: 999px;
+    padding: 12px 26px;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+}
+
+.cd-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 24px;
+}
+
+.cd-item {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 14px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(25, 20, 15, 0.08);
+}
+
+.cd-thumb {
+    width: 64px;
+    height: 82px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--paper-2, #EFE7D8);
+}
+
+.cd-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cd-info {
+    min-width: 0;
+}
+
+.cd-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 3px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.cd-size {
+    font-size: 0.74rem;
+    opacity: 0.6;
+    margin-bottom: 4px;
+}
+
+.cd-price {
+    font-size: 0.82rem;
+    opacity: 0.75;
+    margin-bottom: 8px;
+}
+
+.cd-qty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cd-qty button {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(25, 20, 15, 0.24);
+    background: transparent;
+    cursor: pointer;
+    line-height: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink, #19140F);
+    transition: background 0.18s ease;
+}
+
+.cd-qty button:hover {
+    background: rgba(25, 20, 15, 0.08);
+}
+
+.cd-qty>span {
+    font-size: 0.85rem;
+    min-width: 16px;
+    text-align: center;
+}
+
+.cd-remove {
+    width: auto !important;
+    height: auto !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin-left: 6px;
+    font-size: 0.72rem;
+    opacity: 0.55;
+    text-decoration: underline;
+    padding: 0 !important;
+}
+
+.cd-remove:hover {
+    opacity: 0.85;
+    background: none !important;
+}
+
+.cd-line {
+    font-size: 0.88rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.cd-foot {
+    padding: 18px 24px 24px;
+    border-top: 1px solid rgba(25, 20, 15, 0.12);
+    background: var(--bone, #F1E9DC);
+}
+
+.cd-sub {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.cd-sub span:last-child {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.2rem;
+}
+
+.cd-note {
+    font-size: 0.74rem;
+    opacity: 0.6;
+    margin: 0 0 14px;
+}
+
+.cd-checkout {
+    width: 100%;
+    background: var(--clay, #C0664E);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 15px;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: filter 0.2s ease;
+}
+
+.cd-checkout:hover {
+    filter: brightness(0.94);
+}
