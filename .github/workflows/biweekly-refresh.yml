@@ -1,0 +1,65 @@
+# .github/workflows/biweekly-refresh.yml
+# Refreshes the US-warehouse catalog and re-scores it for the current season,
+# every other Friday at ~9 PM Pacific. Runs in GitHub's cloud — no machine of
+# yours needs to be on.
+#
+# Setup (one time):
+#   Repo > Settings > Secrets and variables > Actions > New repository secret
+#     CJ_API_KEY   = your CJ API key
+#     ADMIN_TOKEN  = your Worker admin token
+#   (Optional) Variables: API_BASE, HIDE_BELOW
+#
+# Trigger it by hand anytime from the Actions tab ("Run workflow").
+
+name: Biweekly catalog refresh
+
+on:
+  schedule:
+    # 04:00 UTC Saturday = 21:00 (9 PM) Friday Pacific during PDT.
+    # Note: GitHub cron is UTC and ignores DST, so in PST (winter) this fires
+    # at 8 PM Pacific. Close enough for a catalog refresh.
+    - cron: "0 4 * * 6"
+  workflow_dispatch: {}
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      # Run only every other ISO week (even weeks) to make the schedule biweekly.
+      # Manual runs (workflow_dispatch) always proceed.
+      - name: Biweekly gate
+        id: gate
+        run: |
+          WEEK=$(date -u +%V | sed 's/^0*//')
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ $(( WEEK % 2 )) -eq 0 ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Odd ISO week $WEEK — skipping this cycle (runs every other week)."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        if: steps.gate.outputs.run == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Sync US-warehouse catalog
+        if: steps.gate.outputs.run == 'true'
+        env:
+          CJ_API_KEY: ${{ secrets.CJ_API_KEY }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          API_BASE: ${{ vars.API_BASE }}
+        run: node cj-sync.mjs
+
+      - name: Rescore + curate for current season
+        if: steps.gate.outputs.run == 'true'
+        env:
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          API_BASE: ${{ vars.API_BASE }}
+          HIDE_BELOW: ${{ vars.HIDE_BELOW }}
+        run: node cj-score.mjs

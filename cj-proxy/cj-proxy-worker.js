@@ -219,18 +219,18 @@ function seasonNow() {
 // Score a batch of products 0-100 for fit to the current season via the Anthropic API.
 // Uses the product IMAGE as the source of truth, because CJ titles stuff misleading
 // SEO season words. Returns [{ n, score }] keyed by 1-based position in `items`.
-async function scoreBatch(env, items, season) {
+async function scoreBatch(env, items, season, withImages = true) {
     const prompt = `You are the buyer for a US women's fashion store deciding what to feature in ${season.name}.
-Below are numbered products, each followed by its photo. Judge each item PRIMARILY FROM ITS IMAGE: the actual fabric weight, sleeve length, coverage, and styling you can see. Product titles are auto-generated and routinely stuff in misleading season words (e.g. "Autumn Winter") and keywords — IGNORE those words when the image clearly shows otherwise. A sheer, lightweight, sleeveless, or visibly summer-appropriate garment is a summer piece even if the title says "winter."
+Below are numbered products${withImages ? ", each followed by its photo. Judge each item PRIMARILY FROM ITS IMAGE: the actual fabric weight, sleeve length, coverage, and styling you can see" : ". Judge each item from its title and category"}. Product titles are auto-generated and routinely stuff in misleading season words (e.g. "Autumn Winter") and keywords — ${withImages ? "IGNORE those words when the image clearly shows otherwise. A sheer, lightweight, sleeveless, or visibly summer-appropriate garment is a summer piece even if the title says \"winter.\"" : "weigh the garment type over stray season keywords."}
 
 Score each 0-100 for how appropriate it is to SELL AND FEATURE right now, using the full range and these bands:
 
 85-100 = hero ${season.name} pieces, quintessential for the season: ${season.hero}.
-60-84  = sells fine now, year-round staples and season-adjacent basics: ${season.staples}. Denim, jeans, mini/midi skirts, basic tees, blazers, trousers and casual short dresses default to THIS band unless the image clearly shows a heavy or cold-weather garment.
+60-84  = sells fine now, year-round staples and season-adjacent basics: ${season.staples}. Denim, jeans, mini/midi skirts, basic tees, blazers, trousers and casual short dresses default to THIS band unless ${withImages ? "the image clearly shows" : "the title clearly indicates"} a heavy or cold-weather garment.
 40-59  = transitional or borderline: wearable but not ideal right now (e.g. a thin long-sleeve top or light cardigan in summer).
 1-39   = wrong for the weather: ${season.offseason}.
 
-HARD RULE: score 5 regardless of season if the image shows the item is NOT women's ready-to-wear — anything modeled on kids/children, men's/male items, non-clothing, or intimates/lingerie/underwear/nightwear. These do not belong in the storefront.
+HARD RULE: score 5 regardless of season if the item is NOT women's ready-to-wear — anything for kids/children, men's/male items, non-clothing, or intimates/lingerie/underwear/nightwear. These do not belong in the storefront.
 
 Return ONLY a JSON array, no prose, no code fences, one entry per numbered product:
 [{"n":1,"score":85},{"n":2,"score":20}]`;
@@ -238,7 +238,7 @@ Return ONLY a JSON array, no prose, no code fences, one entry per numbered produ
     const content = [{ type: "text", text: prompt }];
     items.forEach((p, i) => {
         content.push({ type: "text", text: `Product ${i + 1}: [${p.category || "?"}] ${p.name}` });
-        if (p.image) content.push({ type: "image", source: { type: "url", url: p.image } });
+        if (withImages && p.image) content.push({ type: "image", source: { type: "url", url: p.image } });
     });
 
     const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -249,8 +249,9 @@ Return ONLY a JSON array, no prose, no code fences, one entry per numbered produ
             "content-type": "application/json",
         },
         body: JSON.stringify({
-            model: env.SCORE_MODEL || "claude-sonnet-4-6",
+            model: env.SCORE_MODEL || "claude-haiku-4-5-20251001",
             max_tokens: 1500,
+            temperature: 0, // deterministic — same product scores the same each run
             messages: [{ role: "user", content }],
         }),
     });
@@ -260,7 +261,10 @@ Return ONLY a JSON array, no prose, no code fences, one entry per numbered produ
         throw new Error(`Anthropic API error: ${msg}`);
     }
     const text = (data.content || []).map((c) => c.text || "").join("").trim();
-    const clean = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+    let clean = text.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
+    const start = clean.indexOf("[");
+    const end = clean.lastIndexOf("]");
+    if (start >= 0 && end > start) clean = clean.slice(start, end + 1); // isolate the JSON array
     try {
         return JSON.parse(clean);
     } catch {
@@ -309,7 +313,7 @@ app.get("/api/catalog", async (c) => {
     const pageSize = 120;
     const offset = (page - 1) * pageSize;
 
-    const where = ["hidden = 0"];
+    const where = ["hidden = 0", "(us_stock IS NULL OR us_stock > 0)"];
     const binds = [];
     if (cat) { where.push("category = ?"); binds.push(cat); }
     if (q) { where.push("name LIKE ?"); binds.push(`%${q}%`); }
@@ -357,7 +361,7 @@ app.on(["GET", "POST"], "/score", async (c) => {
     const season = seasonNow();
     const limit = Math.min(Number(c.req.query("limit") || "8"), 10); // vision: small batches keep image↔score mapping reliable
     const { results } = await c.env.DB.prepare(
-        `SELECT pid AS id, name, category FROM products
+        `SELECT pid AS id, name, category, image FROM products
      WHERE season_score IS NULL ORDER BY synced_at DESC LIMIT ?1`
     ).bind(limit).all();
 
@@ -367,9 +371,13 @@ app.on(["GET", "POST"], "/score", async (c) => {
 
     let scores;
     try {
-        scores = await scoreBatch(c.env, results, season);
-    } catch (e) {
-        return c.json({ error: "scoring failed", detail: String(e) }, 500);
+        scores = await scoreBatch(c.env, results, season, true); // vision first
+    } catch {
+        try {
+            scores = await scoreBatch(c.env, results, season, false); // text-only fallback (bad image, etc.)
+        } catch (e) {
+            return c.json({ error: "scoring failed", detail: String(e) }, 500);
+        }
     }
 
     const byN = new Map((scores || []).map((s) => [Number(s.n), Number(s.score)]));
@@ -400,6 +408,16 @@ app.post("/admin/showall", async (c) => {
     if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
     const r = await c.env.DB.prepare(`UPDATE products SET hidden=0`).run();
     return c.json({ ok: true, shown: r.meta?.changes ?? null });
+});
+
+// Admin: wipe the products table (use before re-sourcing, e.g. switching
+// warehouses). Browser-friendly: /admin/clear?t=YOUR_ADMIN_TOKEN
+app.get("/admin/clear", async (c) => {
+    const t = c.env.ADMIN_TOKEN;
+    const ok = t && (c.req.query("t") === t || (c.req.header("Authorization") || "") === `Bearer ${t}`);
+    if (!ok) return c.json({ error: "unauthorized" }, 401);
+    const r = await c.env.DB.prepare(`DELETE FROM products`).run();
+    return c.json({ ok: true, deleted: r.meta?.changes ?? null });
 });
 
 // Admin: clear all season scores so the next "Score season" re-scores everything
@@ -461,12 +479,14 @@ app.post("/admin/import", async (c) => {
     let upserted = 0;
     for (const p of products) {
         if (!p?.pid) continue;
+        const usStock = typeof p.usStock === "number" ? p.usStock : null;
         await c.env.DB.prepare(
-            `INSERT INTO products (pid,name,price,cost,image,sku,category,synced_at)
-       VALUES (?1,?2,?3,?4,?5,?6,?7,datetime('now'))
+            `INSERT INTO products (pid,name,price,cost,image,sku,category,us_stock,synced_at)
+       VALUES (?1,?2,?3,?4,?5,?6,?7,?8,datetime('now'))
        ON CONFLICT(pid) DO UPDATE SET
-         name=?2, price=?3, cost=?4, image=?5, sku=?6, category=?7, synced_at=datetime('now')`
-        ).bind(p.pid, p.name, retail(p.cost, markup), Number(p.cost), p.image, p.sku, p.category || "").run();
+         name=?2, price=?3, cost=?4, image=?5, sku=?6, category=?7,
+         us_stock=COALESCE(?8, us_stock), synced_at=datetime('now')`
+        ).bind(p.pid, p.name, retail(p.cost, markup), Number(p.cost), p.image, p.sku, p.category || "", usStock).run();
         upserted++;
     }
     return c.json({ ok: true, upserted });
