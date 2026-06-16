@@ -7,6 +7,15 @@ import "./CartDrawer.css";
 export default function CartDrawer() {
     const { items, subtotal, count, isOpen, closeCart, updateQty, removeItem, checkout } = useCart();
 
+    const stepBtn = {
+        boxSizing: "border-box", width: 28, height: 28, minWidth: 0, flex: "0 0 auto",
+        padding: 0, margin: 0, borderRadius: "50%",
+        border: "1px solid rgba(25,20,15,0.28)", background: "transparent",
+        color: "#19140F", cursor: "pointer",
+        fontSize: "1.15rem", lineHeight: 1, fontWeight: 400,
+        display: "inline-flex", alignItems: "center", justifyContent: "center",
+    };
+
     return (
         <>
             <div className={`cart-scrim ${isOpen ? "show" : ""}`} onClick={closeCart} aria-hidden />
@@ -32,9 +41,9 @@ export default function CartDrawer() {
                                         {it.size && <div className="cd-size">Size {it.size}</div>}
                                         <div className="cd-price">${it.price.toFixed(2)}</div>
                                         <div className="cd-qty">
-                                            <button onClick={() => updateQty(it.key, it.qty - 1)} aria-label="Decrease quantity">−</button>
+                                            <button style={stepBtn} onClick={() => updateQty(it.key, it.qty - 1)} aria-label="Decrease quantity">−</button>
                                             <span>{it.qty}</span>
-                                            <button onClick={() => updateQty(it.key, it.qty + 1)} aria-label="Increase quantity">+</button>
+                                            <button style={stepBtn} onClick={() => updateQty(it.key, it.qty + 1)} aria-label="Increase quantity">+</button>
                                             <button className="cd-remove" onClick={() => removeItem(it.key)}>Remove</button>
                                         </div>
                                     </div>
