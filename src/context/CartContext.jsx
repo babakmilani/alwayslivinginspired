@@ -1,5 +1,6 @@
 // src/context/CartContext.jsx
 import { createContext, useContext, useState, useCallback, useEffect } from "react";
+import { createCheckout } from "../api/cj.js";
 
 const CartContext = createContext(null);
 const STORAGE_KEY = "ali_cart_v1";
@@ -94,17 +95,27 @@ export function CartProvider({ children }) {
     const openCart = useCallback(() => setOpen(true), []);
     const closeCart = useCallback(() => setOpen(false), []);
 
-    // Replaced in the Stripe step with a real checkout-session redirect.
-    const checkout = useCallback(() => {
-        flash("Secure checkout is being set up — coming next.");
-    }, [flash]);
+    // Creates a Stripe Checkout Session on the Worker and redirects to it.
+    const [checkingOut, setCheckingOut] = useState(false);
+    const checkout = useCallback(async () => {
+        if (!items.length || checkingOut) return;
+        setCheckingOut(true);
+        flash("Taking you to secure checkout…");
+        try {
+            const url = await createCheckout(items);
+            window.location.href = url; // hand off to Stripe's hosted page
+        } catch (e) {
+            setCheckingOut(false);
+            flash("Checkout couldn't start. Please try again.");
+        }
+    }, [items, checkingOut, flash]);
 
     return (
         <CartContext.Provider
             value={{
                 items, count, subtotal,
                 addItem, updateQty, removeItem, clear,
-                toast, isOpen, openCart, closeCart, checkout,
+                toast, isOpen, openCart, closeCart, checkout, checkingOut,
             }}
         >
             {children}

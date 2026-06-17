@@ -197,6 +197,95 @@ app.get("/api/product/:pid", async (c) => {
     });
 });
 
+/* ===== Stripe Checkout =================================================
+   Creates a hosted Checkout Session from the cart. Prices are re-looked-up
+   server-side from D1 (never trust the client). Line items + vids are saved
+   to a pending `orders` row so fulfillment (the webhook, step 3d) has them.
+   Needs: STRIPE_SECRET_KEY secret + an `orders` table (see migration). */
+function siteOrigin(c) {
+    const o = c.req.header("origin") || "";
+    if (/^https:\/\/([a-z0-9-]+\.)?alwayslivinginspired\.(com|pages\.dev)$/.test(o)) return o;
+    return "https://alwayslivinginspired.com";
+}
+
+app.post("/api/checkout", async (c) => {
+    if (!c.env.STRIPE_SECRET_KEY) return c.json({ error: "checkout not configured" }, 500);
+
+    let body;
+    try { body = await c.req.json(); } catch { return c.json({ error: "bad request" }, 400); }
+    const reqItems = Array.isArray(body.items) ? body.items : [];
+    if (!reqItems.length) return c.json({ error: "cart empty" }, 400);
+
+    // Authoritative pricing: look each item up in D1 by pid; ignore client price.
+    const lines = [];
+    for (const it of reqItems) {
+        const pid = String(it.id || it.pid || "");
+        const qty = Math.max(1, Math.min(20, Number(it.qty) || 1));
+        if (!pid) continue;
+        const row = await c.env.DB.prepare(
+            `SELECT name, price, image FROM products WHERE pid = ?1 AND hidden = 0`
+        ).bind(pid).first();
+        if (!row || !(Number(row.price) > 0)) continue;
+        lines.push({
+            pid,
+            vid: it.vid || null,
+            size: it.size || null,
+            name: row.name,
+            image: row.image || "",
+            qty,
+            unit_amount: Math.round(Number(row.price) * 100),
+        });
+    }
+    if (!lines.length) return c.json({ error: "no purchasable items" }, 400);
+
+    const orderId = crypto.randomUUID();
+    const amount = lines.reduce((s, l) => s + l.unit_amount * l.qty, 0);
+
+    await c.env.DB.prepare(
+        `INSERT INTO orders (id, status, items, amount, created_at)
+     VALUES (?1, 'pending', ?2, ?3, datetime('now'))`
+    ).bind(orderId, JSON.stringify(lines), amount).run();
+
+    const site = siteOrigin(c);
+    const form = new URLSearchParams();
+    form.append("mode", "payment");
+    form.append("success_url", `${site}/success?session_id={CHECKOUT_SESSION_ID}`);
+    form.append("cancel_url", `${site}/?checkout=cancelled`);
+    form.append("shipping_address_collection[allowed_countries][0]", "US");
+    form.append("phone_number_collection[enabled]", "true");
+    form.append("client_reference_id", orderId);
+    form.append("metadata[order_id]", orderId);
+    lines.forEach((l, i) => {
+        form.append(`line_items[${i}][quantity]`, String(l.qty));
+        form.append(`line_items[${i}][price_data][currency]`, "usd");
+        form.append(`line_items[${i}][price_data][unit_amount]`, String(l.unit_amount));
+        form.append(`line_items[${i}][price_data][product_data][name]`, String(l.name).slice(0, 250));
+        if (l.size)
+            form.append(`line_items[${i}][price_data][product_data][description]`, `Size: ${l.size}`.slice(0, 250));
+        if (l.image && /^https:\/\//.test(l.image))
+            form.append(`line_items[${i}][price_data][product_data][images][0]`, l.image);
+    });
+
+    const sRes = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${c.env.STRIPE_SECRET_KEY}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: form.toString(),
+    });
+    const session = await sRes.json();
+    if (!sRes.ok || !session.url) {
+        return c.json({ error: "stripe error", detail: session?.error?.message || "unknown" }, 502);
+    }
+
+    await c.env.DB.prepare(
+        `UPDATE orders SET session_id = ?2, updated_at = datetime('now') WHERE id = ?1`
+    ).bind(orderId, session.id).run();
+
+    return c.json({ url: session.url });
+});
+
 /* ===== D1 catalog + admin (curation system) ========================
    D1 binding: DB. Admin auth: header "Authorization: Bearer <ADMIN_TOKEN>".
    Set token: npx wrangler secret put ADMIN_TOKEN
@@ -364,6 +453,16 @@ app.get("/admin/products", async (c) => {
     return c.json(results || []);
 });
 
+// Admin: pids that already have variants stored — lets the sync skip them
+// and stay under CJ's daily API quota (only fetch variants for new products).
+app.get("/admin/have-variants", async (c) => {
+    if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
+    const { results } = await c.env.DB.prepare(
+        `SELECT pid FROM products WHERE variants IS NOT NULL AND variants != '[]'`
+    ).all();
+    return c.json({ pids: (results || []).map((r) => r.pid) });
+});
+
 // Admin: hide/show a product.
 app.post("/admin/visibility", async (c) => {
     if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
@@ -432,6 +531,19 @@ app.post("/admin/showall", async (c) => {
     if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
     const r = await c.env.DB.prepare(`UPDATE products SET hidden=0`).run();
     return c.json({ ok: true, shown: r.meta?.changes ?? null });
+});
+
+// Admin: delete products not refreshed in the last N minutes (stale / no longer
+// in the US in-stock set). Browser-friendly: /admin/prune?t=TOKEN&minutes=30
+app.on(["GET", "POST"], "/admin/prune", async (c) => {
+    const t = c.env.ADMIN_TOKEN;
+    const ok = t && (c.req.query("t") === t || (c.req.header("Authorization") || "") === `Bearer ${t}`);
+    if (!ok) return c.json({ error: "unauthorized" }, 401);
+    const minutes = Math.max(1, Number(c.req.query("minutes") || "30"));
+    const r = await c.env.DB.prepare(
+        `DELETE FROM products WHERE synced_at < datetime('now', ?1)`
+    ).bind(`-${minutes} minutes`).run();
+    return c.json({ ok: true, pruned: r.meta?.changes ?? null });
 });
 
 // Admin: wipe the products table (use before re-sourcing, e.g. switching

@@ -97,35 +97,66 @@ async function importProducts(products) {
   return d.upserted;
 }
 
-// Product detail -> variants [{ vid, label }]. One CJ call per product.
-async function getVariants(token, pid) {
-  const r = await fetch(`${CJ_BASE}/product/query?pid=${pid}`, { headers: cjHeaders(token) });
-  const d = await r.json();
-  if (d.code !== 200) return null; // null = unknown; don't overwrite stored variants
-  const vs = d?.data?.variants || [];
-  return vs
-    .map((v, i) => ({
-      vid: v.vid,
-      label: (v.variantStandard || v.variantNameEn || v.variantKey || v.variantSku || `Option ${i + 1}`)
-        .toString()
-        .trim(),
-    }))
-    .filter((v) => v.vid);
+// Thrown when CJ's per-day API quota is exhausted, to abort the variant phase.
+class DailyLimit extends Error {}
+
+// pids that already have variants stored in D1 — skip them to conserve quota.
+async function haveVariantPids() {
+  try {
+    const r = await fetch(`${API_BASE}/admin/have-variants`, {
+      headers: { Authorization: `Bearer ${ADMIN_TOKEN}` },
+    });
+    const d = await r.json();
+    return new Set(Array.isArray(d.pids) ? d.pids : []);
+  } catch {
+    return new Set();
+  }
+}
+
+// Product detail -> variants [{ vid, label }]. One CJ call per product, with
+// backoff on transient rate-limits and a hard stop on the daily quota.
+async function getVariants(token, pid, attempt = 0) {
+  let d;
+  try {
+    const r = await fetch(`${CJ_BASE}/product/query?pid=${pid}`, { headers: cjHeaders(token) });
+    d = await r.json();
+  } catch {
+    if (attempt < 3) { await sleep(1500 * (attempt + 1)); return getVariants(token, pid, attempt + 1); }
+    return null;
+  }
+  if (d.code === 200) {
+    const vs = d?.data?.variants || [];
+    return vs
+      .map((v, i) => ({
+        vid: v.vid,
+        label: (v.variantKey || v.variantStandard || v.variantSku || `Option ${i + 1}`)
+          .toString()
+          .trim(),
+      }))
+      .filter((v) => v.vid);
+  }
+  // Daily quota exhausted — no point continuing; bubble up to stop the phase.
+  if (d.code === 1600200 && /daily request limit/i.test(d.message || "")) {
+    throw new DailyLimit(d.message);
+  }
+  // Per-second / concurrency limit — back off and retry a few times.
+  if (attempt < 4) { await sleep(2000 * (attempt + 1)); return getVariants(token, pid, attempt + 1); }
+  return null;
 }
 
 // Adds .variants to each product (size/color options + vids for fulfillment).
-async function enrichVariants(token, items) {
-  let done = 0;
+// Skips products already in haveSet to conserve CJ's daily quota.
+async function enrichVariants(token, items, haveSet) {
+  let ok = 0, skipped = 0, tried = 0;
   for (const p of items) {
-    try {
-      const v = await getVariants(token, p.pid);
-      if (v) p.variants = v;
-    } catch {
-      /* leave undefined -> import won't overwrite */
-    }
+    if (haveSet.has(p.pid)) { skipped++; continue; }
+    const v = await getVariants(token, p.pid); // may throw DailyLimit
+    tried++;
+    if (v && v.length) { p.variants = v; ok++; }
     await sleep(QPS);
-    if (++done % 20 === 0) process.stdout.write(`    …variants ${done}/${items.length}\n`);
+    if (tried % 20 === 0) process.stdout.write(`    …${ok} ok / ${tried} tried (${skipped} cached)\n`);
   }
+  return { ok, skipped };
 }
 
 (async () => {
@@ -137,13 +168,36 @@ async function enrichVariants(token, items) {
   const token = await getToken();
   await sleep(QPS);
 
-  let total = 0;
+  const haveSet = SKIP_VARIANTS ? new Set() : await haveVariantPids();
+  if (!SKIP_VARIANTS) console.log(`  ${haveSet.size} products already have variants — will skip those.`);
+
+  let total = 0, variantsOk = 0, quotaHit = false;
   for (const [id, label] of CATS) {
     const items = await listCategory(token, id, label);
     console.log(`  ${label}: ${items.length} ${COUNTRY}-stock items`);
     await sleep(QPS);
-    if (items.length && !SKIP_VARIANTS) await enrichVariants(token, items);
+    if (items.length && !SKIP_VARIANTS && !quotaHit) {
+      try {
+        const { ok } = await enrichVariants(token, items, haveSet);
+        variantsOk += ok;
+      } catch (e) {
+        if (e instanceof DailyLimit) {
+          quotaHit = true;
+          console.log(`    ⚠ CJ daily API quota (1000/day) reached — pausing variant fetch.`);
+        } else throw e;
+      }
+    }
     if (items.length) total += await importProducts(items);
   }
-  console.log(`\nDone. Imported ${total} ${COUNTRY}-warehouse, in-stock products into D1${SKIP_VARIANTS ? "" : " (with variants)"}.`);
+
+  console.log(
+    `\nDone. Imported ${total} ${COUNTRY}-warehouse products` +
+      (SKIP_VARIANTS ? "." : ` — ${variantsOk} got new variants this run.`)
+  );
+  if (quotaHit) {
+    console.log(
+      `Note: CJ's daily quota was hit, so some products still lack variants.\n` +
+        `Run this again tomorrow — it only fetches the ones still missing, so it'll finish fast.`
+    );
+  }
 })();

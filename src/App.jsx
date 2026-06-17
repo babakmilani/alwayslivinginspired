@@ -6,6 +6,7 @@ import Footer from "./components/Footer.jsx";
 import CartDrawer from "./components/CartDrawer.jsx";
 import Home from "./pages/Home.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
+import Success from "./pages/Success.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import Terms from "./pages/Terms.jsx";
 import Cookies from "./pages/Cookies.jsx";
@@ -32,6 +33,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:pid" element={<ProductDetail />} />
+          <Route path="/success" element={<Success />} />
           <Route path="/fashion-blog" element={<FashionBlog />} />
           <Route path="/blogs/:filename" element={<BlogArticle />} />
           <Route path="/about" element={<AboutUs />} />

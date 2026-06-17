@@ -53,3 +53,25 @@ export async function getInventory(vid) {
     if (!res.ok) throw new Error(`CJ proxy ${res.status}`);
     return res.json();
 }
+
+// Creates a Stripe Checkout Session from the cart and returns its hosted URL.
+// Only pid/vid/size/qty are sent; the Worker re-prices from D1 server-side.
+export async function createCheckout(items) {
+    if (!API_BASE) throw new Error("checkout unavailable in local mock mode");
+    const payload = {
+        items: (items || []).map((it) => ({
+            id: it.id,
+            vid: it.vid || null,
+            size: it.size || null,
+            qty: it.qty || 1,
+        })),
+    };
+    const res = await fetch(`${API_BASE}/api/checkout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.url) throw new Error(data.detail || data.error || `checkout ${res.status}`);
+    return data.url;
+}
