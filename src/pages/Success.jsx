@@ -25,7 +25,7 @@ export default function Success() {
                 <div style={styles.mark}>✓</div>
                 <h1 style={styles.h1}>Thank you — your order is in.</h1>
                 <p style={styles.lead}>
-                    We’ve received your payment and a confirmation is on its way to your email.
+                    We’ve received your payment and your order is confirmed.
                     Your pieces ship from a US warehouse, typically arriving in about 3 days.
                 </p>
                 {sessionId && (

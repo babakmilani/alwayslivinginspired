@@ -286,6 +286,197 @@ app.post("/api/checkout", async (c) => {
     return c.json({ url: session.url });
 });
 
+/* ===== Stripe webhook → fulfillment (3d) =============================
+   Stripe calls this on checkout.session.completed. We verify the signature,
+   mark the order paid, auto-place + pay the CJ order from wallet balance
+   (payType=2), and email the customer. If CJ placement fails the customer is
+   still confirmed and the owner is alerted to fulfill manually — never lose
+   a paid order. Needs secrets: STRIPE_WEBHOOK_SECRET, RESEND_API_KEY.
+   Vars: ORDER_FROM_EMAIL, OWNER_EMAIL, CJ_FROM_COUNTRY, CJ_LOGISTIC_NAME. */
+
+const escapeHtml = (s) =>
+    String(s == null ? "" : s).replace(/[&<>"']/g, (m) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m])
+    );
+
+// Verify a Stripe webhook signature with Web Crypto (no Node deps).
+async function verifyStripeSig(rawBody, sigHeader, secret) {
+    if (!sigHeader || !secret) return false;
+    const parts = Object.fromEntries(
+        sigHeader.split(",").map((kv) => {
+            const i = kv.indexOf("=");
+            return [kv.slice(0, i), kv.slice(i + 1)];
+        })
+    );
+    const t = parts.t, v1 = parts.v1;
+    if (!t || !v1) return false;
+    if (Math.abs(Date.now() / 1000 - Number(t)) > 300) return false; // 5-min tolerance
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+        "raw", enc.encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]
+    );
+    const mac = await crypto.subtle.sign("HMAC", key, enc.encode(`${t}.${rawBody}`));
+    const hex = [...new Uint8Array(mac)].map((b) => b.toString(16).padStart(2, "0")).join("");
+    if (hex.length !== v1.length) return false;
+    let diff = 0;
+    for (let i = 0; i < hex.length; i++) diff |= hex.charCodeAt(i) ^ v1.charCodeAt(i);
+    return diff === 0;
+}
+
+async function sendEmail(env, { to, subject, html }) {
+    if (!env.RESEND_API_KEY || !to) return { ok: false };
+    const from = env.ORDER_FROM_EMAIL || "Always Living Inspired <orders@alwayslivinginspired.com>";
+    const r = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ from, to, subject, html }),
+    });
+    return { ok: r.ok, data: await r.json().catch(() => ({})) };
+}
+
+// Create + pay a CJ order from wallet balance (payType=2 = auto add-to-cart,
+// confirm, and balance deduction). Throws on any non-success so the caller
+// can fall back to a manual-fulfillment alert.
+async function placeCjOrder(env, order, ship) {
+    const items = JSON.parse(order.items || "[]");
+    const products = items.filter((l) => l.vid).map((l) => ({ vid: l.vid, quantity: l.qty }));
+    if (!products.length) throw new Error("order has no CJ variant ids (vids)");
+    const token = await getToken(env);
+    const body = {
+        orderNumber: order.id,
+        shippingCustomerName: ship.name || "",
+        shippingPhone: ship.phone || "0000000000",
+        shippingCountryCode: ship.country || "US",
+        shippingCountry: "United States",
+        shippingProvince: ship.state || "",
+        shippingCity: ship.city || "",
+        shippingAddress: ship.line1 || "",
+        shippingAddress2: ship.line2 || "",
+        shippingZip: ship.zip || "",
+        email: order.email || "",
+        remark: "",
+        fromCountryCode: env.CJ_FROM_COUNTRY || "US",
+        payType: 2,
+        ...(env.CJ_LOGISTIC_NAME ? { logisticName: env.CJ_LOGISTIC_NAME } : {}),
+        products,
+    };
+    const r = await fetch(`${CJ_BASE}/shopping/order/createOrderV2`, {
+        method: "POST",
+        headers: { "CJ-Access-Token": token, platformToken: "", "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    });
+    const d = await r.json();
+    if (d.code !== 200 || d.result === false) throw new Error(d.message || `CJ code ${d.code}`);
+    const data = d.data || {};
+    return String(data.orderId || data.orderNum || data.cjOrderId || JSON.stringify(data).slice(0, 120));
+}
+
+app.post("/api/stripe-webhook", async (c) => {
+    const raw = await c.req.text();
+    const sig = c.req.header("stripe-signature");
+    const ok =
+        (await verifyStripeSig(raw, sig, c.env.STRIPE_WEBHOOK_SECRET)) ||
+        (c.env.STRIPE_WEBHOOK_SECRET_TEST &&
+            (await verifyStripeSig(raw, sig, c.env.STRIPE_WEBHOOK_SECRET_TEST)));
+    if (!ok) return c.text("bad signature", 400);
+
+    let event;
+    try { event = JSON.parse(raw); } catch { return c.text("bad json", 400); }
+    if (event.type !== "checkout.session.completed") return c.json({ received: true });
+
+    const session = event.data?.object || {};
+    const orderId = session.client_reference_id || session.metadata?.order_id;
+    if (!orderId) return c.json({ received: true });
+
+    // Idempotency — process a given order exactly once.
+    const order = await c.env.DB.prepare(
+        `SELECT id, status, items, amount, email FROM orders WHERE id = ?1`
+    ).bind(orderId).first();
+    if (!order) return c.json({ received: true });
+    if (order.status !== "pending") return c.json({ received: true, note: "already processed" });
+
+    // Pull shipping + contact from the session (handles a few API-version shapes).
+    const cd = session.customer_details || {};
+    const sd = session.shipping_details || session.collected_information?.shipping_details || {};
+    const a = sd.address || cd.address || {};
+    const ship = {
+        name: sd.name || cd.name || "",
+        phone: cd.phone || "",
+        line1: a.line1 || "", line2: a.line2 || "",
+        city: a.city || "", state: a.state || "",
+        zip: a.postal_code || "", country: a.country || "US",
+    };
+    const email = cd.email || order.email || "";
+
+    // Persist paid state first, so the record survives even if later steps fail.
+    await c.env.DB.prepare(
+        `UPDATE orders SET status='paid', email=?2, shipping=?3, updated_at=datetime('now') WHERE id=?1`
+    ).bind(orderId, email, JSON.stringify(ship)).run();
+
+    // Auto-fulfill via CJ; degrade gracefully on any failure.
+    // Only place real CJ orders for live payments — test-mode checkouts must
+    // never create a real CJ order or deduct wallet balance.
+    let cjError = null;
+    if (event.livemode) {
+        try {
+            const cjOrderId = await placeCjOrder(c.env, { ...order, email }, ship);
+            await c.env.DB.prepare(
+                `UPDATE orders SET status='fulfilling', cj_order_id=?2, updated_at=datetime('now') WHERE id=?1`
+            ).bind(orderId, cjOrderId).run();
+        } catch (e) {
+            cjError = e.message || String(e);
+            await c.env.DB.prepare(
+                `UPDATE orders SET status='paid_unfulfilled', updated_at=datetime('now') WHERE id=?1`
+            ).bind(orderId).run();
+        }
+    } else {
+        await c.env.DB.prepare(
+            `UPDATE orders SET status='paid_test', updated_at=datetime('now') WHERE id=?1`
+        ).bind(orderId).run();
+    }
+
+    // Customer confirmation.
+    const items = JSON.parse(order.items || "[]");
+    const rows = items.map((l) =>
+        `<tr><td style="padding:6px 0;color:#19140F">${escapeHtml(l.name)}${l.size ? ` — ${escapeHtml(l.size)}` : ""}</td>` +
+        `<td style="padding:6px 0;text-align:center;color:#6b6258">×${l.qty}</td>` +
+        `<td style="padding:6px 0;text-align:right;color:#19140F">$${((l.unit_amount * l.qty) / 100).toFixed(2)}</td></tr>`
+    ).join("");
+    const total = (Number(order.amount) / 100).toFixed(2);
+    const html =
+        `<div style="font-family:Archivo,Arial,sans-serif;max-width:560px;margin:0 auto;color:#19140F">
+      <h1 style="font-family:Fraunces,Georgia,serif;font-size:22px">Thank you — your order is in.</h1>
+      <p style="color:#6b6258;line-height:1.6">We’ve received your payment. Your pieces ship from a US warehouse, typically arriving in about 3 days. We’ll follow up with tracking.</p>
+      <table style="width:100%;border-collapse:collapse;margin:18px 0">
+        <tbody>${rows}
+          <tr><td colspan="2" style="padding-top:12px;border-top:1px solid #e3dccd;font-weight:600">Total</td>
+              <td style="padding-top:12px;border-top:1px solid #e3dccd;text-align:right;font-weight:600">$${total}</td></tr>
+        </tbody>
+      </table>
+      <p style="color:#9a8f7d;font-size:12px">Order ${escapeHtml(orderId.slice(-12))}</p>
+    </div>`;
+    if (email) await sendEmail(c.env, { to: email, subject: "Your Always Living Inspired order", html });
+
+    // Owner alert if auto-fulfillment failed.
+    if (cjError && c.env.OWNER_EMAIL) {
+        await sendEmail(c.env, {
+            to: c.env.OWNER_EMAIL,
+            subject: `Manual fulfillment needed — order ${orderId.slice(-8)}`,
+            html:
+                `<div style="font-family:Arial,sans-serif">
+          <p><strong>CJ auto-order failed:</strong> ${escapeHtml(cjError)}</p>
+          <p>Order <code>${escapeHtml(orderId)}</code> · $${total} · ${escapeHtml(email)}</p>
+          <p><strong>Ship to:</strong> ${escapeHtml(JSON.stringify(ship))}</p>
+          <p><strong>Items (with vids):</strong></p>
+          <pre style="white-space:pre-wrap">${escapeHtml(order.items)}</pre>
+          <p>Place this order in the CJ dashboard, then it’s done.</p>
+        </div>`,
+        });
+    }
+
+    return c.json({ received: true });
+});
+
 /* ===== D1 catalog + admin (curation system) ========================
    D1 binding: DB. Admin auth: header "Authorization: Bearer <ADMIN_TOKEN>".
    Set token: npx wrangler secret put ADMIN_TOKEN
