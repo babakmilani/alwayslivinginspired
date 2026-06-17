@@ -9,6 +9,8 @@ export default function Success() {
     const { clear } = useCart();
     const [params] = useSearchParams();
     const sessionId = params.get("session_id");
+    const ref = params.get("ref");
+    const display = ref ? ref.slice(-12) : sessionId ? sessionId.slice(-12) : "";
     const cleared = useRef(false);
 
     useEffect(() => {
@@ -28,9 +30,9 @@ export default function Success() {
                     We’ve received your payment and your order is confirmed.
                     Your pieces ship from a US warehouse, typically arriving in about 3 days.
                 </p>
-                {sessionId && (
+                {display && (
                     <p style={styles.ref}>
-                        Order reference: <span style={styles.refCode}>{sessionId.slice(-12)}</span>
+                        Order reference: <span style={styles.refCode}>{display}</span>
                     </p>
                 )}
                 <Link to="/" style={styles.btn}>Continue shopping</Link>
