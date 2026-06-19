@@ -3,12 +3,32 @@ name = "cj-proxy"
 main = "cj-proxy-worker.js"
 compatibility_date = "2025-06-01"
 
-# Lock CORS to your storefront in production (Worker reads c.env.ALLOWED_ORIGIN)
 [vars]
-# Comma-separated allowlist of site origins permitted to call this Worker.
+# --- CORS: site origins allowed to call this Worker --------------------
 ALLOWED_ORIGIN = "https://alwayslivinginspired.com,https://www.alwayslivinginspired.com,https://alwayslivinginspired.pages.dev"
-MARKUP = "2.5"   # retail = CJ cost x this, charm-rounded to x.99
+
+# --- Pricing / scoring -------------------------------------------------
+MARKUP = "2.5"                              # retail = CJ cost x this, charm-rounded to x.99
 SCORE_MODEL = "claude-haiku-4-5-20251001"   # model used for seasonal scoring
+
+# --- Region routing (US / EU / UK) -------------------------------------
+# Edge geo-routing. Leave commented while only the US catalog is live.
+# Set to "1" to turn on EU + UK routing once those catalogs are stocked.
+# To DISABLE again, comment it out or set "0"/"false" (all read as off).
+# EU_ENABLED = "1"
+
+# --- CJ fulfillment ----------------------------------------------------
+# payType: 2 = auto-pay from CJ wallet (needs a funded balance)
+#          3 = create an unpaid draft you batch-pay in CJ (launch-manual mode)
+#          1 = create + email you a pay link per order
+CJ_PAY_TYPE = "3"
+# CJ_LOGISTIC_NAME = ""     # set only if CJ can't auto-pick a shipping method
+# CJ_FROM_COUNTRY = "US"    # fallback warehouse; per-order region routing overrides this
+
+# --- Order emails (Resend) ---------------------------------------------
+# Set once your sending domain is verified in Resend.
+# ORDER_FROM_EMAIL = "Always Living Inspired <orders@alwayslivinginspired.com>"
+# OWNER_EMAIL = "livinginspiredsince1958@gmail.com"        # receives fulfillment / pay-link alerts
 
 # Token + product-list cache.
 #   npx wrangler kv namespace create CJ_KV
@@ -16,14 +36,18 @@ SCORE_MODEL = "claude-haiku-4-5-20251001"   # model used for seasonal scoring
 binding = "CJ_KV"
 id = "c631fe51667e4d26ac34c299f68213be"
 
-# Catalog database. Create it, then paste the id below:
+# Catalog + orders database.
 #   npx wrangler d1 create ali-catalog
 [[d1_databases]]
 binding = "DB"
 database_name = "ali-catalog"
 database_id = "751321f3-eb03-444b-958a-7e3fffaa307e"
 
-# Secrets (do NOT put here) — set once from the CLI:
-#   npx wrangler secret put CJ_API_KEY       (CJ apiKey: CJUserNum@api@xxxx)
-#   npx wrangler secret put ADMIN_TOKEN      (any strong string; gates /admin + /sync + /score)
-#   npx wrangler secret put ANTHROPIC_API_KEY (for seasonal scoring; reuse your existing key)
+# --- Secrets (set via CLI, never commit to this file) ------------------
+#   npx wrangler secret put CJ_API_KEY                 (CJ apiKey: CJUserNum@api@xxxx)
+#   npx wrangler secret put ADMIN_TOKEN                (gates /admin + /sync + /score + import)
+#   npx wrangler secret put ANTHROPIC_API_KEY          (seasonal scoring)
+#   npx wrangler secret put STRIPE_SECRET_KEY          (checkout — sk_live_ or sk_test_)
+#   npx wrangler secret put STRIPE_WEBHOOK_SECRET      (live webhook signing secret, whsec_)
+#   npx wrangler secret put STRIPE_WEBHOOK_SECRET_TEST (test webhook signing secret, whsec_)
+#   npx wrangler secret put RESEND_API_KEY             (order confirmation emails)

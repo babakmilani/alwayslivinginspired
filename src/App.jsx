@@ -11,6 +11,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import Terms from "./pages/Terms.jsx";
 import Cookies from "./pages/Cookies.jsx";
 import Disclaimer from "./pages/Disclaimer.jsx";
+import ShippingPolicy from "./pages/ShippingPolicy.jsx";
+import Returns from "./pages/Returns.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
 import Contact from "./pages/Contact.jsx";
 import FashionBlog from "./pages/FashionBlog.jsx";
@@ -42,6 +44,8 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/shipping" element={<ShippingPolicy />} />
+          <Route path="/returns" element={<Returns />} />
         </Routes>
       </main>
       <Footer />

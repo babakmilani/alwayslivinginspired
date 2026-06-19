@@ -14,8 +14,26 @@ const API_BASE = process.env.API_BASE || "https://cj-proxy.milani-babak.workers.
 const clean = (s) => (s || "").trim().replace(/^[\u2018\u2019\u201C\u201D'"]+|[\u2018\u2019\u201C\u201D'"]+$/g, "");
 const CJ_API_KEY = clean(process.env.CJ_API_KEY);
 const ADMIN_TOKEN = clean(process.env.ADMIN_TOKEN);
-const COUNTRY = process.env.WAREHOUSE_COUNTRY || "US"; // warehouse to source from
-const REGION = COUNTRY.toUpperCase() === "US" ? "US" : "EU"; // catalog region tag
+// One or more CJ warehouse country codes to source from.
+//   US            -> US catalog
+//   DE            -> EU catalog from the Germany warehouse (ships all of Europe)
+//   DE,CZ,NL,PL   -> EU catalog merged across several EU warehouses (more selection)
+const COUNTRIES = (process.env.WAREHOUSE_COUNTRY || "US")
+  .split(",").map((s) => s.trim().toUpperCase()).filter(Boolean);
+const COUNTRY = COUNTRIES.join("+");                              // for logging
+
+// Map a CJ warehouse country to a storefront region (matches the Worker).
+const EU_COUNTRIES = new Set([
+  "AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT",
+  "LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE","IS","LI","NO",
+]);
+function regionFor(country) {
+  const cc = (country || "").toUpperCase();
+  if (cc === "GB") return "UK";            // UK is its own zone (post-Brexit)
+  if (EU_COUNTRIES.has(cc)) return "EU";
+  return "US";
+}
+const REGIONS = [...new Set(COUNTRIES.map(regionFor))]; // regions this run will write
 const PAGE_SIZE = 100; // listV2 max
 const SKIP_VARIANTS = process.env.SKIP_VARIANTS === "1";
 
@@ -53,39 +71,50 @@ function cjHeaders(token) {
 
 // listV2: US-warehouse, in-stock products for a category, stock returned inline.
 async function listCategory(token, categoryId, label) {
-  const params = new URLSearchParams({
-    page: "1",
-    size: String(PAGE_SIZE),
-    categoryId,
-    countryCode: COUNTRY,          // source from the US warehouse
-    startWarehouseInventory: "1",  // in-stock only
-    verifiedWarehouse: "1",        // verified (real) inventory only
-    orderBy: "4",                  // 4 = inventory
-    sort: "desc",                  // most stock first
-  });
-  const r = await fetch(`${CJ_BASE}/product/listV2?${params}`, { headers: cjHeaders(token) });
-  const d = await r.json();
-  if (d.code !== 200) { console.warn(`  ! listV2 CJ ${d.code}: ${d.message}`); return []; }
+  const byKey = new Map();
+  for (const country of COUNTRIES) {
+    const region = regionFor(country);
+    const params = new URLSearchParams({
+      page: "1",
+      size: String(PAGE_SIZE),
+      categoryId,
+      countryCode: country,          // a specific warehouse country
+      startWarehouseInventory: "1",  // in-stock only
+      verifiedWarehouse: "1",        // verified (real) inventory only
+      orderBy: "4",                  // 4 = inventory
+      sort: "desc",                  // most stock first
+    });
+    const r = await fetch(`${CJ_BASE}/product/listV2?${params}`, { headers: cjHeaders(token) });
+    const d = await r.json();
+    if (d.code !== 200) { console.warn(`  ! listV2 ${country} CJ ${d.code}: ${d.message}`); continue; }
 
-  const blocks = d?.data?.content || [];
-  const out = [];
-  for (const b of blocks) {
-    for (const p of (b.productList || [])) {
-      const cost = Number(p.sellPrice) || Number(p.nowPrice) || Number(p.discountPrice) || 0;
-      if (!cost) continue; // skip products CJ returned with no usable price
-      out.push({
-        pid: p.id,
-        name: p.nameEn,
-        cost,
-        image: p.bigImage,
-        sku: p.sku || p.spu,
-        category: label, // our storefront label (matches the catalog pills)
-        usStock: Number(p.warehouseInventoryNum ?? 0),
-        region: REGION, // US or EU catalog
-      });
+    const blocks = d?.data?.content || [];
+    for (const b of blocks) {
+      for (const p of (b.productList || [])) {
+        const cost = Number(p.sellPrice) || Number(p.nowPrice) || Number(p.discountPrice) || 0;
+        if (!cost) continue; // skip products CJ returned with no usable price
+        const stock = Number(p.warehouseInventoryNum ?? 0);
+        const key = `${region}:${p.id}`; // one row per (region, product)
+        const existing = byKey.get(key);
+        if (existing) {
+          existing.usStock = Math.max(existing.usStock, stock); // same region, two warehouses
+        } else {
+          byKey.set(key, {
+            pid: p.id,
+            name: p.nameEn,
+            cost,
+            image: p.bigImage,
+            sku: p.sku || p.spu,
+            category: label, // our storefront label (matches the catalog pills)
+            usStock: stock,
+            region, // US / EU / UK, from this warehouse
+          });
+        }
+      }
     }
+    if (COUNTRIES.length > 1) await sleep(QPS); // pace multi-warehouse calls
   }
-  return out;
+  return [...byKey.values()];
 }
 
 async function importProducts(products) {
@@ -102,17 +131,21 @@ async function importProducts(products) {
 // Thrown when CJ's per-day API quota is exhausted, to abort the variant phase.
 class DailyLimit extends Error {}
 
-// pids that already have variants stored in D1 — skip them to conserve quota.
-async function haveVariantPids() {
-  try {
-    const r = await fetch(`${API_BASE}/admin/have-variants?region=${REGION}`, {
-      headers: { Authorization: `Bearer ${ADMIN_TOKEN}` },
-    });
-    const d = await r.json();
-    return new Set(Array.isArray(d.pids) ? d.pids : []);
-  } catch {
-    return new Set();
+// region:pid keys that already have variants stored in D1 — skip to save quota.
+async function haveVariantKeys() {
+  const set = new Set();
+  for (const region of REGIONS) {
+    try {
+      const r = await fetch(`${API_BASE}/admin/have-variants?region=${region}`, {
+        headers: { Authorization: `Bearer ${ADMIN_TOKEN}` },
+      });
+      const d = await r.json();
+      for (const pid of (Array.isArray(d.pids) ? d.pids : [])) set.add(`${region}:${pid}`);
+    } catch {
+      /* ignore */
+    }
   }
+  return set;
 }
 
 // Product detail -> variants [{ vid, label }]. One CJ call per product, with
@@ -151,7 +184,7 @@ async function getVariants(token, pid, attempt = 0) {
 async function enrichVariants(token, items, haveSet) {
   let ok = 0, skipped = 0, tried = 0;
   for (const p of items) {
-    if (haveSet.has(p.pid)) { skipped++; continue; }
+    if (haveSet.has(`${p.region}:${p.pid}`)) { skipped++; continue; }
     const v = await getVariants(token, p.pid); // may throw DailyLimit
     tried++;
     if (v && v.length) { p.variants = v; ok++; }
@@ -170,7 +203,7 @@ async function enrichVariants(token, items, haveSet) {
   const token = await getToken();
   await sleep(QPS);
 
-  const haveSet = SKIP_VARIANTS ? new Set() : await haveVariantPids();
+  const haveSet = SKIP_VARIANTS ? new Set() : await haveVariantKeys();
   if (!SKIP_VARIANTS) console.log(`  ${haveSet.size} products already have variants — will skip those.`);
 
   let total = 0, variantsOk = 0, quotaHit = false;
