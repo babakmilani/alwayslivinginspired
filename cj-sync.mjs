@@ -15,6 +15,7 @@ const clean = (s) => (s || "").trim().replace(/^[\u2018\u2019\u201C\u201D'"]+|[\
 const CJ_API_KEY = clean(process.env.CJ_API_KEY);
 const ADMIN_TOKEN = clean(process.env.ADMIN_TOKEN);
 const COUNTRY = process.env.WAREHOUSE_COUNTRY || "US"; // warehouse to source from
+const REGION = COUNTRY.toUpperCase() === "US" ? "US" : "EU"; // catalog region tag
 const PAGE_SIZE = 100; // listV2 max
 const SKIP_VARIANTS = process.env.SKIP_VARIANTS === "1";
 
@@ -80,6 +81,7 @@ async function listCategory(token, categoryId, label) {
         sku: p.sku || p.spu,
         category: label, // our storefront label (matches the catalog pills)
         usStock: Number(p.warehouseInventoryNum ?? 0),
+        region: REGION, // US or EU catalog
       });
     }
   }
@@ -103,7 +105,7 @@ class DailyLimit extends Error {}
 // pids that already have variants stored in D1 — skip them to conserve quota.
 async function haveVariantPids() {
   try {
-    const r = await fetch(`${API_BASE}/admin/have-variants`, {
+    const r = await fetch(`${API_BASE}/admin/have-variants?region=${REGION}`, {
       headers: { Authorization: `Bearer ${ADMIN_TOKEN}` },
     });
     const d = await r.json();

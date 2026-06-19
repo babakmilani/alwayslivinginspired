@@ -176,10 +176,17 @@ app.get("/api/inventory/:vid", async (c) => {
 /* ---- PRODUCT DETAIL: served entirely from D1 (variants synced in advance) ---- */
 app.get("/api/product/:pid", async (c) => {
   const pid = c.req.param("pid");
-  const row = await c.env.DB.prepare(
-    `SELECT pid AS id, name, price, image, category, us_stock AS usStock, variants
-     FROM products WHERE pid = ?1`
-  ).bind(pid).first();
+  const region = detectRegion(c);
+  // Prefer the visitor's region; fall back to any region so a shared link still resolves.
+  const row =
+    (await c.env.DB.prepare(
+      `SELECT pid AS id, name, price, image, category, us_stock AS usStock, variants, region
+       FROM products WHERE pid = ?1 AND region = ?2`
+    ).bind(pid, region).first()) ||
+    (await c.env.DB.prepare(
+      `SELECT pid AS id, name, price, image, category, us_stock AS usStock, variants, region
+       FROM products WHERE pid = ?1`
+    ).bind(pid).first());
   if (!row) return c.json({ error: "not found" }, 404);
 
   let variants = [];
@@ -193,9 +200,36 @@ app.get("/api/product/:pid", async (c) => {
     images: row.image ? [row.image] : [],
     category: row.category,
     usStock: row.usStock,
+    region: row.region,
     variants,
   });
 });
+
+/* ===== Region routing =================================================
+   Detect the visitor's region at the edge (Cloudflare adds CF-IPCountry to
+   every request) and serve / fulfill from the matching warehouse.
+   US visitors -> US-warehouse catalog, ship from US.
+   EU/EEA visitors -> EU-warehouse catalog, ship from the DE warehouse.
+   ?region=US|EU overrides for testing. */
+const EU_COUNTRIES = new Set([
+  "AT","BE","BG","HR","CY","CZ","DK","EE","FI","FR","DE","GR","HU","IE","IT",
+  "LV","LT","LU","MT","NL","PL","PT","RO","SK","SI","ES","SE", // EU27
+  "IS","LI","NO", // EEA
+]);
+function regionFor(country) {
+  return EU_COUNTRIES.has((country || "").toUpperCase()) ? "EU" : "US";
+}
+function detectRegion(c) {
+  const override = (c.req.query("region") || "").toUpperCase();
+  if (override === "US" || override === "EU") return override; // for testing
+  if (!c.env.EU_ENABLED) return "US"; // keep everyone on US until EU catalog is stocked
+  const country = (c.req.header("cf-ipcountry") || c.req.raw?.cf?.country || "US").toUpperCase();
+  return regionFor(country);
+}
+// CJ warehouse country code to fulfill a region's orders from.
+function fromCountryFor(region) {
+  return region === "EU" ? "DE" : "US";
+}
 
 /* ===== Stripe Checkout =================================================
    Creates a hosted Checkout Session from the cart. Prices are re-looked-up
@@ -216,15 +250,17 @@ app.post("/api/checkout", async (c) => {
   const reqItems = Array.isArray(body.items) ? body.items : [];
   if (!reqItems.length) return c.json({ error: "cart empty" }, 400);
 
-  // Authoritative pricing: look each item up in D1 by pid; ignore client price.
+  const region = detectRegion(c);
+
+  // Authoritative pricing: look each item up in D1 by (pid, region); ignore client price.
   const lines = [];
   for (const it of reqItems) {
     const pid = String(it.id || it.pid || "");
     const qty = Math.max(1, Math.min(20, Number(it.qty) || 1));
     if (!pid) continue;
     const row = await c.env.DB.prepare(
-      `SELECT name, price, image FROM products WHERE pid = ?1 AND hidden = 0`
-    ).bind(pid).first();
+      `SELECT name, price, image FROM products WHERE pid = ?1 AND region = ?2 AND hidden = 0`
+    ).bind(pid, region).first();
     if (!row || !(Number(row.price) > 0)) continue;
     lines.push({
       pid,
@@ -242,9 +278,9 @@ app.post("/api/checkout", async (c) => {
   const amount = lines.reduce((s, l) => s + l.unit_amount * l.qty, 0);
 
   await c.env.DB.prepare(
-    `INSERT INTO orders (id, status, items, amount, created_at)
-     VALUES (?1, 'pending', ?2, ?3, datetime('now'))`
-  ).bind(orderId, JSON.stringify(lines), amount).run();
+    `INSERT INTO orders (id, status, items, amount, region, created_at)
+     VALUES (?1, 'pending', ?2, ?3, ?4, datetime('now'))`
+  ).bind(orderId, JSON.stringify(lines), amount, region).run();
 
   const site = siteOrigin(c);
   const form = new URLSearchParams();
@@ -334,13 +370,16 @@ async function sendEmail(env, { to, subject, html }) {
   return { ok: r.ok, data: await r.json().catch(() => ({})) };
 }
 
-// Create + pay a CJ order from wallet balance (payType=2 = auto add-to-cart,
-// confirm, and balance deduction). Throws on any non-success so the caller
-// can fall back to a manual-fulfillment alert.
+// Create a CJ order. payType is configurable via CJ_PAY_TYPE:
+//   2 (default) = balance payment: auto add-to-cart, confirm, deduct wallet.
+//   1 = page payment: order created, returns a pay link to settle manually.
+//   3 = create only: order created unpaid as a draft to pay in the CJ dashboard.
+// Returns { payType, cjOrderId, payUrl }. Throws on a non-success response.
 async function placeCjOrder(env, order, ship) {
   const items = JSON.parse(order.items || "[]");
   const products = items.filter((l) => l.vid).map((l) => ({ vid: l.vid, quantity: l.qty }));
   if (!products.length) throw new Error("order has no CJ variant ids (vids)");
+  const payType = Number(env.CJ_PAY_TYPE || 2);
   const token = await getToken(env);
   const body = {
     orderNumber: order.id,
@@ -355,8 +394,8 @@ async function placeCjOrder(env, order, ship) {
     shippingZip: ship.zip || "",
     email: order.email || "",
     remark: "",
-    fromCountryCode: env.CJ_FROM_COUNTRY || "US",
-    payType: 2,
+    fromCountryCode: order.region ? fromCountryFor(order.region) : (env.CJ_FROM_COUNTRY || "US"),
+    payType,
     ...(env.CJ_LOGISTIC_NAME ? { logisticName: env.CJ_LOGISTIC_NAME } : {}),
     products,
   };
@@ -368,7 +407,11 @@ async function placeCjOrder(env, order, ship) {
   const d = await r.json();
   if (d.code !== 200 || d.result === false) throw new Error(d.message || `CJ code ${d.code}`);
   const data = d.data || {};
-  return String(data.orderId || data.orderNum || data.cjOrderId || JSON.stringify(data).slice(0, 120));
+  return {
+    payType,
+    cjOrderId: String(data.orderId || data.orderNum || data.cjOrderId || ""),
+    payUrl: data.payUrl || data.cjPayUrl || null,
+  };
 }
 
 app.post("/api/stripe-webhook", async (c) => {
@@ -390,7 +433,7 @@ app.post("/api/stripe-webhook", async (c) => {
 
   // Idempotency — process a given order exactly once.
   const order = await c.env.DB.prepare(
-    `SELECT id, status, items, amount, email FROM orders WHERE id = ?1`
+    `SELECT id, status, items, amount, email, region FROM orders WHERE id = ?1`
   ).bind(orderId).first();
   if (!order) return c.json({ received: true });
   if (order.status !== "pending") return c.json({ received: true, note: "already processed" });
@@ -416,13 +459,16 @@ app.post("/api/stripe-webhook", async (c) => {
   // Auto-fulfill via CJ; degrade gracefully on any failure.
   // Only place real CJ orders for live payments — test-mode checkouts must
   // never create a real CJ order or deduct wallet balance.
-  let cjError = null;
+  let cjError = null, payUrl = null;
   if (event.livemode) {
     try {
-      const cjOrderId = await placeCjOrder(c.env, { ...order, email }, ship);
+      const res = await placeCjOrder(c.env, { ...order, email }, ship);
+      payUrl = res.payUrl;
+      // payType 2 settles immediately; 1 and 3 await manual payment.
+      const status = res.payType === 2 ? "fulfilling" : "awaiting_payment";
       await c.env.DB.prepare(
-        `UPDATE orders SET status='fulfilling', cj_order_id=?2, updated_at=datetime('now') WHERE id=?1`
-      ).bind(orderId, cjOrderId).run();
+        `UPDATE orders SET status=?2, cj_order_id=?3, updated_at=datetime('now') WHERE id=?1`
+      ).bind(orderId, status, res.cjOrderId).run();
     } catch (e) {
       cjError = e.message || String(e);
       await c.env.DB.prepare(
@@ -457,21 +503,44 @@ app.post("/api/stripe-webhook", async (c) => {
     </div>`;
   if (email) await sendEmail(c.env, { to: email, subject: "Your Always Living Inspired order", html });
 
-  // Owner alert if auto-fulfillment failed.
-  if (cjError && c.env.OWNER_EMAIL) {
-    await sendEmail(c.env, {
-      to: c.env.OWNER_EMAIL,
-      subject: `Manual fulfillment needed — order ${orderId.slice(-8)}`,
-      html:
-        `<div style="font-family:Arial,sans-serif">
-          <p><strong>CJ auto-order failed:</strong> ${escapeHtml(cjError)}</p>
-          <p>Order <code>${escapeHtml(orderId)}</code> · $${total} · ${escapeHtml(email)}</p>
-          <p><strong>Ship to:</strong> ${escapeHtml(JSON.stringify(ship))}</p>
-          <p><strong>Items (with vids):</strong></p>
-          <pre style="white-space:pre-wrap">${escapeHtml(order.items)}</pre>
-          <p>Place this order in the CJ dashboard, then it’s done.</p>
-        </div>`,
-    });
+  // Owner notifications.
+  if (c.env.OWNER_EMAIL && event.livemode) {
+    if (cjError) {
+      await sendEmail(c.env, {
+        to: c.env.OWNER_EMAIL,
+        subject: `Manual fulfillment needed — order ${orderId.slice(-8)}`,
+        html:
+          `<div style="font-family:Arial,sans-serif">
+            <p><strong>CJ auto-order failed:</strong> ${escapeHtml(cjError)}</p>
+            <p>Order <code>${escapeHtml(orderId)}</code> · $${total} · ${escapeHtml(email)}</p>
+            <p><strong>Ship to:</strong> ${escapeHtml(JSON.stringify(ship))}</p>
+            <p><strong>Items (with vids):</strong></p>
+            <pre style="white-space:pre-wrap">${escapeHtml(order.items)}</pre>
+            <p>Place this order in the CJ dashboard, then it’s done.</p>
+          </div>`,
+      });
+    } else if (payUrl) {
+      await sendEmail(c.env, {
+        to: c.env.OWNER_EMAIL,
+        subject: `Pay CJ order — ${orderId.slice(-8)} ($${total})`,
+        html:
+          `<div style="font-family:Arial,sans-serif">
+            <p>Order <code>${escapeHtml(orderId)}</code> is created on CJ and ready to pay.</p>
+            <p><a href="${escapeHtml(payUrl)}" style="display:inline-block;background:#19140F;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none">Pay this order</a></p>
+            <p>$${total} · ${escapeHtml(email)}</p>
+          </div>`,
+      });
+    } else if (Number(c.env.CJ_PAY_TYPE || 2) === 3) {
+      await sendEmail(c.env, {
+        to: c.env.OWNER_EMAIL,
+        subject: `CJ order awaiting payment — ${orderId.slice(-8)} ($${total})`,
+        html:
+          `<div style="font-family:Arial,sans-serif">
+            <p>Order <code>${escapeHtml(orderId)}</code> ($${total}) was created as an unpaid draft on CJ.</p>
+            <p>Pay it (or batch-pay drafts) in your CJ dashboard → Orders.</p>
+          </div>`,
+      });
+    }
   }
 
   return c.json({ received: true });
@@ -611,14 +680,15 @@ app.post("/sync", async (c) => {
 // Public storefront feed — visible items, most in-season first.
 // Filters: ?cat=<category name> (matches D1's stored leaf name), ?q=<keyword>, ?page=N.
 app.get("/api/catalog", async (c) => {
+  const region = detectRegion(c);
   const cat = (c.req.query("cat") || "").trim();
   const q = (c.req.query("q") || "").trim();
   const page = Math.max(1, Number(c.req.query("page") || "1"));
   const pageSize = 120;
   const offset = (page - 1) * pageSize;
 
-  const where = ["hidden = 0", "(us_stock IS NULL OR us_stock > 0)"];
-  const binds = [];
+  const where = ["region = ?", "hidden = 0", "(us_stock IS NULL OR us_stock > 0)"];
+  const binds = [region];
   if (cat) { where.push("category = ?"); binds.push(cat); }
   if (q) { where.push("name LIKE ?"); binds.push(`%${q}%`); }
 
@@ -628,7 +698,7 @@ app.get("/api/catalog", async (c) => {
      ORDER BY (season_score IS NULL), season_score DESC, synced_at DESC
      LIMIT ${pageSize} OFFSET ${offset}`
   ).bind(...binds).all();
-  return c.json((results || []).map((r) => ({ ...r, fabric: "", colorways: [], badge: null })));
+  return c.json((results || []).map((r) => ({ ...r, region, fabric: "", colorways: [], badge: null })));
 });
 
 // Admin: list everything (incl. hidden), most in-season first.
@@ -648,9 +718,10 @@ app.get("/admin/products", async (c) => {
 // and stay under CJ's daily API quota (only fetch variants for new products).
 app.get("/admin/have-variants", async (c) => {
   if (!adminOk(c)) return c.json({ error: "unauthorized" }, 401);
+  const region = (c.req.query("region") || "US").toUpperCase() === "EU" ? "EU" : "US";
   const { results } = await c.env.DB.prepare(
-    `SELECT pid FROM products WHERE variants IS NOT NULL AND variants != '[]'`
-  ).all();
+    `SELECT pid FROM products WHERE region = ?1 AND variants IS NOT NULL AND variants != '[]'`
+  ).bind(region).all();
   return c.json({ pids: (results || []).map((r) => r.pid) });
 });
 
@@ -824,15 +895,16 @@ app.post("/admin/import", async (c) => {
   let upserted = 0;
   for (const p of products) {
     if (!p?.pid) continue;
+    const region = p.region === "EU" ? "EU" : "US";
     const usStock = typeof p.usStock === "number" ? p.usStock : null;
     const variants = Array.isArray(p.variants) ? JSON.stringify(p.variants) : null;
     await c.env.DB.prepare(
-      `INSERT INTO products (pid,name,price,cost,image,sku,category,us_stock,variants,synced_at)
-       VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,datetime('now'))
-       ON CONFLICT(pid) DO UPDATE SET
-         name=?2, price=?3, cost=?4, image=?5, sku=?6, category=?7,
-         us_stock=COALESCE(?8, us_stock), variants=COALESCE(?9, variants), synced_at=datetime('now')`
-    ).bind(p.pid, p.name, retail(p.cost, markup), Number(p.cost), p.image, p.sku, p.category || "", usStock, variants).run();
+      `INSERT INTO products (pid,region,name,price,cost,image,sku,category,us_stock,variants,synced_at)
+       VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,datetime('now'))
+       ON CONFLICT(pid,region) DO UPDATE SET
+         name=?3, price=?4, cost=?5, image=?6, sku=?7, category=?8,
+         us_stock=COALESCE(?9, us_stock), variants=COALESCE(?10, variants), synced_at=datetime('now')`
+    ).bind(p.pid, region, p.name, retail(p.cost, markup), Number(p.cost), p.image, p.sku, p.category || "", usStock, variants).run();
     upserted++;
   }
   return c.json({ ok: true, upserted });
