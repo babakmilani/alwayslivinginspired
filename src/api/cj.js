@@ -75,3 +75,17 @@ export async function createCheckout(items) {
     if (!res.ok || !data.url) throw new Error(data.detail || data.error || `checkout ${res.status}`);
     return data.url;
 }
+
+// Email signup → triggers the welcome-coupon email. `source` tags the channel
+// (e.g. "site", "youtube", "instagram") so you can see what's converting.
+export async function subscribe(email, source = "site") {
+    if (!API_BASE) throw new Error("signup unavailable in local mock mode");
+    const res = await fetch(`${API_BASE}/api/subscribe`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `signup ${res.status}`);
+    return data;
+}

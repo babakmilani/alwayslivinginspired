@@ -5,6 +5,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import CartDrawer from "./components/CartDrawer.jsx";
 import Home from "./pages/Home.jsx";
+import Admin from "./pages/Admin.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
 import Success from "./pages/Success.jsx";
 import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
@@ -46,6 +47,7 @@ function App() {
           <Route path="/disclaimer" element={<Disclaimer />} />
           <Route path="/shipping" element={<ShippingPolicy />} />
           <Route path="/returns" element={<Returns />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
       <Footer />

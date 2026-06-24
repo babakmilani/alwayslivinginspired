@@ -68,3 +68,9 @@ pids
 # Netlify / Vercel deploy folders (if you ever add them)
 .netlify
 .vercel
+
+posts/
+ig-posts/
+tiktok/
+make-posts.mjs
+make-shorts.mjs

@@ -17,6 +17,23 @@ SCORE_MODEL = "claude-haiku-4-5-20251001"   # model used for seasonal scoring
 # To DISABLE again, comment it out or set "0"/"false" (all read as off).
 # EU_ENABLED = "1"
 
+# --- Marketing -----------------------------------------------------
+# Welcome coupon emailed on email signup. Must match a Promotion Code you
+# create in Stripe (Dashboard → Products → Coupons → add a promo code).
+WELCOME_CODE = "WELCOME10"
+
+# New signups are auto-added to your Resend Contacts (global list) using your
+# existing RESEND_API_KEY — no audience ID needed in Resend's current model.
+
+# Token shared with your Google Apps Script so it can trigger the coupon
+# email through the Worker (set the same value in the Apps Script).
+#   npx wrangler secret put SIGNUP_HOOK_TOKEN
+#
+# (The SHEETS_WEBHOOK_* vars below are only for the alternative "Worker is
+#  the front door" setup — not needed when your Apps Script captures signups.)
+# SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfyc.../exec"
+# SHEETS_WEBHOOK_TOKEN = "a-long-random-string-you-also-paste-into-apps-script"
+
 # --- CJ fulfillment ----------------------------------------------------
 # payType: 2 = auto-pay from CJ wallet (needs a funded balance)
 #          3 = create an unpaid draft you batch-pay in CJ (launch-manual mode)

@@ -294,6 +294,7 @@ app.post("/api/checkout", async (c) => {
     form.append("mode", "payment");
     form.append("success_url", `${site}/success?session_id={CHECKOUT_SESSION_ID}&ref=${orderId}`);
     form.append("cancel_url", `${site}/?checkout=cancelled`);
+    form.append("allow_promotion_codes", "true"); // shows a promo-code field (WELCOME10, etc.)
     form.append("shipping_address_collection[allowed_countries][0]", "US");
     form.append("phone_number_collection[enabled]", "true");
     form.append("client_reference_id", orderId);
@@ -327,6 +328,106 @@ app.post("/api/checkout", async (c) => {
     ).bind(orderId, session.id).run();
 
     return c.json({ url: session.url });
+});
+
+// Branded welcome-coupon email body (shared by /api/subscribe and /api/send-welcome).
+function welcomeEmailHtml(code) {
+    return `<div style="font-family:Archivo,Arial,sans-serif;max-width:520px;margin:0 auto;color:#19140F">
+        <h1 style="font-family:Fraunces,Georgia,serif;font-size:22px">Welcome to Always Living Inspired</h1>
+        <p style="color:#6b6258;line-height:1.6">Here's your code for a little something off your first order — curated pieces that ship from the US in about 3 days.</p>
+        <div style="margin:22px 0;padding:16px 20px;border:1px dashed #C0664E;border-radius:12px;text-align:center">
+          <div style="font-size:13px;letter-spacing:.12em;color:#9a8f7d;text-transform:uppercase">Your code</div>
+          <div style="font-family:Fraunces,Georgia,serif;font-size:26px;color:#C0664E;letter-spacing:.06em">${escapeHtml(code)}</div>
+        </div>
+        <p style="color:#6b6258;line-height:1.6">Enter it at checkout. See you in the edit.</p>
+      </div>`;
+}
+
+/* ===== Email signup → welcome coupon =================================
+   Captures an email, stores it, and emails the welcome code via Resend.
+   The code itself is a Stripe Promotion Code (e.g. WELCOME10) you create
+   once in the Stripe dashboard; set WELCOME_CODE here to match.
+   Needs: a `subscribers` table + RESEND_API_KEY. */
+app.post("/api/subscribe", async (c) => {
+    let body;
+    try { body = await c.req.json(); } catch { return c.json({ error: "bad request" }, 400); }
+    const email = String(body.email || "").trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return c.json({ error: "invalid email" }, 400);
+
+    const code = c.env.WELCOME_CODE || "WELCOME10";
+    const source = (body.source || "site").toString().slice(0, 40);
+
+    // Store (ignore if already subscribed) and decide whether to send the code.
+    let isNew = true;
+    try {
+        const existing = await c.env.DB.prepare(`SELECT email FROM subscribers WHERE email = ?1`).bind(email).first();
+        if (existing) isNew = false;
+        else {
+            await c.env.DB.prepare(
+                `INSERT INTO subscribers (email, source, created_at) VALUES (?1, ?2, datetime('now'))`
+            ).bind(email, source).run();
+        }
+    } catch {
+        // table missing or write failed — still try to send so the user isn't blocked
+    }
+
+    // Always return success to the UI, but only email the code to a fresh signup.
+    if (isNew) {
+        await sendEmail(c.env, { to: email, subject: `Your Always Living Inspired code: ${code}`, html: welcomeEmailHtml(code) });
+
+        // Optional: mirror the signup into a Google Sheet (Apps Script Web App).
+        // Fire-and-forget so a Sheets hiccup never blocks the coupon email.
+        if (c.env.SHEETS_WEBHOOK_URL) {
+            const mirror = fetch(c.env.SHEETS_WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    source,
+                    date: new Date().toISOString(),
+                    token: c.env.SHEETS_WEBHOOK_TOKEN || "",
+                }),
+            }).catch(() => { });
+            c.executionCtx?.waitUntil?.(mirror);
+        }
+    }
+
+    return c.json({ ok: true, code: isNew ? code : null });
+});
+
+/* ===== Send welcome coupon (called by your Google Apps Script) =======
+   Your existing mailing-list handler calls this on each NEW signup so the
+   branded coupon goes out via Resend (from your domain). Token-gated so it
+   can't be used as an open email relay. */
+app.post("/api/send-welcome", async (c) => {
+    let body;
+    try { body = await c.req.json(); } catch { return c.json({ error: "bad request" }, 400); }
+    if (!c.env.SIGNUP_HOOK_TOKEN || String(body.token || "") !== c.env.SIGNUP_HOOK_TOKEN) {
+        return c.json({ error: "forbidden" }, 403);
+    }
+    const email = String(body.email || "").trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return c.json({ error: "invalid email" }, 400);
+    const code = c.env.WELCOME_CODE || "WELCOME10";
+    const sent = await sendEmail(c.env, {
+        to: email,
+        subject: `Your Always Living Inspired code: ${code}`,
+        html: welcomeEmailHtml(code),
+    });
+    if (!sent.ok) return c.json({ error: "email_failed", detail: sent.data || null }, 502);
+
+    // Add the signup to your Resend Contacts (newsletter list). Resend's current
+    // model uses global Contacts — no audience_id needed. Fire-and-forget so it
+    // never blocks the signup response.
+    if (c.env.RESEND_API_KEY) {
+        const addContact = fetch("https://api.resend.com/contacts", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${c.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ email, unsubscribed: false }),
+        }).catch(() => { });
+        c.executionCtx?.waitUntil?.(addContact);
+    }
+
+    return c.json({ ok: true });
 });
 
 /* ===== Stripe webhook → fulfillment (3d) =============================
