@@ -15,7 +15,7 @@ const anthropic = new Anthropic({
 
 // CONFIG
 const CONFIG = {
-    model: "claude-sonnet-4-20250514",
+    model: "claude-sonnet-4-6",
     maxTokens: 8000,
     categories: [
         "Fashion Trends",
@@ -95,7 +95,10 @@ Return ONLY valid JSON (no markdown code blocks) with these exact fields:
         messages: [{ role: "user", content: userPrompt }],
     });
 
-    let jsonText = message.content.map((c) => c.text).join("\n");
+    let jsonText = message.content
+        .filter((c) => c.type === "text")
+        .map((c) => c.text)
+        .join("\n");
     jsonText = jsonText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
 
     let articleData;
