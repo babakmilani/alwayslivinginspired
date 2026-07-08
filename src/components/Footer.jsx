@@ -67,8 +67,10 @@ export default function Footer() {
       </div>
 
       <div className="foot-bot">
-        <span>© 2026 Always Living Inspired · alwayslivinginspired.com</span>
-        <SocialLinks variant="footer" />
+        <div className="foot-copy" style={{ display: "flex", alignItems: "center", gap: "0.9rem", flexWrap: "wrap" }}>
+          <span>Always Living Inspired © 2026 · alwayslivinginspired.com</span>
+          <SocialLinks variant="footer" />
+        </div>
         <span className="foot-credit">
           <a href="https://milanilabs.com" target="_blank" rel="noopener noreferrer">Built with Milani Labs</a>
         </span>

@@ -25,9 +25,8 @@ export default function Header() {
                     <span className="wm-sub">Women's Edit</span>
                 </Link>
 
-                <SocialLinks variant="header" />
-                
                 <nav className="mast-nav right">
+                    <SocialLinks variant="header" />
                     <Link to="/contact">Help</Link>
                     <button className="bag" aria-label="Bag" onClick={openCart}>
                         <ShoppingBag size={17} strokeWidth={1.6} /> <span>{count}</span>
