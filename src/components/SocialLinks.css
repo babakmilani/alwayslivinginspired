@@ -1,0 +1,32 @@
+/* src/components/SocialLinks.css */
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.social-link {
+  color: #19140f; /* ink — on light header/footer. If your footer is dark, change to #F1E9DC (bone). */
+  line-height: 1;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-link:hover,
+.social-link:focus-visible {
+  color: #c0664e; /* clay */
+  transform: translateY(-1px);
+}
+
+/* Compact in the header */
+.social-links--header {
+  gap: 0.85rem;
+}
+.social-links--header .social-link {
+  font-size: 1rem;
+}
+
+/* Fuller in the footer */
+.social-links--footer .social-link {
+  font-size: 1.25rem;
+}

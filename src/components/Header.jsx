@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import "./Header.css";
+import SocialLinks from "./SocialLinks.jsx";
 
 const ETHOS = ["NEW IN WEEKLY", "SHIPS FROM THE US", "3-DAY DELIVERY", "CURATED, NOT CLUTTERED", "THE WEAR-NOW EDIT"];
 
@@ -24,6 +25,8 @@ export default function Header() {
                     <span className="wm-sub">Women's Edit</span>
                 </Link>
 
+                <SocialLinks variant="header" />
+                
                 <nav className="mast-nav right">
                     <Link to="/contact">Help</Link>
                     <button className="bag" aria-label="Bag" onClick={openCart}>

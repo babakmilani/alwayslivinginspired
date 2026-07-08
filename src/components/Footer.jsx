@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import "./Footer.css";
+import SocialLinks from "./SocialLinks.jsx";
 
 const SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxKrhjqiqCx7TkZeKByUxlFlOmURFgsSOWjuPPFmk09k5h6KH_b2oJQHC64CvvKUTnc/exec";
@@ -67,6 +68,7 @@ export default function Footer() {
 
       <div className="foot-bot">
         <span>© 2026 Always Living Inspired · alwayslivinginspired.com</span>
+        <SocialLinks variant="footer" />
         <span className="foot-credit">
           <a href="https://milanilabs.com" target="_blank" rel="noopener noreferrer">Built with Milani Labs</a>
         </span>
