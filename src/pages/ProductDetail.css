@@ -53,8 +53,7 @@
 }
 
 .pdp-gallery {
-    position: sticky;
-    top: 24px;
+    /* Removed sticky so image scrolls naturally with content on mobile */
 }
 
 .pdp-main {
