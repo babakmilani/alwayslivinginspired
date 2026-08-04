@@ -266,7 +266,7 @@ app.post("/api/checkout", async (c) => {
         const qty = Math.max(1, Math.min(20, Number(it.qty) || 1));
         if (!pid) continue;
         const row = await c.env.DB.prepare(
-            `SELECT name, price, image FROM products WHERE pid = ?1 AND region = ?2 AND hidden = 0`
+            `SELECT name, price, image, category FROM products WHERE pid = ?1 AND region = ?2 AND hidden = 0`
         ).bind(pid, region).first();
         if (!row || !(Number(row.price) > 0)) continue;
         lines.push({
@@ -275,14 +275,32 @@ app.post("/api/checkout", async (c) => {
             size: it.size || null,
             name: row.name,
             image: row.image || "",
+            category: row.category || "",
             qty,
             unit_amount: Math.round(Number(row.price) * 100),
         });
     }
     if (!lines.length) return c.json({ error: "no purchasable items" }, 400);
 
+    // Shipping tiers by category (use highest tier in cart)
+    const shippingTiers = {
+        "Lady Dresses": 999,      // $9.99
+        "Blouses & Shirts": 799,  // $7.99
+        "Skirts": 899,            // $8.99
+        "Blazers": 899,           // $8.99
+        "Suits & Sets": 999,      // $9.99
+        "Sweaters": 899,          // $8.99
+        "Woman Jeans": 899,       // $8.99
+        "Pants & Capris": 899,    // $8.99
+        "Leggings": 799,          // $7.99
+        "Basic Jacket": 999,      // $9.99
+    };
+    const defaultShipping = 899; // $8.99 default
+    const shippingAmount = Math.max(...lines.map(l => shippingTiers[l.category] || defaultShipping));
+
     const orderId = crypto.randomUUID();
-    const amount = lines.reduce((s, l) => s + l.unit_amount * l.qty, 0);
+    const subtotal = lines.reduce((s, l) => s + l.unit_amount * l.qty, 0);
+    const amount = subtotal + shippingAmount;
 
     await c.env.DB.prepare(
         `INSERT INTO orders (id, status, items, amount, region, created_at)
@@ -309,6 +327,14 @@ app.post("/api/checkout", async (c) => {
         if (l.image && /^https:\/\//.test(l.image))
             form.append(`line_items[${i}][price_data][product_data][images][0]`, l.image);
     });
+
+    // Add shipping as a line item so customer sees it in checkout
+    const shippingIndex = lines.length;
+    form.append(`line_items[${shippingIndex}][quantity]`, "1");
+    form.append(`line_items[${shippingIndex}][price_data][currency]`, "usd");
+    form.append(`line_items[${shippingIndex}][price_data][unit_amount]`, String(shippingAmount));
+    form.append(`line_items[${shippingIndex}][price_data][product_data][name]`, "Shipping (US)");
+    form.append(`line_items[${shippingIndex}][price_data][product_data][description]`, "Standard US shipping 3-7 days");
 
     const sRes = await fetch("https://api.stripe.com/v1/checkout/sessions", {
         method: "POST",
