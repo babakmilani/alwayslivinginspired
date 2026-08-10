@@ -1046,6 +1046,34 @@ app.post("/admin/import", async (c) => {
     return c.json({ ok: true, upserted });
 });
 
+// --- Product Feed for Google Merchant Center ---
+app.get("/api/product-feed", async (c) => {
+    const SITE = "https://alwayslivinginspired.com";
+    const region = c.req.query("region") || "US";
+    try {
+        const products = [];
+        let page = 1;
+        while (page <= 10) {
+            const rows = await c.env.DB.prepare(
+                `SELECT pid, name, price, image, category, us_stock FROM products WHERE region = ?1 AND hidden = 0 LIMIT 500 OFFSET ?2`
+            ).bind(region, (page - 1) * 500).all();
+            if (!rows.results || !rows.results.length) break;
+            products.push(...rows.results);
+            page++;
+        }
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n  <channel>\n    <title>Always Living Inspired - ${region}</title>\n    <link>${SITE}</link>\n    <description>Women's clothing curated edit</description>\n`;
+        for (const p of products) {
+            const available = (p.us_stock || 0) > 0 ? "in_stock" : "out_of_stock";
+            const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+            xml += `    <item>\n      <g:id>${esc(p.pid)}</g:id>\n      <title>${esc(p.name)}</title>\n      <description>${esc(p.name)}</description>\n      <g:price>${Number(p.price).toFixed(2)} USD</g:price>\n      <g:image_link>${esc(p.image)}</g:image_link>\n      <link>${SITE}/product/${esc(p.pid)}</link>\n      <g:availability>${available}</g:availability>\n      <g:product_type>${esc(p.category || "Clothing")}</g:product_type>\n    </item>\n`;
+        }
+        xml += `  </channel>\n</rss>`;
+        return new Response(xml, { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "max-age=3600" } });
+    } catch (e) {
+        return c.json({ error: String(e) }, 500);
+    }
+});
+
 app.get("/", (c) => c.text("CJ proxy up. Try /api/products"));
 
 export default app;
