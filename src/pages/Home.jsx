@@ -18,6 +18,12 @@ const CATEGORIES = [
     { label: "Sets", cat: "Suits & Sets" },
     { label: "Blazers", cat: "Blazers" },
     { label: "Leggings", cat: "Leggings" },
+    { label: "Outerwear", cat: "Outerwear & Jackets" },
+    { label: "Shorts", cat: "Woman Shorts" },
+    { label: "Scarves", cat: "Scarves & Wraps" },
+    { label: "Gloves", cat: "Woman Gloves & Mittens" },
+    { label: "Bags", cat: "Womens Luggage & Bags" },
+    { label: "Beauty", cat: "Health, Beauty & Hair" },
 ];
 
 function swatchGradient(colors = []) {
