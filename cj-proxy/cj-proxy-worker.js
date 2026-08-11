@@ -1061,68 +1061,70 @@ app.get("/api/product-feed", async (c) => {
             products.push(...rows.results);
             page++;
         }
-
+        
         // Helper to infer gender from category
         const inferGender = (cat) => {
             const c = String(cat || "").toLowerCase();
             if (c.includes("woman") || c.includes("women") || c.includes("ladies") || c.includes("lady") || c.includes("girl")) return "female";
             return "unisex";
         };
-
-        // Helper to extract colors from name (common color words)
-        const extractColor = (name) => {
-            const colors = ["black", "white", "red", "blue", "green", "yellow", "pink", "purple", "gray", "grey", "brown", "navy", "beige", "cream", "khaki", "tan"];
-            const n = String(name || "").toLowerCase();
-            const found = colors.filter(col => n.includes(col));
-            return found.length > 0 ? found[0].charAt(0).toUpperCase() + found[0].slice(1) : null;
-        };
-
-        // Helper to extract sizes from variants JSON
-        const extractSizes = (variantsJson) => {
+        
+        // Helper to extract colors and sizes from variants JSON
+        // Variants are stored as: [{"vid":"xxx","label":"Color-Size"},...]
+        // Example: "Black-M", "Apricot-S", "Blue-XL"
+        const extractColorsAndSizes = (variantsJson) => {
             try {
                 const v = JSON.parse(variantsJson || "[]");
-                if (!Array.isArray(v)) return [];
+                if (!Array.isArray(v)) return { colors: [], sizes: [] };
+                const colors = new Set();
                 const sizes = new Set();
                 v.forEach(item => {
-                    if (item.title) {
-                        const match = item.title.match(/(XS|S|M|L|XL|XXL|One Size|\d+)/i);
-                        if (match) sizes.add(match[1].toUpperCase());
+                    const label = String(item.label || "").trim();
+                    if (!label) return;
+                    // Format is "Color-Size" e.g. "Black-M", "Apricot-S"
+                    const parts = label.split("-");
+                    if (parts.length >= 2) {
+                        const color = parts[0].trim();
+                        const size = parts[parts.length - 1].trim();
+                        if (color) colors.add(color);
+                        if (size && /^(XS|S|M|L|XL|XXL|One Size)$/i.test(size)) sizes.add(size.toUpperCase());
                     }
                 });
-                return Array.from(sizes).slice(0, 10); // max 10 sizes
+                return { colors: Array.from(colors), sizes: Array.from(sizes) };
             } catch {
-                return [];
+                return { colors: [], sizes: [] };
             }
         };
 
         let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n  <channel>\n    <title>Always Living Inspired - ${region}</title>\n    <link>${SITE}</link>\n    <description>Women's clothing curated edit</description>\n`;
-
+        
         for (const p of products) {
             const available = (p.us_stock || 0) > 0 ? "in_stock" : "out_of_stock";
             const gender = inferGender(p.category);
-            const color = extractColor(p.name);
-            const sizes = extractSizes(p.variants);
-
+            const { colors, sizes } = extractColorsAndSizes(p.variants);
+            
             const esc = (s) => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-
+            
             xml += `    <item>\n      <g:id>${esc(p.pid)}</g:id>\n      <title>${esc(p.name)}</title>\n      <description>${esc(p.name)}</description>\n      <g:price>${Number(p.price).toFixed(2)} USD</g:price>\n      <g:image_link>${esc(p.image)}</g:image_link>\n      <link>${SITE}/product/${esc(p.pid)}</link>\n      <g:availability>${available}</g:availability>\n      <g:product_type>${esc(p.category || "Clothing")}</g:product_type>\n      <g:gender>${gender}</g:gender>\n      <g:age_group>adult</g:age_group>\n`;
-
-            // Add color if found
-            if (color) xml += `      <g:color>${esc(color)}</g:color>\n`;
-
-            // Add sizes if found
+            
+            // Add all colors from variants
+            for (const color of colors) {
+                xml += `      <g:color>${esc(color)}</g:color>\n`;
+            }
+            
+            // Add all sizes from variants
             for (const size of sizes) {
                 xml += `      <g:size>${esc(size)}</g:size>\n`;
             }
-
+            
             // Local inventory data
             if (region === "US" && p.us_stock !== null) {
                 xml += `      <g:quantity>${p.us_stock}</g:quantity>\n`;
             }
-
+            
             xml += `    </item>\n`;
         }
-
+        
         xml += `  </channel>\n</rss>`;
         return new Response(xml, { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "max-age=3600" } });
     } catch (e) {
