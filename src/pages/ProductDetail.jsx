@@ -114,6 +114,75 @@ export default function ProductDetail() {
                     </ul>
                 </div>
             </div>
+
+            {/* ABOUT THIS PIECE */}
+            <section className="pdp-section">
+                <h2>About this piece</h2>
+                <p>
+                    A carefully curated {p.category?.toLowerCase() || "women's clothing"} piece selected for its quality, fit, and
+                    wearability. We pick styles designed for real life — pieces you'll reach for repeatedly, that work with
+                    what you already own, and that hold up over time. Each item in our edit is vetted for durability and
+                    trend-relevance, so you're investing in something that will last.
+                </p>
+            </section>
+
+            {/* WHY WE PICKED IT */}
+            <section className="pdp-section">
+                <h2>Why we picked it</h2>
+                <ul className="pdp-reasons">
+                    <li><strong>Trend-led.</strong> Fresh styles that reflect current fashion without chasing every fleeting trend.</li>
+                    <li><strong>Wear-tested.</strong> Styles picked for real-world durability and comfort.</li>
+                    <li><strong>Versatile.</strong> Pieces that layer, transition between seasons, and work with multiple looks.</li>
+                </ul>
+            </section>
+
+            {/* SIZING & FIT */}
+            <section className="pdp-section">
+                <h2>Sizing & fit</h2>
+                <p>
+                    Sizing runs true to standard US sizing. If you're between sizes, we recommend sizing up for comfort.
+                    All pieces are designed with everyday wear in mind — expect a relaxed, functional fit unless otherwise noted.
+                    Check product photos for fit details (slim, loose, regular fit, etc.).
+                </p>
+                <p>
+                    <strong>Not sure about your size?</strong> Our return policy lets you exchange for a different size within
+                    30 days of purchase at no cost.
+                </p>
+            </section>
+
+            {/* CARE INSTRUCTIONS */}
+            <section className="pdp-section">
+                <h2>Care instructions</h2>
+                <ul className="pdp-care">
+                    <li>Machine wash cold with similar colors</li>
+                    <li>Tumble dry low or hang dry for best results</li>
+                    <li>Avoid bleach and high heat</li>
+                    <li>For delicate fabrics, use a gentle cycle or hand wash</li>
+                </ul>
+            </section>
+
+            {/* SHIPPING & RETURNS */}
+            <section className="pdp-section">
+                <h2>Shipping & returns</h2>
+                <p>
+                    <strong>Shipping:</strong> All orders ship from our US warehouse within 1-2 business days. Most arrive within 3-5 days via standard
+                    USPS Priority Mail. Shipping is calculated at checkout.
+                </p>
+                <p>
+                    <strong>Returns:</strong> 30-day returns on unworn items with tags attached. We want you to love what you buy —
+                    if something doesn't fit or work, send it back for an exchange or refund.
+                </p>
+            </section>
+
+            {/* OUR PROMISE */}
+            <section className="pdp-section pdp-promise">
+                <h2>Our promise</h2>
+                <p>
+                    We're building a different kind of women's clothing edit. Not fast fashion. Not overcomplicated.
+                    Just trend-led pieces you'll actually wear, sourced from US warehouse stock so they land before the mood passes.
+                    New drops every week, same quality standard, same curated approach. We think that's worth your attention.
+                </p>
+            </section>
         </div>
     );
 }

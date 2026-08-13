@@ -53,7 +53,8 @@
 }
 
 .pdp-gallery {
-    /* Removed sticky so image scrolls naturally with content on mobile */
+    position: sticky;
+    top: 24px;
 }
 
 .pdp-main {
@@ -234,4 +235,84 @@
     position: absolute;
     left: 0;
     color: var(--clay, #C0664E);
+}
+
+/* Content Sections - Added for Google AdSense publisher content requirement */
+.pdp-section {
+    max-width: 800px;
+    margin: 60px auto 40px;
+    padding: 0 24px;
+}
+
+.pdp-section h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: -0.3px;
+}
+
+.pdp-section p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-2, #4a4238);
+    margin-bottom: 12px;
+}
+
+.pdp-section p:last-child {
+    margin-bottom: 0;
+}
+
+.pdp-reasons,
+.pdp-care {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pdp-reasons li,
+.pdp-care li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-2, #4a4238);
+    padding: 8px 0 8px 24px;
+    position: relative;
+}
+
+.pdp-reasons li:before,
+.pdp-care li:before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+}
+
+.pdp-promise {
+    background: var(--paper-2, #EFE7D8);
+    padding: 32px 24px;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    margin-bottom: 0;
+}
+
+.pdp-promise h2,
+.pdp-promise p {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 600px) {
+    .pdp-section {
+        margin: 40px auto 24px;
+        padding: 0 16px;
+    }
+
+    .pdp-section h2 {
+        font-size: 16px;
+    }
+
+    .pdp-section p,
+    .pdp-reasons li,
+    .pdp-care li {
+        font-size: 14px;
+    }
 }
