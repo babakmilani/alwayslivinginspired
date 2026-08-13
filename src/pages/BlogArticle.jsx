@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './BlogArticle.css';
 
-// Same endpoint the site footer posts to; routes by formType on the Apps Script side.
 const MAILING_LIST_URL =
     'https://script.google.com/macros/s/AKfycbxKrhjqiqCx7TkZeKByUxlFlOmURFgsSOWjuPPFmk09k5h6KH_b2oJQHC64CvvKUTnc/exec';
 
@@ -15,39 +14,52 @@ const BlogArticle = () => {
     const [error, setError] = useState(null);
     const contentRef = useRef(null);
 
-    // Fetch and parse the HTML article
+    // Fetch article content
     useEffect(() => {
+        // CRITICAL: Reset state BEFORE fetching
         setIsLoading(true);
         setError(null);
         setContent('');
 
+        console.log(`Fetching article: /blogs/${slug}.html`);
+
         fetch(`/blogs/${slug}.html`)
             .then(response => {
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                console.log(`Response status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to load article (HTTP ${response.status})`);
+                }
                 return response.text();
             })
             .then(htmlContent => {
+                console.log(`Fetched ${htmlContent.length} bytes`);
+
+                // Parse HTML and extract body content
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
 
-                // Extract just the article content (not the full page structure)
-                const articleContent = doc.querySelector('.blog-post-content');
-                if (articleContent) {
-                    setContent(articleContent.innerHTML);
-                } else {
-                    // Fallback: get all content from body
-                    setContent(doc.body.innerHTML);
+                // Get all body content (not just specific selectors)
+                const bodyContent = doc.body.innerHTML;
+
+                if (!bodyContent || bodyContent.trim().length === 0) {
+                    throw new Error('Article content is empty');
                 }
+
+                // Set content and immediately render
+                setContent(bodyContent);
                 setIsLoading(false);
+                setError(null);
+                console.log('Article content loaded successfully');
             })
             .catch(err => {
-                console.error("Failed to load article:", err);
-                setError(`Could not load "${slug}". Error: ${err.message}`);
+                console.error('Article fetch error:', err);
+                setError(`Could not load "${slug}": ${err.message}`);
                 setIsLoading(false);
+                setContent('');
             });
-    }, [slug]);
+    }, [slug]); // Re-run whenever slug changes
 
-    // Wire mailing-list forms inside the injected article HTML
+    // Setup mailing list forms
     useEffect(() => {
         if (!content || !contentRef.current) return;
 
@@ -64,7 +76,10 @@ const BlogArticle = () => {
 
                 const btn = form.querySelector('button, input[type="submit"]');
                 const original = btn ? btn.innerText : '';
-                if (btn) { btn.disabled = true; btn.innerText = 'Joining…'; }
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerText = 'Joining…';
+                }
 
                 try {
                     await fetch(MAILING_LIST_URL, {
@@ -76,20 +91,30 @@ const BlogArticle = () => {
                     form.innerHTML =
                         '<p style="padding:14px 0;font-weight:600;">Thanks — you\'re on the list.</p>';
                 } catch (err) {
-                    if (btn) { btn.disabled = false; btn.innerText = original; }
-                    console.error('Mailing list submit failed:', err);
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerText = original;
+                    }
+                    console.error('Mailing list error:', err);
                 }
             };
             form.addEventListener('submit', handler);
             handlers.push([form, handler]);
         });
 
-        return () => handlers.forEach(([form, handler]) => form.removeEventListener('submit', handler));
+        return () => {
+            handlers.forEach(([form, handler]) => {
+                form.removeEventListener('submit', handler);
+            });
+        };
     }, [content, slug]);
 
     if (isLoading) {
         return (
             <div className="article-wrapper">
+                <button onClick={() => navigate('/fashion-blog')} className="back-button">
+                    ← Back to Blog
+                </button>
                 <p style={{ textAlign: 'center', padding: '60px 24px', color: '#666' }}>Loading article...</p>
             </div>
         );
@@ -98,10 +123,10 @@ const BlogArticle = () => {
     if (error) {
         return (
             <div className="article-wrapper error-message">
-                <p>Error: {error}</p>
                 <button onClick={() => navigate('/fashion-blog')} className="back-button">
                     ← Back to Blog
                 </button>
+                <p>Error: {error}</p>
             </div>
         );
     }
@@ -109,7 +134,7 @@ const BlogArticle = () => {
     return (
         <div className="article-wrapper">
             <button onClick={() => navigate('/fashion-blog')} className="back-button">
-                <i className="fas fa-arrow-left"></i> Back to Blog
+                ← Back to Blog
             </button>
 
             <div
@@ -118,44 +143,18 @@ const BlogArticle = () => {
                 dangerouslySetInnerHTML={{ __html: content }}
             />
 
-            {/* Mailing list footer */}
+            {/* Footer with mailing list */}
             <footer className="article-footer">
                 <h3>Stay Updated</h3>
                 <p>Get new fashion insights delivered to your inbox weekly.</p>
-                <form style={{ marginTop: '20px' }}>
+                <form>
                     <input
                         type="email"
                         name="email"
                         placeholder="Enter your email"
                         required
-                        style={{
-                            padding: '10px 16px',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                            width: '100%',
-                            marginBottom: '12px',
-                            fontSize: '14px',
-                            fontFamily: 'inherit'
-                        }}
                     />
-                    <button
-                        type="submit"
-                        style={{
-                            padding: '10px 24px',
-                            background: '#2a2420',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontWeight: '600',
-                            fontSize: '14px',
-                            transition: 'opacity 0.2s'
-                        }}
-                        onMouseEnter={(e) => e.target.style.opacity = '0.85'}
-                        onMouseLeave={(e) => e.target.style.opacity = '1'}
-                    >
-                        Join the List
-                    </button>
+                    <button type="submit">Join the List</button>
                 </form>
             </footer>
         </div>
