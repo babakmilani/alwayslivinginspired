@@ -1,14 +1,14 @@
 // src/pages/BlogArticle.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './FashionBlog.css';
+import './BlogArticle.css';
 
 // Same endpoint the site footer posts to; routes by formType on the Apps Script side.
 const MAILING_LIST_URL =
     'https://script.google.com/macros/s/AKfycbxKrhjqiqCx7TkZeKByUxlFlOmURFgsSOWjuPPFmk09k5h6KH_b2oJQHC64CvvKUTnc/exec';
 
 const BlogArticle = () => {
-    const { filename } = useParams();
+    const { slug } = useParams();
     const navigate = useNavigate();
     const [content, setContent] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +19,7 @@ const BlogArticle = () => {
         setIsLoading(true);
         setError(null);
 
-        fetch(`/blogs/${filename}.html`)
+        fetch(`/blogs/${slug}.html`)
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 return response.text();
@@ -33,10 +33,10 @@ const BlogArticle = () => {
             })
             .catch(err => {
                 console.error("Failed to load article:", err);
-                setError(`Could not load "${filename}". Error: ${err.message}`);
+                setError(`Could not load "${slug}". Error: ${err.message}`);
                 setIsLoading(false);
             });
-    }, [filename]);
+    }, [slug]);
 
     // Wire any mailing-list form inside the injected article HTML.
     useEffect(() => {
@@ -61,7 +61,7 @@ const BlogArticle = () => {
                         method: 'POST',
                         mode: 'no-cors',
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                        body: JSON.stringify({ formType: 'mailing-list', email, source: `blog:${filename}` }),
+                        body: JSON.stringify({ formType: 'mailing-list', email, source: `blog:${slug}` }),
                     });
                     form.innerHTML =
                         '<p style="padding:14px 0;font-weight:600;">Thanks — you\'re on the list.</p>';
@@ -75,7 +75,7 @@ const BlogArticle = () => {
         });
 
         return () => handlers.forEach(([form, handler]) => form.removeEventListener('submit', handler));
-    }, [content, filename]);
+    }, [content, slug]);
 
     if (isLoading) {
         return (
