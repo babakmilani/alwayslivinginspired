@@ -38,7 +38,7 @@ function App() {
           <Route path="/product/:pid" element={<ProductDetail />} />
           <Route path="/success" element={<Success />} />
           <Route path="/fashion-blog" element={<FashionBlog />} />
-          <Route path="/blogs/:filename" element={<BlogArticle />} />
+          <Route path="/blogs/:slug" element={<BlogArticle />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
