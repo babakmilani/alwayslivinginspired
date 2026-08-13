@@ -15,9 +15,11 @@ const BlogArticle = () => {
     const [error, setError] = useState(null);
     const contentRef = useRef(null);
 
+    // Fetch and parse the HTML article
     useEffect(() => {
         setIsLoading(true);
         setError(null);
+        setContent('');
 
         fetch(`/blogs/${slug}.html`)
             .then(response => {
@@ -27,8 +29,15 @@ const BlogArticle = () => {
             .then(htmlContent => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlContent, 'text/html');
-                doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => link.remove());
-                setContent(doc.body.innerHTML);
+
+                // Extract just the article content (not the full page structure)
+                const articleContent = doc.querySelector('.blog-post-content');
+                if (articleContent) {
+                    setContent(articleContent.innerHTML);
+                } else {
+                    // Fallback: get all content from body
+                    setContent(doc.body.innerHTML);
+                }
                 setIsLoading(false);
             })
             .catch(err => {
@@ -38,9 +47,10 @@ const BlogArticle = () => {
             });
     }, [slug]);
 
-    // Wire any mailing-list form inside the injected article HTML.
+    // Wire mailing-list forms inside the injected article HTML
     useEffect(() => {
         if (!content || !contentRef.current) return;
+
         const forms = contentRef.current.querySelectorAll('form');
         if (!forms.length) return;
 
@@ -80,7 +90,7 @@ const BlogArticle = () => {
     if (isLoading) {
         return (
             <div className="article-wrapper">
-                <p>Loading article...</p>
+                <p style={{ textAlign: 'center', padding: '60px 24px', color: '#666' }}>Loading article...</p>
             </div>
         );
     }
@@ -107,6 +117,47 @@ const BlogArticle = () => {
                 className="blog-content"
                 dangerouslySetInnerHTML={{ __html: content }}
             />
+
+            {/* Mailing list footer */}
+            <footer className="article-footer">
+                <h3>Stay Updated</h3>
+                <p>Get new fashion insights delivered to your inbox weekly.</p>
+                <form style={{ marginTop: '20px' }}>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                        style={{
+                            padding: '10px 16px',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            width: '100%',
+                            marginBottom: '12px',
+                            fontSize: '14px',
+                            fontFamily: 'inherit'
+                        }}
+                    />
+                    <button
+                        type="submit"
+                        style={{
+                            padding: '10px 24px',
+                            background: '#2a2420',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontWeight: '600',
+                            fontSize: '14px',
+                            transition: 'opacity 0.2s'
+                        }}
+                        onMouseEnter={(e) => e.target.style.opacity = '0.85'}
+                        onMouseLeave={(e) => e.target.style.opacity = '1'}
+                    >
+                        Join the List
+                    </button>
+                </form>
+            </footer>
         </div>
     );
 };

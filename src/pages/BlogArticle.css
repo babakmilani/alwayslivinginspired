@@ -1,7 +1,7 @@
 /* src/pages/BlogArticle.css - Individual blog article styling */
 
 .article-wrapper {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 40px 24px;
     font-family: inherit;
@@ -11,8 +11,8 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 12px;
-    margin-bottom: 32px;
+    padding: 10px 16px;
+    margin-bottom: 40px;
     background: transparent;
     border: 1px solid var(--text-2, #4a4238);
     border-radius: 4px;
@@ -25,6 +25,7 @@
 
 .back-button:hover {
     background: var(--paper-2, #EFE7D8);
+    transform: translateX(-4px);
 }
 
 .back-button i {
@@ -47,34 +48,43 @@
     line-height: 1.8;
     color: var(--text-1, #2a2420);
     font-size: 16px;
+    margin-bottom: 60px;
 }
 
 .blog-content h1 {
-    font-size: 32px;
+    font-size: 2.5em;
     font-weight: 700;
-    margin: 0 0 16px 0;
+    margin: 0 0 20px 0;
     line-height: 1.2;
     letter-spacing: -0.5px;
+    color: #333;
 }
 
 .blog-content h2 {
-    font-size: 24px;
+    font-size: 1.8em;
     font-weight: 600;
-    margin: 40px 0 16px 0;
+    margin: 40px 0 20px 0;
     line-height: 1.3;
+    color: #646cff;
     letter-spacing: -0.3px;
 }
 
 .blog-content h3 {
-    font-size: 20px;
+    font-size: 1.3em;
     font-weight: 600;
-    margin: 32px 0 12px 0;
+    margin: 30px 0 15px 0;
     line-height: 1.3;
+    color: var(--text-1, #2a2420);
 }
 
 .blog-content p {
-    margin: 0 0 16px 0;
+    margin: 0 0 20px 0;
     line-height: 1.8;
+}
+
+.blog-content p:first-child {
+    font-size: 1.1em;
+    line-height: 1.7;
 }
 
 .blog-content p:last-child {
@@ -83,12 +93,12 @@
 
 .blog-content ul,
 .blog-content ol {
-    margin: 16px 0;
+    margin: 20px 0;
     padding-left: 32px;
 }
 
 .blog-content li {
-    margin: 8px 0;
+    margin: 10px 0;
     line-height: 1.8;
 }
 
@@ -114,7 +124,7 @@
 }
 
 .blog-content blockquote {
-    border-left: 4px solid var(--paper-2, #EFE7D8);
+    border-left: 4px solid #646cff;
     padding-left: 20px;
     margin: 24px 0;
     font-style: italic;
@@ -131,7 +141,7 @@
 
 .blog-content code {
     background: var(--paper-2, #EFE7D8);
-    padding: 2px 6px;
+    padding: 3px 8px;
     border-radius: 3px;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: 14px;
@@ -139,18 +149,20 @@
 
 .blog-content pre {
     background: var(--paper-2, #EFE7D8);
-    padding: 16px;
+    padding: 20px;
     border-radius: 4px;
     overflow-x: auto;
     margin: 24px 0;
+    font-size: 14px;
 }
 
 .blog-content pre code {
     background: transparent;
     padding: 0;
+    font-size: inherit;
 }
 
-/* Mailing list form in article */
+/* Injected forms (from article HTML) */
 .blog-content form {
     margin: 40px 0;
     padding: 32px;
@@ -161,31 +173,33 @@
     gap: 16px;
 }
 
-.blog-content form input[type="email"] {
+.blog-content form input[type="email"],
+.blog-content form input[type="text"] {
     padding: 12px 16px;
-    border: 1px solid var(--text-2, #4a4238);
+    border: 1px solid #999;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
     font-family: inherit;
 }
 
-.blog-content form input[type="email"]:focus {
+.blog-content form input:focus {
     outline: none;
-    border-color: var(--accent, #8B7355);
-    box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+    border-color: #646cff;
+    box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.1);
 }
 
 .blog-content form button,
 .blog-content form input[type="submit"] {
     padding: 12px 24px;
-    background: var(--text-1, #2a2420);
+    background: #2a2420;
     color: white;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: opacity 0.2s ease;
+    align-self: flex-start;
 }
 
 .blog-content form button:hover,
@@ -198,30 +212,87 @@
     cursor: not-allowed;
 }
 
+/* Article footer with mailing list */
+.article-footer {
+    border-top: 1px solid #ddd;
+    padding-top: 40px;
+    text-align: center;
+}
+
+.article-footer h3 {
+    font-size: 1.5em;
+    margin-bottom: 12px;
+    color: var(--text-1, #2a2420);
+}
+
+.article-footer p {
+    color: var(--text-2, #4a4238);
+    font-size: 15px;
+    margin-bottom: 24px;
+}
+
+.article-footer form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: var(--paper-2, #EFE7D8);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.article-footer form input {
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.article-footer form button {
+    padding: 12px 24px;
+    background: #2a2420;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.article-footer form button:hover {
+    opacity: 0.85;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .article-wrapper {
         padding: 24px 16px;
     }
 
-    .blog-content h1 {
-        font-size: 24px;
-    }
-
-    .blog-content h2 {
-        font-size: 20px;
-    }
-
-    .blog-content h3 {
-        font-size: 18px;
-    }
-
-    .blog-content,
-    .blog-content p {
+    .blog-content {
         font-size: 15px;
     }
 
-    .blog-content form {
-        padding: 24px 16px;
+    .blog-content h1 {
+        font-size: 1.8em;
+    }
+
+    .blog-content h2 {
+        font-size: 1.4em;
+        margin-top: 30px;
+    }
+
+    .blog-content h3 {
+        font-size: 1.1em;
+    }
+
+    .blog-content form,
+    .article-footer form {
+        padding: 20px 16px;
+    }
+
+    .article-footer form {
+        max-width: 100%;
     }
 }
